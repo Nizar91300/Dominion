@@ -1,6 +1,6 @@
 # Variables
 CXX = g++                               # Le compilateur à utiliser
-CXXFLAGS = -Wall -g                      # Options de compilation
+CXXFLAGS = -Wall -Wextra -Werror -std=c++11 -g  # Options de compilation
 SOURCES = Modele/Carte/Victoire/Domaine.cpp \
           Modele/Carte/Victoire/Duche.cpp \
           Modele/Carte/Victoire/Province.cpp \
