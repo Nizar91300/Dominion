@@ -7,12 +7,11 @@ class Modele;
 
 class Or : public Tresor{
     private:
-        const int COUT_ACHAT = 6;
-        const int VALEUR = 3;
+        static const int COUT_ACHAT;
+        static const int VALEUR ;
 
     public:
-        Or(Model* m) : Tresor(m, COUT_ACHAT, VALEUR) {}
-        ~Or();
+        Or(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR) {}
+        ~Or(){}
 };
-
 #endif

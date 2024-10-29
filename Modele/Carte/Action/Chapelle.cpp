@@ -1,5 +1,7 @@
 #include "Chapelle.h"
 
-Chapelle::faireAction(){
+const int Chapelle::COUT_ACHAT = 2;
+
+void Chapelle::faireAction(){
     
 }

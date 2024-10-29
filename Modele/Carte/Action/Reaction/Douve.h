@@ -2,16 +2,17 @@
 #define DOUVE_H
 
 #include "Reaction.h"
+#include "../../Carte.h"
 
 class Modele;
 
 class Douve : public Reaction, public Carte{
     private:
-        const COUT_ACHAT = 2;
+        static const int COUT_ACHAT;
 
     public:
-        Douve(Modele* m, int cout) : Carte(m, COUT_ACHAT) {}
-        ~Douve();
+        Douve(Modele* m) : Carte(m, COUT_ACHAT) {}
+        ~Douve(){}
 
         void defendre();
 

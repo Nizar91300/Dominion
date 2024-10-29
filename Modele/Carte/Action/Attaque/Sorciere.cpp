@@ -1,5 +1,7 @@
 #include "Sorciere.h"
 
-Sorciere::attaquer(){
-    
+const int Sorciere::COUT_ACHAT = 5;
+
+void Sorciere::attaquer(){
+    return;
 }

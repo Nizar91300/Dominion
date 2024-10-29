@@ -7,12 +7,11 @@ class Modele;
 
 class Province : public Victoire{
     private:
-        const int COUT_ACHAT = 8;
-        const int POINTS = 6;
+        static const int COUT_ACHAT;
+        static const int POINTS;
 
     public:
-        Province(Model* m) : Victoire(m, COUT_ACHAT, POINTS) {}
-        ~Province();
+        Province(Modele* m) : Victoire(m, COUT_ACHAT, POINTS) {}
+        ~Province(){}
 };
-
 #endif

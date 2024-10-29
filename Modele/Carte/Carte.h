@@ -13,7 +13,7 @@ class Carte{
         Carte(Modele* modele, int cout) : m_modele(modele), m_cout(cout){}
 
         // destructeur
-        ~Carte(){}
+        virtual ~Carte(){}
 };
 
 #endif

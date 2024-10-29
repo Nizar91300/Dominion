@@ -3,9 +3,9 @@
 
 class Reaction{
     public:
-        Reaction();
+        Reaction(){}
 
-        ~Reaction();
+        virtual ~Reaction(){}
 
         virtual void defendre() = 0;
 };

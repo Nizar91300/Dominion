@@ -2,16 +2,17 @@
 #define VOLEUR_H
 
 #include "Attaque.h"
+#include "../../Carte.h"
 
 class Modele;
 
 class Voleur : public Attaque, public Carte{
     private:
-        const COUT_ACHAT = 4;
+        static const int COUT_ACHAT;
 
     public:
-        Voleur(Model* m) : Carte(m, COUT_ACHAT) {}
-        ~Voleur();
+        Voleur(Modele* m) : Carte(m, COUT_ACHAT) {}
+        ~Voleur(){}
 
         void attaquer();
 

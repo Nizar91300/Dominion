@@ -1,5 +1,7 @@
 #include "Laboratoire.h"
 
-Laboratoire::faireAction(){
+const int Laboratoire::COUT_ACHAT = 5;
+
+void Laboratoire::faireAction(){
     
 }

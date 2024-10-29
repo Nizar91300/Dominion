@@ -3,14 +3,15 @@
 
 #include "Tresor.h"
 
+class Modele;
+
 class Argent : public Tresor{
     private:
-        const int COUT_ACHAT = 3;
-        const int VALEUR = 2;
+        static const int COUT_ACHAT;
+        static const int VALEUR;
 
     public:
-        Argent(Model* m) : Tresor(m, COUT_ACHAT, VALEUR) {}
-        ~Argent();
+        Argent(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR) {}
+        ~Argent(){}
 };
-
 #endif

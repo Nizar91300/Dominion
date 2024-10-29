@@ -1,5 +1,7 @@
 #include "Voleur.h"
 
-Voleur::attaquer(){
+const int Voleur::COUT_ACHAT = 4;
+
+void Voleur::attaquer(){
     
 }

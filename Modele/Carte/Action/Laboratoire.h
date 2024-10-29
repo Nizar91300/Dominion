@@ -7,11 +7,11 @@ class Modele;
 
 class Laboratoire : public Action{
     private:
-        const COUT_ACHAT = 5;
+        static const int COUT_ACHAT;
 
     public:
-        Laboratoire(Model* m) : Carte(m, COUT_ACHAT) {}
-        ~Laboratoire();
+        Laboratoire(Modele* m) : Action(m, COUT_ACHAT) {}
+        ~Laboratoire(){}
 
         void faireAction();
 

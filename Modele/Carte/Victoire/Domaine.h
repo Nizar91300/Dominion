@@ -7,12 +7,12 @@ class Modele;
 
 class Domaine : public Victoire{
     private:
-        const int COUT_ACHAT = 2;
-        const int POINTS = 1;
+        static const int COUT_ACHAT;
+        static const int POINTS;
 
     public:
-        Domaine(Model* m) : Victoire(m, COUT_ACHAT, POINTS) {}
-        ~Domaine();
+        Domaine(Modele* m) : Victoire(m, COUT_ACHAT, POINTS) {}
+        ~Domaine(){}
 };
 
 #endif

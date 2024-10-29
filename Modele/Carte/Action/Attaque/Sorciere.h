@@ -2,16 +2,17 @@
 #define SORCIERE_H
 
 #include "Attaque.h"
+#include "../../Carte.h"
 
 class Modele;
 
 class Sorciere : public Attaque, public Carte{
     private:
-        const COUT_ACHAT = 5;
+        static const int COUT_ACHAT;
 
     public:
-        Sorciere(Model* m) : Carte(m, COUT_ACHAT) {}
-        ~Sorciere();
+        Sorciere(Modele* m) : Carte(m, COUT_ACHAT) {}
+        ~Sorciere(){}
 
         void attaquer();
 };

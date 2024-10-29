@@ -7,12 +7,11 @@ class Modele;
 
 class Cuivre : public Tresor{
     private:
-        const int COUT_ACHAT = 0;
-        const int VALEUR = 1;
+        static const int COUT_ACHAT;
+        static const int VALEUR;
 
     public:
-        Cuivre(Model* m) : Tresor(m, COUT_ACHAT, VALEUR) {}
-        ~Cuivre();
+        Cuivre(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR) {}
+        ~Cuivre(){}
 };
-
 #endif

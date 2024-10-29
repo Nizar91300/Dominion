@@ -7,11 +7,11 @@ class Modele;
 
 class Atelier : public Action{
     private:
-        const COUT_ACHAT = 3;
+        static const int COUT_ACHAT;
 
     public:
-        Atelier(Model* m) : Carte(m, COUT_ACHAT) {}
-        ~Atelier();
+        Atelier(Modele* m) : Action(m, COUT_ACHAT) {}
+        ~Atelier(){}
 
         void faireAction();
 };

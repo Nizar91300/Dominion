@@ -1,5 +1,7 @@
 #include "Douve.h"
 
-Douve::defendre(){
-    
+const int Douve::COUT_ACHAT = 2;
+
+void Douve::defendre(){
+    return;
 }

@@ -3,8 +3,8 @@
 
 class Attaque{
     public:
-        Attaque();
-        ~Attaque();
+        Attaque(){}
+        virtual ~Attaque(){}
 
         virtual void attaquer() = 0;    // methode virtuelle pure
 };

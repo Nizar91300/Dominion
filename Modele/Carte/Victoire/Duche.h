@@ -5,14 +5,13 @@
 
 class Modele;
 
-class Duches : public Victoire{
+class Duche : public Victoire{
     private:
-        const int COUT_ACHAT = 5;
-        const int POINTS = 3;
+        static const int COUT_ACHAT;
+        static const int POINTS;
 
     public:
-        Duches(Model* m) : Victoire(m, COUT_ACHAT, POINTS) {}
-        ~Duches();
+        Duche(Modele* m) : Victoire(m, COUT_ACHAT, POINTS) {}
+        ~Duche(){}
 };
-
 #endif

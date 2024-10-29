@@ -1,14 +1,14 @@
 #ifndef ACTION_H
 #define ACTION_H
 
-#include "Carte.h"
+#include "../Carte.h"
 
 class Modele;
 
 class Action : public Carte{
     public:
-        Action(Model* m, int cout) : Carte(m, cout) {}
-        ~Action();
+        Action(Modele* m, int cout) : Carte(m, cout) {}
+        virtual ~Action(){}
 
         virtual void faireAction() = 0;
 };

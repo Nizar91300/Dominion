@@ -1,5 +1,7 @@
 #include "Village.h"
 
-Village::faireAction(){
+const int Village::COUT_ACHAT = 3;
+
+void Village::faireAction(){
     
 }

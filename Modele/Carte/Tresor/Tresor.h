@@ -1,7 +1,7 @@
 #ifndef TRESOR_H
 #define TRESOR_H
 
-#include "Carte.h"
+#include "../Carte.h"
 
 class Modele;
 
@@ -10,8 +10,8 @@ class Tresor : public Carte{
         int m_valeur;       // valeur que la carte rapporte
 
     public:
-        Tresor(Model* m, int cout, int valeur) : Carte(m, cout), m_valeur(valeur) {}
-        ~Tresor();
+        Tresor(Modele* m, int cout, int valeur) : Carte(m, cout), m_valeur(valeur) {}
+        virtual ~Tresor(){}
 };
 
 #endif
