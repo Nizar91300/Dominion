@@ -1,20 +1,19 @@
 #ifndef SORCIERE_H
 #define SORCIERE_H
 
-#include "Attaque.h"
 #include "../../Carte.h"
 
 class Modele;
 
-class Sorciere : public Attaque, public Carte{
+class Sorciere : public Action{
     private:
         static const int COUT_ACHAT;
 
     public:
-        Sorciere(Modele* m) : Carte(m, COUT_ACHAT) {}
+        Sorciere(Modele* m) : Action(m, COUT_ACHAT) {}
         ~Sorciere(){}
 
-        void attaquer();
+        void faireAction();
 };
 
 #endif

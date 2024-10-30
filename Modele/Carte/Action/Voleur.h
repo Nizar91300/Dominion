@@ -6,15 +6,15 @@
 
 class Modele;
 
-class Voleur : public Attaque, public Carte{
+class Voleur : public Action{
     private:
         static const int COUT_ACHAT;
 
     public:
-        Voleur(Modele* m) : Carte(m, COUT_ACHAT) {}
+        Voleur(Modele* m) : Action(m, COUT_ACHAT) {}
         ~Voleur(){}
 
-        void attaquer();
+        void faireAction();
 
 };
 

@@ -11,9 +11,9 @@ SOURCES = Modele/Carte/Victoire/Domaine.cpp \
           Modele/Carte/Action/Reaction/Douve.cpp \
           Modele/Carte/Action/Chapelle.cpp \
           Modele/Carte/Action/Laboratoire.cpp \
-          Modele/Carte/Action/Attaque/Sorciere.cpp \
+          Modele/Carte/Action/Sorciere.cpp \
           Modele/Carte/Action/Village.cpp \
-          Modele/Carte/Action/Attaque/Voleur.cpp \
+          Modele/Carte/Action/Voleur.cpp \
           Modele/Carte/Action/Festin.cpp \
           Modele/Carte/Tresor/Cuivre.cpp \
           Modele/Carte/Tresor/Argent.cpp \

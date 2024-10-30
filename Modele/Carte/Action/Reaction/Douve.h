@@ -6,15 +6,16 @@
 
 class Modele;
 
-class Douve : public Reaction, public Carte{
+class Douve : public Reaction, public Action{
     private:
         static const int COUT_ACHAT;
 
     public:
-        Douve(Modele* m) : Carte(m, COUT_ACHAT) {}
+        Douve(Modele* m) : Action(m, COUT_ACHAT) {}
         ~Douve(){}
 
         void defendre();
+        void faireAction();
 
 };
 

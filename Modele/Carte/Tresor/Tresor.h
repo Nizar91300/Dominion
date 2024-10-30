@@ -12,6 +12,7 @@ class Tresor : public Carte{
     public:
         Tresor(Modele* m, int cout, int valeur) : Carte(m, cout), m_valeur(valeur) {}
         virtual ~Tresor(){}
+        int getValeur() const { return m_valeur; }
 };
 
 #endif

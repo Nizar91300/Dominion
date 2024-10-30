@@ -16,6 +16,7 @@ class Joueur{
         ~Joueur();
 
         void initDeck();    // initialiser le deck du joueur
+        const DeckManager* getDeckManager() const { return m_deckManager; }
 
 };
 

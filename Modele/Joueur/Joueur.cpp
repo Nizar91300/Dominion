@@ -41,16 +41,4 @@ void Joueur::initDeck(){
 
     // piocher 5 cartes
     m_deckManager->piocher(5);
-
-    // afficher les cartes de la main
-    std::vector<Carte*> main = m_deckManager->getMain();
-    for(Carte* carte : main){
-        std::cout << typeid((*carte)).name() << std::endl;
-    }
-
-    // afficher les cartes de la pioche
-    std::vector<Carte*> pioche = m_deckManager->getPioche();
-    for(Carte* carte : pioche){
-        std::cout << typeid((*carte)).name() << std::endl;
-    }
 }
