@@ -1,4 +1,5 @@
 #include "Laboratoire.h"
+#include "../../Modele.h"
 
 const int Laboratoire::COUT_ACHAT = 5;
 

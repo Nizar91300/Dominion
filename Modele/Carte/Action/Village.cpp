@@ -1,4 +1,5 @@
 #include "Village.h"
+#include "../../Modele.h"
 
 const int Village::COUT_ACHAT = 3;
 

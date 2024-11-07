@@ -1,4 +1,5 @@
 #include "Douve.h"
+#include "../../../Modele.h"
 
 const int Douve::COUT_ACHAT = 2;
 

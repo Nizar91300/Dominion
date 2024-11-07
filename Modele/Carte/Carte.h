@@ -13,10 +13,12 @@ class Carte{
         Carte(Modele* modele, int cout) : m_modele(modele), m_cout(cout){}
 
         // constructeur de copie
-        Carte(const Carte& carte) : m_modele(carte.m_modele), m_cout(carte.m_cout){}
+        Carte(const Carte* carte) : m_modele(carte->m_modele), m_cout(carte->m_cout){}
 
         // destructeur
         virtual ~Carte(){}
+
+        int getCout() const { return m_cout; }
 };
 
 #endif

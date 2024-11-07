@@ -1,4 +1,5 @@
 #include "Bucheron.h"
+#include "../../Modele.h"
 
 const int Bucheron::COUT_ACHAT = 3;
 

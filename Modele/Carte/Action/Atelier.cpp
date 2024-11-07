@@ -1,4 +1,5 @@
 #include "Atelier.h"
+#include "../../Modele.h"
 
 const int Atelier::COUT_ACHAT = 3;
 

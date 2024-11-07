@@ -1,7 +1,7 @@
 #ifndef SORCIERE_H
 #define SORCIERE_H
 
-#include "../../Carte.h"
+#include "Action.h"
 
 class Modele;
 

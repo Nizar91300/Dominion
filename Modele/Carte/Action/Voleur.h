@@ -1,8 +1,7 @@
 #ifndef VOLEUR_H
 #define VOLEUR_H
 
-#include "Attaque.h"
-#include "../../Carte.h"
+#include "Action.h"
 
 class Modele;
 

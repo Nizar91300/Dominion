@@ -1,4 +1,5 @@
 #include "Sorciere.h"
+#include "../../Modele.h"
 
 const int Sorciere::COUT_ACHAT = 5;
 

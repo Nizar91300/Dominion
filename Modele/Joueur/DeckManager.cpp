@@ -1,4 +1,5 @@
 #include "DeckManager.h"
+
 #include "../Carte/Carte.h"
 #include "../Carte/Tresor/Tresor.h"
 
@@ -98,7 +99,7 @@ Carte* DeckManager::prendreCartePioche() {
 
         melangerPioche();
     }
-    Carte* carte = m_pioche.front();     // on recupere la carte
+    Carte* carte = m_pioche.back();     // on recupere la carte
     m_pioche.pop_back();    // on retire la carte qui a ete piochee
     return carte;
 }
@@ -114,7 +115,7 @@ void DeckManager::defausser(Carte* carte) {
 // ecarter une carte de la liste des cartes jouees
 void DeckManager::ecarterCarteJouee(Carte* carte) {
     // on supprime la carte des cartes jouees
-    std::erase(std::remove(m_cartesjouees.begin(), m_cartesjouees.end(), carte), m_cartesjouees.end());
+    m_cartesjouees.erase(std::remove(m_cartesjouees.begin(), m_cartesjouees.end(), carte), m_cartesjouees.end());
 
     // on ecrase la carte en memoire
     delete carte;
@@ -149,5 +150,5 @@ void DeckManager::ajusterDeck() {
     m_cartesEnAttente.clear(); // on vide les cartes en attente
 
     // on pioche 5 cartes
-    dm->piocher(5);
+    piocher(5);
 }

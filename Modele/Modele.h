@@ -44,7 +44,7 @@ class Modele{
         void jouerCarteAction(Carte* carte);   // jouer une carte action
         void jouerCarteTresor(Carte* carte);   // jouer une carte tresor
         void acheterCarteAvecVerif(Carte* carte);    // acheter une carte en verifiant les conditions pour l'achat
-        void acheterCarte(Carte* carte);    // acheter une carte sans verification
+        bool acheterCarte(Carte* carte);    // acheter une carte sans verification
         
         void donnerMalediction();   // donner une malediction a chaque joueur sauf au joueur actif
 

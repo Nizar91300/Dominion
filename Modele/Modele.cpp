@@ -2,10 +2,12 @@
 
 #include <iostream>
 #include "Joueur/Joueur.h"
+#include "Joueur/DeckManager.h"
 
 #include "Carte/Tresor/Cuivre.h"
 #include "Carte/Tresor/Argent.h"
 #include "Carte/Tresor/Or.h"
+#include "Carte/Victoire/Malediction.h"
 #include "Carte/Victoire/Domaine.h"
 #include "Carte/Victoire/Duche.h"
 #include "Carte/Victoire/Province.h"
@@ -15,21 +17,25 @@
 #include "Carte/Action/Reaction/Douve.h"
 #include "Carte/Action/Chapelle.h"
 #include "Carte/Action/Laboratoire.h"
-#include "Carte/Action/Attaque/Sorciere.h"
+#include "Carte/Action/Sorciere.h"
 #include "Carte/Action/Village.h"
-#include "Carte/Action/Attaque/Voleur.h"
+#include "Carte/Action/Voleur.h"
 #include "Carte/Action/Festin.h"
 
 
 // constructeur
 Modele::Modele(int nbJoueurs){
+    // initialiser les attributs
     m_nbJoueurs = nbJoueurs;
-    
+    m_joueurs = std::vector<Joueur*>();
+    m_reserve = std::vector< std::pair< Carte*, int > >();
+
+
     // initialiser les joueurs
     initJoueurs();
 
     // initialiser le tour
-    initTour();
+    initNewTour();
 
     // initialiser la reserve
     initReserve();
@@ -221,7 +227,7 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
 
         // si le nombre d'achats est nul, fin du tour
         if(m_nbAchats == 0){
-            initTour();
+            initNewTour();
         }
     }
     
@@ -246,23 +252,29 @@ bool Modele::acheterCarte(Carte* carte){
 
 // donner une malediction a chaque joueur sauf au joueur actif
 void Modele::donnerMalediction(){
-    Carte* malediction = nullptr;
+    std::pair<Carte*, int> malediction = {nullptr, 0};
     // chercher le pointeur de la carte malediction
     for(unsigned int i = 0; i < m_reserve.size(); i++){
         if(dynamic_cast<Malediction*>(m_reserve[i].first)){
-            malediction = m_reserve[i].first;
+            malediction = m_reserve[i];
             break;
         }
     }
+
+    // si on ne trouve pas la carte on arrete
+    if(malediction.first == nullptr){
+        return;
+    }
+
     // donner une malediction a chaque joueur sauf au joueur actif
     for(unsigned int i = 0; i < m_joueurs.size(); i++){
         if(m_joueurs[i] != m_joueurActif){
-            if( m_reserve[i].second > 0){
+            if( malediction.second > 0){
                 // decremente le nombre de cartes disponibles
-                m_reserve[i].second--;
+                malediction.second--;
 
                 // ajoute une copie de la carte a la defausse du joueur
-                m_joueurs[i]->getDeckManager()->addCardToDefausse( new Carte(carte) );
+                m_joueurs[i]->getDeckManager()->addCardToDefausse( new Carte(malediction.first) );
             }
         }
     }
@@ -280,6 +292,7 @@ void Modele::showRecevoirCarte(int coutMax){
 // ecarter au maximum nbCartes cartes
 void Modele::showEcarterCartes(int nbCartesMax){
     // view.showEcarterCartes(nbCartesMax);
+    nbCartesMax += 0;
 }
 
 

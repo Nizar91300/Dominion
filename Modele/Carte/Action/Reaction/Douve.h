@@ -2,7 +2,8 @@
 #define DOUVE_H
 
 #include "Reaction.h"
-#include "../../Carte.h"
+#include "../Action.h"
+
 
 class Modele;
 
