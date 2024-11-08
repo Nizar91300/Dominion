@@ -10,7 +10,7 @@ class Victoire : public Carte{
         int m_points;       // point de victoire que la carte rapporte
 
     public:
-        Victoire(Modele* m, int cout, int points) : Carte(m, cout), m_points(points) {}
+        Victoire(Modele* m, int cout, int points) : Carte(m, cout, TypeCarte::VICTOIRE), m_points(points) {}
         virtual ~Victoire(){}
 };
 

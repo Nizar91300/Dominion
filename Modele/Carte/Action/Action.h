@@ -7,7 +7,7 @@ class Modele;
 
 class Action : public Carte{
     public:
-        Action(Modele* m, int cout) : Carte(m, cout) {}
+        Action(Modele* m, int cout) : Carte(m, cout, TypeCarte::ACTION) {}
         virtual ~Action(){}
 
         virtual void faireAction() = 0;

@@ -174,9 +174,11 @@ void Modele::jouerCarteAction(Carte* carte){
         return;
 
     // verifier si la carte est de type action
-    if( Action* action = dynamic_cast<Action*>(carte) ){
+    if( carte->getType() == TypeCarte::ACTION ){
+        Action* action = static_cast<Action*>(carte);
+
         // jouer la carte
-        action->faireAction();
+        action->faireAction();  
         
         // decrementer le nombre d'actions
         m_nbActions--;
@@ -189,7 +191,9 @@ void Modele::jouerCarteAction(Carte* carte){
 // jouer une carte tresor
 void Modele::jouerCarteTresor(Carte* carte){
     // verifier si la carte est de type tresor
-    if( Tresor* tresor = dynamic_cast<Tresor*>(carte) ){
+    if( carte->getType() == TypeCarte::TRESOR ){
+        Tresor* tresor = static_cast<Tresor*>(carte);
+
         // ajoute les pieces
         m_nbPieces += tresor->getValeur();
 
