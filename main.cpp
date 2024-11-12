@@ -1,6 +1,6 @@
 // main.cpp
 #include <iostream>
-#include "Modele/Modele.h"
+#include "Modele.h"
 
 int main() {
     Modele* modele = new Modele(2); // Crée un modèle avec 2 joueurs

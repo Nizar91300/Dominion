@@ -1,42 +1,42 @@
-# Variables
-CXX = g++                               # Le compilateur à utiliser
-CXXFLAGS = -Wall -Wextra -Werror -std=c++11 -g  # Options de compilation
-SOURCES = Modele/Carte/Victoire/Domaine.cpp \
-          Modele/Carte/Victoire/Duche.cpp \
-          Modele/Carte/Victoire/Province.cpp \
-          Modele/Carte/Victoire/Malediction.cpp \
-          Modele/Carte/Victoire/Jardin.cpp \
-          Modele/Carte/Action/Atelier.cpp \
-          Modele/Carte/Action/Bucheron.cpp \
-          Modele/Carte/Action/Reaction/Douve.cpp \
-          Modele/Carte/Action/Chapelle.cpp \
-          Modele/Carte/Action/Laboratoire.cpp \
-          Modele/Carte/Action/Sorciere.cpp \
-          Modele/Carte/Action/Village.cpp \
-          Modele/Carte/Action/Voleur.cpp \
-          Modele/Carte/Action/Festin.cpp \
-          Modele/Carte/Tresor/Cuivre.cpp \
-          Modele/Carte/Tresor/Argent.cpp \
-          Modele/Carte/Tresor/Or.cpp \
-          Modele/Joueur/DeckManager.cpp \
-          Modele/Joueur/Joueur.cpp \
-          Modele/Modele.cpp \
-          main.cpp
-OBJECTS = $(SOURCES:.cpp=.o)              # Remplacer .cpp par .o
-TARGET = dominion                     # Nom de l'exécutable
+# Compiler and Flags
+CXX := clang++  # Utiliser g++ sur Linux
+#WX_FLAGS := $(shell ./wxWidgets-3.2.6/wx-build/wx-config --cxxflags --libs)  # Chemin ajusté pour wxWidgets si nécessaire
+CXXFLAGS := -std=c++17 -Wall $(WX_FLAGS) -Iinclude
 
-# Règle par défaut
-all: $(TARGET)
+# Directories
+SRCDIR := src
+OBJDIR := obj
 
-# Règle pour construire l'exécutable
-$(TARGET): $(OBJECTS)
-	$(CXX) $(CXXFLAGS) -o $@ $^
+# Files
+SRCS := $(wildcard $(SRCDIR)/*.cpp) main.cpp
+OBJS := $(patsubst %.cpp, $(OBJDIR)/%.o, $(notdir $(SRCS)))
+TARGET := dominion
 
-# Règle pour compiler les fichiers .cpp en .o
-%.o: %.cpp
+# Create object directory if it doesn't exist
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
+
+# Rules
+all: $(OBJDIR) $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $(addprefix $(OBJDIR)/, $(notdir $(OBJS)))
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-# Règle pour nettoyer les fichiers temporaires
+$(OBJDIR)/main.o: main.cpp | $(OBJDIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	rm -rf $(OBJDIR) $(TARGET)
+
+clear:
+	rm -rf $(OBJDIR) $(TARGET)
+
+run:
+	./dominion
+
+# Phony targets
+.PHONY: all clean clear run
 
