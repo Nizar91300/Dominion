@@ -74,6 +74,7 @@ void Modele::initReserve(){
     ajouterCarte(new Cuivre(this), NB_CARTES_CUIVRE);
     ajouterCarte(new Argent(this), 40);
     ajouterCarte(new Or(this), 30);
+    ajouterCarte(new Malediction(this), 30);
 
     // CARTES VICTOIRE
     int nbCartesVictoire = (m_nbJoueurs > 2) ? 12 : 8;
