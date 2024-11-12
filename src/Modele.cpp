@@ -4,23 +4,23 @@
 #include "Joueur.h"
 #include "DeckManager.h"
 
-#include "Carte/Tresor/Cuivre.h"
-#include "Carte/Tresor/Argent.h"
-#include "Carte/Tresor/Or.h"
-#include "Carte/Victoire/Malediction.h"
-#include "Carte/Victoire/Domaine.h"
-#include "Carte/Victoire/Duche.h"
-#include "Carte/Victoire/Province.h"
-#include "Carte/Victoire/Jardin.h"
-#include "Carte/Action/Atelier.h"
-#include "Carte/Action/Bucheron.h"
-#include "Carte/Action/Reaction/Douve.h"
-#include "Carte/Action/Chapelle.h"
-#include "Carte/Action/Laboratoire.h"
-#include "Carte/Action/Sorciere.h"
-#include "Carte/Action/Village.h"
-#include "Carte/Action/Voleur.h"
-#include "Carte/Action/Festin.h"
+#include "Cuivre.h"
+#include "Argent.h"
+#include "Or.h"
+#include "Malediction.h"
+#include "Domaine.h"
+#include "Duche.h"
+#include "Province.h"
+#include "Jardin.h"
+#include "Atelier.h"
+#include "Bucheron.h"
+#include "Douve.h"
+#include "Chapelle.h"
+#include "Laboratoire.h"
+#include "Sorciere.h"
+#include "Village.h"
+#include "Voleur.h"
+#include "Festin.h"
 
 
 // constructeur
@@ -259,7 +259,7 @@ void Modele::donnerMalediction(){
     std::pair<Carte*, int> malediction = {nullptr, 0};
     // chercher le pointeur de la carte malediction
     for(unsigned int i = 0; i < m_reserve.size(); i++){
-        if(dynamic_cast<Malediction*>(m_reserve[i].first)){
+        if( (m_reserve[i].first)->getNom() == "Malediction" ){
             malediction = m_reserve[i];
             break;
         }
@@ -307,7 +307,7 @@ bool Modele::finPartie(){
     int nbPilesVides = 0;
     for(unsigned int i = 0; i < m_reserve.size(); i++){
         if(m_reserve[i].second == 0){
-            if(dynamic_cast<Province*>(m_reserve[i].first)){
+            if( (m_reserve[i].first)->getNom() == "Province" ){
                 return true;
             }
             nbPilesVides++;
