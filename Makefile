@@ -1,6 +1,6 @@
 # Compiler and Flags
 CXX := clang++  # Utiliser g++ sur Linux
-#WX_FLAGS := $(shell ./wxWidgets-3.2.6/wx-build/wx-config --cxxflags --libs)  # Chemin ajusté pour wxWidgets si nécessaire
+WX_FLAGS := $(shell ./wxWidgets-3.2.6/wx-build/wx-config --cxxflags --libs)
 CXXFLAGS := -std=c++17 -Wall $(WX_FLAGS) -Iinclude
 
 # Directories
