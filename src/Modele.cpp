@@ -128,6 +128,25 @@ void Modele::initNewTour(){
     m_nbPieces = 0;
 }
 
+
+
+// retourne la reserve
+std::vector< std::pair< Carte*, int > > Modele::getReserve(){
+    return m_reserve;
+}
+
+// retourne la main du joueur actif
+std::vector<Carte*> Modele::getMain(){
+    return m_joueurActif->getDeckManager()->getMain();
+}
+
+// setter de la vue
+void Modele::setView(MyFrame* mf){
+    m_view = mf;
+}
+
+
+
 // ajouter une carte a la reserve
 void Modele::ajouterCarte(Carte* carte, int nbCartes){
     m_reserve.push_back( std::make_pair(carte, nbCartes) );
@@ -265,7 +284,7 @@ void Modele::donnerMalediction(){
     std::pair<Carte*, int> malediction = {nullptr, 0};
     // chercher le pointeur de la carte malediction
     for(unsigned int i = 0; i < m_reserve.size(); i++){
-        if( (m_reserve[i].first)->getNom() == "Malediction" ){
+        if( (m_reserve[i].first)->getNom() == "curse" ){
             malediction = m_reserve[i];
             break;
         }
@@ -313,7 +332,7 @@ bool Modele::finPartie(){
     int nbPilesVides = 0;
     for(unsigned int i = 0; i < m_reserve.size(); i++){
         if(m_reserve[i].second == 0){
-            if( (m_reserve[i].first)->getNom() == "Province" ){
+            if( (m_reserve[i].first)->getNom() == "province" ){
                 return true;
             }
             nbPilesVides++;

@@ -7,8 +7,12 @@ class Joueur;
 
 class Carte;
 
+class MyFrame;
+
 class Modele{
     private:
+        MyFrame* m_view;    // vue
+
         std::vector<Joueur*> m_joueurs;     // liste des joueurs
         int m_nbJoueurs;    // nb joueurs
         std::vector< std::pair< Carte*, int > > m_reserve;  // liste des carte disposees sur la table avec leurs occurences
@@ -25,11 +29,16 @@ class Modele{
     public:
         Modele();
         ~Modele();
-        
+
         void initNewGame(int nbJoueurs); // initialiser une nouvelle partie
         void initJoueurs(); // initialiser les joueurs
         void initReserve(); // initialiser la reserve
         void initNewTour();    // initialise le nouveau tour du joueur
+        
+        std::vector< std::pair< Carte*, int > >  getReserve();  // retourne la reserve
+        std::vector<Carte*> getMain();  // retourne la main du joueur actif
+
+        void setView(MyFrame* mf);
 
         void ajouterCarte(Carte* carte, int quantite); // ajouter une carte a la reserve
         void ajouterNbActions(int nb);  // ajouter des actions

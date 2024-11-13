@@ -4,7 +4,12 @@
 #include"wxcard.hpp"
 
 
-std::vector<std::string>  wxCard::cards = {"estate", "duchy", "province", "curse","copper","silver","gold"};
+std::vector<std::string>  wxCard::cards = 
+{"artisan", "bandit", "bureaucrat", "cellar", "chapel", "copper", "councilRoom", "curse", "duchy", "estate",
+ "feast", "festival", "gardens", "gold", "harbinger", "laboratory", "library", "market", "merchant", "militia",
+"mine", "moat", "moneylender", "poacher", "province", "remodel", "sentry", "silver", "smithy", "throneRoom",
+"vassal", "village", "witch", "woodcutter","workshop"
+};
 
 
 wxCard::wxCard(wxWindow* parent, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor) : wxPanel(parent){

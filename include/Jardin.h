@@ -11,7 +11,7 @@ class Jardin : public Victoire{
         static const int POINTS;
 
     public:
-        Jardin(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "Jardin") {}
+        Jardin(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "gardens") {}
         ~Jardin(){}
 };
 #endif

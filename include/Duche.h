@@ -11,7 +11,7 @@ class Duche : public Victoire{
         static const int POINTS;
 
     public:
-        Duche(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "Duche") {}
+        Duche(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "duchy") {}
         ~Duche(){}
 };
 #endif

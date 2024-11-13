@@ -10,7 +10,7 @@ class Village : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Village(Modele* m) : Action(m, COUT_ACHAT, "Village") {}
+        Village(Modele* m) : Action(m, COUT_ACHAT, "village") {}
         ~Village(){}
 
         void faireAction();

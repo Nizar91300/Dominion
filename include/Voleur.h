@@ -10,7 +10,7 @@ class Voleur : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Voleur(Modele* m) : Action(m, COUT_ACHAT, "Voleur") {}
+        Voleur(Modele* m) : Action(m, COUT_ACHAT, "bandit") {}
         ~Voleur(){}
 
         void faireAction();

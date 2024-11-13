@@ -10,7 +10,7 @@
 enum{ID_Hello = 1};
 
 
-MyFrame::MyFrame(Modele* model): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxSize(1200, 800)) {
+MyFrame::MyFrame(Modele* model): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE | wxMAXIMIZE) {
     m_modele = model;
     std::cout << "[MyFrame]constructor" << '\n';
     //top menu

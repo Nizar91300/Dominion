@@ -12,7 +12,7 @@ class Douve : public Reaction, public Action{
         static const int COUT_ACHAT;
 
     public:
-        Douve(Modele* m) : Action(m, COUT_ACHAT, "Douve") {}
+        Douve(Modele* m) : Action(m, COUT_ACHAT, "moat") {}
         ~Douve(){}
 
         void defendre();

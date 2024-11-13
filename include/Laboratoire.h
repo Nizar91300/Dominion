@@ -10,7 +10,7 @@ class Laboratoire : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Laboratoire(Modele* m) : Action(m, COUT_ACHAT, "Laboratoire") {}
+        Laboratoire(Modele* m) : Action(m, COUT_ACHAT, "laboratory") {}
         ~Laboratoire(){}
 
         void faireAction();

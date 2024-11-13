@@ -31,6 +31,8 @@ bool MyApp::OnInit(){
 
     MyFrame* frame = new MyFrame(modele);
 
+    modele->setView(frame);
+
     frame->Show(true);
     return true;
 }

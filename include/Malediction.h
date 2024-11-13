@@ -11,7 +11,7 @@ class Malediction : public Victoire{
         static const int POINTS;
 
     public:
-        Malediction(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "Malediction") {}
+        Malediction(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "curse") {}
         ~Malediction(){}
 };
 

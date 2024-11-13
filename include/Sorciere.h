@@ -10,7 +10,7 @@ class Sorciere : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Sorciere(Modele* m) : Action(m, COUT_ACHAT, "Sorciere") {}
+        Sorciere(Modele* m) : Action(m, COUT_ACHAT, "witch") {}
         ~Sorciere(){}
 
         void faireAction();

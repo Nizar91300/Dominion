@@ -11,7 +11,7 @@ class Or : public Tresor{
         static const int VALEUR ;
 
     public:
-        Or(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "Or") {}
+        Or(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "gold") {}
         ~Or(){}
 };
 #endif

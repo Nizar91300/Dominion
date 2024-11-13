@@ -11,7 +11,7 @@ class Province : public Victoire{
         static const int POINTS;
 
     public:
-        Province(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "Province") {}
+        Province(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "province") {}
         ~Province(){}
 };
 #endif
