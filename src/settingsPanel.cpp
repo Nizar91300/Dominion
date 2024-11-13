@@ -16,35 +16,35 @@ SettingsPanel::SettingsPanel(wxWindow* parent): wxPanel(parent),parentFrame(pare
     buttonSizer->Add(resetButton, 0, wxALL, 5);
     backButton->Bind(wxEVT_BUTTON, &SettingsPanel::OnButtonClicked, this);
     resetButton->Bind(wxEVT_BUTTON, &SettingsPanel::OnButtonClicked, this);
-    mainSizer->Add(buttonSizer, 0, wxALIGN_CENTER | wxALL, 10);
-    mainSizer->AddSpacer(50);
+    mainSizer->Add(buttonSizer, 0, wxALIGN_CENTER | wxALL, 30);
+    mainSizer->AddSpacer(15);
 
     //--------------------other--------------------
     wxStaticText* totalPlayersLabel = new wxStaticText(this, wxID_ANY, "Total Players:");
     totalPlayersLabel->SetForegroundColour(wxColour(243, 210, 161));
     mainSizer->Add(totalPlayersLabel, 0, wxALIGN_CENTER, 20);
 
-    totalPlayersSlider = new wxSlider(this, wxID_ANY, 5, 5, 8, wxDefaultPosition, wxSize(300,25), wxSL_HORIZONTAL | wxSL_LABELS);
+    totalPlayersSlider = new wxSlider(this, wxID_ANY, 5, 5, 8, wxDefaultPosition, wxSize(300,50), wxSL_HORIZONTAL | wxSL_LABELS);
     mainSizer->Add(totalPlayersSlider, 0, wxALIGN_CENTER | wxBOTTOM, 20);
     // Slider for Human Players
     wxStaticText* humanPlayersLabel = new wxStaticText(this, wxID_ANY, "Human Players:");
     humanPlayersLabel->SetForegroundColour(wxColour(243, 210, 161));
     mainSizer->Add(humanPlayersLabel, 0, wxALIGN_CENTER, 20);
 
-    humanPlayersSlider = new wxSlider(this, wxID_ANY, 1, 1, 5, wxDefaultPosition, wxSize(300,25), wxSL_HORIZONTAL | wxSL_LABELS);
+    humanPlayersSlider = new wxSlider(this, wxID_ANY, 1, 1, 5, wxDefaultPosition, wxSize(300,50), wxSL_HORIZONTAL | wxSL_LABELS);
     mainSizer->Add(humanPlayersSlider, 0, wxALIGN_CENTER | wxBOTTOM, 20);
     // Slider for Sound
     wxStaticText* soundLabel = new wxStaticText(this, wxID_ANY, "Sound:");
     soundLabel->SetForegroundColour(wxColour(243, 210, 161));
     mainSizer->Add(soundLabel, 0, wxALIGN_CENTER, 20);
 
-    soundSlider = new wxSlider(this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxSize(300,25), wxSL_HORIZONTAL | wxSL_LABELS);
+    soundSlider = new wxSlider(this, wxID_ANY, 50, 0, 100, wxDefaultPosition, wxSize(300,50), wxSL_HORIZONTAL | wxSL_LABELS);
     mainSizer->Add(soundSlider, 0, wxALIGN_CENTER, 20);
 
 
     totalPlayersSlider->Bind(wxEVT_SLIDER, &SettingsPanel::OnTotalPlayersChanged, this);
     humanPlayersSlider->Bind(wxEVT_SLIDER, &SettingsPanel::OnHumanPlayersChanged, this);
-    mainSizer->AddSpacer(100);
+    mainSizer->AddSpacer(30);
 
     wxStaticText* cardsLabel = new wxStaticText(this, wxID_ANY, "Initial Cards:");
     cardsLabel->SetForegroundColour(wxColour(243, 210, 161));

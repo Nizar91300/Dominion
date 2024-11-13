@@ -15,11 +15,11 @@ MainPanel::MainPanel(wxFrame* parent) : wxPanel(parent),parentFrame(parent){
 
     //buttons
     wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
-    wxButton* button1 = new wxButton(this, wxID_ANY, "New Game", wxDefaultPosition, wxSize(200, 10));
-    wxButton* button2 = new wxButton(this, wxID_ANY, "Resume", wxDefaultPosition, wxSize(200, 10));
-    wxButton* button3 = new wxButton(this, wxID_ANY, "Settings", wxDefaultPosition, wxSize(200, 10));
-    wxButton* button4 = new wxButton(this, wxID_ANY, "About", wxDefaultPosition, wxSize(200, 10));
-    wxButton* button5 = new wxButton(this, wxID_ANY, "Quit", wxDefaultPosition, wxSize(200, 10));
+    wxButton* button1 = new wxButton(this, wxID_ANY, "New Game", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button2 = new wxButton(this, wxID_ANY, "Resume", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button3 = new wxButton(this, wxID_ANY, "Settings", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button4 = new wxButton(this, wxID_ANY, "About", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button5 = new wxButton(this, wxID_ANY, "Quit", wxDefaultPosition, wxSize(200, 30));
 
     button1->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);
     button2->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);

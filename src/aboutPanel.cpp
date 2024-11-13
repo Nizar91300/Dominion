@@ -31,7 +31,7 @@ AboutPanel::AboutPanel(wxFrame* parent): wxScrolledWindow(parent, wxID_ANY, wxDe
             "B) Buy phase - the player may buy a card.\n"
             "C) Clean-up phase - the player must discard both played and unplayed cards and draws five new cards. After a player completes all three phases, his turn ends.\n"
             "\n\n\n\n"
-            "The game ends at the end of any player’s turn when either:\n"
+            "The game ends at the end of any player's turn when either:\n"
             "1) the Supply pile of Province cards is empty or\n"
             "2) any 3 Supply piles are empty.\n"
             "\n\n\n\n"
