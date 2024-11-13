@@ -1,4 +1,5 @@
 #include "resources.hpp"
+#include "wxcard.hpp"
 #include <wx/filename.h>
 
 
@@ -56,7 +57,7 @@ void Resources::loadMenuImages(){
 
 void Resources::loadGameImages(){
   std::cout << "[Resources]loading game images ...." << '\n';
-  this->loadImages({"copper","silver","gold"});
+  this->loadImages(wxCard::cards);
 }
 
 wxImage* Resources::getImage(const std::string& name) const {

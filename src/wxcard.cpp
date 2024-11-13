@@ -1,9 +1,10 @@
 #include <wx/wx.h>
+#include"resources.hpp"
 #include <wx/statbmp.h>
 #include"wxcard.hpp"
-#include"resources.hpp"
 
 
+std::vector<std::string>  wxCard::cards = {"estate", "duchy", "province", "curse","copper","silver","gold"};
 /*
 wxCard::wxCard(wxWindow* parent, const std::string& imageName, int occurrences) : wxPanel(parent){
   this->SetSize(250,400);

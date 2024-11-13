@@ -1,8 +1,9 @@
 #include <wx/wx.h>
 #include <wx/panel.h>
+#include <vector>
+#include <string>
 #include "playPanel.hpp"
 #include"wxcard.hpp"
-
 
 
 
