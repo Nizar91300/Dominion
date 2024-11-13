@@ -12,5 +12,9 @@ class wxCard : public wxPanel {
     wxCard(wxWindow* parent,const std::string& imageName, int occurrences);
     ~wxCard();
     void UpdateOccurrences(int occurrences);
+
+    void OnMouseClick(wxMouseEvent& event);
+    void OnMouseEnter(wxMouseEvent& event);
+    void OnMouseLeave(wxMouseEvent& event);
 };
 #endif
