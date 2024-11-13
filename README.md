@@ -2,7 +2,23 @@
 
 ## Pré-requis
 
-Pour les 2 méthodes il faut d'abord installer la librarie GTK version 2. Pour l'installer : 
+### Librairies obligatoires
+
+Pour les 2 méthodes il faut d'abord installer le compilateur clang. Pour l'installer : 
+
+#### Sur Ubuntu/Debian
+
+```console
+sudo apt update
+sudo apt install clang
+```
+
+#### Sur Fedora :
+```console
+sudo dnf install clang
+```
+
+Ensuite il faut installer la librarie GTK version 2. Pour l'installer : 
 
 #### Sur Ubuntu/Debian
 
