@@ -3,15 +3,19 @@
 
 #include <wx/wx.h>
 
+class Modele;
 
 class MainPanel : public wxPanel{
     wxImage* image;
     wxBitmap resized;
     int w, h;
 
+private:
+    Modele* m_modele;
+
 public:
     wxFrame* parentFrame;
-    MainPanel(wxFrame* parent);
+    MainPanel(wxFrame* parent, Modele* model);
     ~MainPanel();
     void paintEvent(wxPaintEvent & evt);
     void paintNow();

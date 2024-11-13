@@ -1,6 +1,8 @@
 #include "mainPanel.hpp"
 #include "resources.hpp"
 
+#include "Modele.h"
+
 
 BEGIN_EVENT_TABLE(MainPanel, wxPanel)
 EVT_PAINT(MainPanel::paintEvent)
@@ -8,7 +10,9 @@ EVT_SIZE(MainPanel::OnSize)
 END_EVENT_TABLE()
 
 
-MainPanel::MainPanel(wxFrame* parent) : wxPanel(parent),parentFrame(parent){
+MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent), parentFrame(parent){
+    m_modele = model;
+
     image = Resources::getInstance()->getImage("background-img");
     w = -1;
     h = -1;
@@ -49,7 +53,6 @@ MainPanel::MainPanel(wxFrame* parent) : wxPanel(parent),parentFrame(parent){
 
 
 MainPanel::~MainPanel(){
-
 }
 
 void MainPanel::paintEvent(wxPaintEvent & evt){

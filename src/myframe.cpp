@@ -4,12 +4,14 @@
 #include "settingsPanel.hpp"
 #include "aboutPanel.hpp"
 #include "playPanel.hpp"
+#include "Modele.h"
 
 
 enum{ID_Hello = 1};
 
 
-MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxSize(1200, 800)) {
+MyFrame::MyFrame(Modele* model): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxSize(1200, 800)) {
+    m_modele = model;
     std::cout << "[MyFrame]constructor" << '\n';
     //top menu
     wxMenu *menuFile = new wxMenu;
@@ -32,7 +34,7 @@ MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxSiz
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &MyFrame::OnButtonClicked, this);
 
     this->currentpanelName = "Main";
-    this->currentpanel = new MainPanel(this);
+    this->currentpanel = new MainPanel(this, m_modele);
 
 }
 
@@ -41,6 +43,7 @@ MyFrame::~MyFrame(){
   if(currentpanel!=NULL){
     this->currentpanel->Destroy();
   }
+  delete m_modele;
   std::cout << "[MyFrame]delete" << '\n';
 }
 
@@ -64,7 +67,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
         this->currentpanelName = "Play";
         this->currentpanel->Destroy();
-        this->currentpanel = new PlayPanel(this);
+        this->currentpanel = new PlayPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
 
@@ -76,7 +79,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
         this->currentpanelName = "Settings";
         this->currentpanel->Destroy();
-        this->currentpanel = new SettingsPanel(this);
+        this->currentpanel = new SettingsPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
 
@@ -84,7 +87,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
         this->currentpanelName = "About";
         this->currentpanel->Destroy();
-        this->currentpanel = new AboutPanel(this);
+        this->currentpanel = new AboutPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
 
@@ -104,7 +107,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
         this->currentpanelName = "Main";
         this->currentpanel->Destroy();
-        this->currentpanel = new MainPanel(this);
+        this->currentpanel = new MainPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
 
@@ -121,7 +124,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
         this->currentpanelName = "Main";
         this->currentpanel->Destroy();
-        this->currentpanel = new MainPanel(this);
+        this->currentpanel = new MainPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
 

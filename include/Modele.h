@@ -23,9 +23,10 @@ class Modele{
     
 
     public:
-        Modele(int nbJoueurs);
+        Modele();
         ~Modele();
-
+        
+        void initNewGame(int nbJoueurs); // initialiser une nouvelle partie
         void initJoueurs(); // initialiser les joueurs
         void initReserve(); // initialiser la reserve
         void initNewTour();    // initialise le nouveau tour du joueur

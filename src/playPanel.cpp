@@ -5,10 +5,14 @@
 #include "playPanel.hpp"
 #include"wxcard.hpp"
 
+#include "Modele.h"
 
 
 
-PlayPanel::PlayPanel(wxFrame* parent) : wxPanel(parent),parentFrame(parent) {
+
+PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFrame(parent) {
+    m_modele = model;
+
     // Main sizer for the entire window (horizontal layout)
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -119,7 +123,6 @@ PlayPanel::PlayPanel(wxFrame* parent) : wxPanel(parent),parentFrame(parent) {
 
 
 PlayPanel::~PlayPanel(){
-
 }
 
 void PlayPanel::OnButtonClicked(wxCommandEvent& event) {

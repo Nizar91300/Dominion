@@ -3,8 +3,12 @@
 #include"settingsPanel.hpp"
 #include"wxcard.hpp"
 
+#include "Modele.h"
 
-SettingsPanel::SettingsPanel(wxWindow* parent): wxPanel(parent),parentFrame(parent){
+
+SettingsPanel::SettingsPanel(wxWindow* parent, Modele* model): wxPanel(parent),parentFrame(parent){
+    m_modele = model;
+
     SetBackgroundColour(wxColour(86, 118, 153));
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -70,6 +74,9 @@ SettingsPanel::SettingsPanel(wxWindow* parent): wxPanel(parent),parentFrame(pare
     // Set the main sizer
     SetSizer(mainSizer);
 
+}
+
+SettingsPanel::~SettingsPanel(){
 }
 
 

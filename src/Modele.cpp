@@ -24,21 +24,13 @@
 
 
 // constructeur
-Modele::Modele(int nbJoueurs){
+Modele::Modele(){
     // initialiser les attributs
-    m_nbJoueurs = nbJoueurs;
     m_joueurs = std::vector<Joueur*>();
     m_reserve = std::vector< std::pair< Carte*, int > >();
 
-
-    // initialiser les joueurs
-    initJoueurs();
-
-    // initialiser le tour
-    initNewTour();
-
-    // initialiser la reserve
-    initReserve();
+    // initialiser la partie avec 2 joueurs par defaut
+    initNewGame(2);
 }
 
 // destructeur
@@ -52,6 +44,19 @@ Modele::~Modele(){
     for(unsigned int i = 0; i < m_reserve.size(); i++){
         delete m_reserve[i].first;
     }
+}
+
+//initialiser une nouvelle partie
+void Modele::initNewGame(int nbJoueurs){
+    // initialiser les joueurs
+    m_nbJoueurs = nbJoueurs;
+    initJoueurs();
+
+    // initialiser le tour
+    initNewTour();
+
+    // initialiser la reserve
+    initReserve();
 }
 
 // initialiser les joueurs

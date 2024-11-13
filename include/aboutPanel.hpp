@@ -5,12 +5,16 @@
 #include <wx/sizer.h>
 #include <wx/scrolwin.h>
 
+class Modele;
+
 class AboutPanel : public wxScrolledWindow{
+private:
+    Modele* m_modele;
 
 public:
     wxFrame* parentFrame;
     void OnButtonClicked(wxCommandEvent& event);
-    AboutPanel(wxFrame* parent);
+    AboutPanel(wxFrame* parent, Modele* model);
     ~AboutPanel();
 };
 

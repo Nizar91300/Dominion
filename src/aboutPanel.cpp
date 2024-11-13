@@ -1,9 +1,9 @@
 #include "aboutPanel.hpp"
 #include <wx/scrolwin.h>
+#include "Modele.h"
 
-
-
-AboutPanel::AboutPanel(wxFrame* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL),parentFrame(parent){
+AboutPanel::AboutPanel(wxFrame* parent, Modele* model): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL), parentFrame(parent){
+        m_modele = model;
 
         SetBackgroundColour(wxColour(50, 82, 89));// Set background color to black
         wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);// Create a vertical sizer for layout
@@ -51,7 +51,6 @@ AboutPanel::AboutPanel(wxFrame* parent): wxScrolledWindow(parent, wxID_ANY, wxDe
 
 
 AboutPanel::~AboutPanel(){
-
 }
 
 

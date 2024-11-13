@@ -6,6 +6,7 @@
 
 #include "myframe.hpp"
 #include "resources.hpp"
+#include "Modele.h"
 
 
 class MyApp : public wxApp{
@@ -24,8 +25,12 @@ bool MyApp::OnInit(){
     //load ressources
     Resources::getInstance()->loadMenuImages();
     Resources::getInstance()->loadGameImages();
+
     //main frame
-    MyFrame* frame = new MyFrame();
+    Modele* modele = new Modele();
+
+    MyFrame* frame = new MyFrame(modele);
+
     frame->Show(true);
     return true;
 }

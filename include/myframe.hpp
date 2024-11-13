@@ -3,12 +3,15 @@
 #include <wx/wx.h>
 #include <string>
 
+class Modele;
+
 class MyFrame : public wxFrame{
 public:
-    MyFrame();
+    MyFrame(Modele* model);
     virtual ~MyFrame ();
     wxPanel* currentpanel = NULL;
 private:
+    Modele* m_modele;
     std::string currentpanelName;
     void OnHello(wxCommandEvent& event);
     void OnExit(wxCommandEvent& event);
