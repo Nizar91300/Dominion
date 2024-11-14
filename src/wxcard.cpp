@@ -49,8 +49,8 @@ wxCard::wxCard(wxWindow* parent, const std::string& imageName, int occurrences,i
   Layout();
 
 
-
-  Bind(wxEVT_LEFT_DOWN, &wxCard::OnMouseClick, this);
+  imageCtrl->Bind(wxEVT_LEFT_DOWN, &wxCard::OnMouseClick, this);
+  imageCtrl->Bind(wxEVT_RIGHT_DOWN, &wxCard::OnRightClick, this);
   Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
   Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
 }
@@ -74,16 +74,21 @@ void wxCard::UpdateOccurrences(int occurrences) {
 
 
 void wxCard::OnMouseClick(wxMouseEvent& event) {
-        std::cout << "/* message */" << '\n';
+        std::cout << "/* CLIC GAUCHE */" << '\n';
+        event.Skip();
+}
+
+void wxCard::OnRightClick(wxMouseEvent& event) {
+        std::cout << "/* CLIC DROIT  */" << '\n';
         event.Skip();
 }
 
 void wxCard::OnMouseEnter(wxMouseEvent& event) {
-      std::cerr << "/* error message */" << '\n';
+      std::cout << "/* MOUSE ENTERED */" << '\n';
         event.Skip();
 }
 
 void wxCard::OnMouseLeave(wxMouseEvent& event) {
-        
+        std::cout << "/* MOUSE LEFT */" << '\n';
         event.Skip();
 }
