@@ -37,6 +37,7 @@ class Modele{
         
         std::vector< std::pair< Carte*, int > >  getReserve();  // retourne la reserve
         std::vector<Carte*> getMain();  // retourne la main du joueur actif
+        std::vector<Carte*> getPlayedCards();    // retourne les cartes jouees par le joueur actif
 
         void setView(MyFrame* mf);
 

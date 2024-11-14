@@ -19,5 +19,6 @@ class PlayPanel : public wxPanel {
 
     void updateReserve(); // afficher les cartes de la reserve
     void updateMain(); // afficher les cartes en main
+    void updatePlayedPanel(); // afficher les cartes jouees
 };
 #endif

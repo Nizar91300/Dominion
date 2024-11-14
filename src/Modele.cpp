@@ -140,6 +140,11 @@ std::vector<Carte*> Modele::getMain(){
     return m_joueurActif->getDeckManager()->getMain();
 }
 
+// retourne les cartes jouees par le joueur actif
+std::vector<Carte*> Modele::getPlayedCards(){
+    return m_joueurActif->getDeckManager()->getCartesJouees();
+}
+
 // setter de la vue
 void Modele::setView(MyFrame* mf){
     m_view = mf;
