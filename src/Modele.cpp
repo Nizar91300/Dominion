@@ -29,8 +29,8 @@ Modele::Modele(){
     m_joueurs = std::vector<Joueur*>();
     m_reserve = std::vector< std::pair< Carte*, int > >();
 
-    // initialiser la partie avec 2 joueurs par defaut
-    initNewGame(2);
+    // initialiser le nombre de joueur avec 2 joueurs par defaut
+    m_nbJoueurs = 2;
 }
 
 // destructeur
@@ -129,6 +129,11 @@ void Modele::initNewTour(){
 }
 
 
+
+// get le nombres de joueurs
+int Modele::getNbJoueurs() const{
+    return m_nbJoueurs;
+}
 
 // retourne la reserve
 std::vector< std::pair< Carte*, int > > Modele::getReserve(){

@@ -12,8 +12,6 @@ class PlayPanel : public wxPanel {
     wxPanel* centerPanel;
     wxPanel* playedPanel; // panel des cartes jouees
     wxPanel* handPanel; // panel des cartes en main
-    wxBoxSizer* reserveSizer1;
-    wxBoxSizer* reserveSizer2;
 
   public:
     wxFrame* parentFrame;

@@ -143,17 +143,14 @@ void PlayPanel::updateReserve() {
     centerPanel->DestroyChildren();
 
     // Cree deux sizers horizontaux
-    reserveSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    reserveSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* reserveSizer1 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* reserveSizer2 = new wxBoxSizer(wxHORIZONTAL);
 
     // Recupere la reserve dans le modèle
     auto reserve = m_modele->getReserve();
 
-    // Cree 2 tableaux contenant les cartes divisees en 2
+    // Divise les cartes en deux parties
     size_t half = reserve.size() / 2;
-    std::vector< std::pair<Carte*, int> > reserve1 = std::vector< std::pair<Carte*, int> >(reserve.begin(), reserve.begin() + half);
-    std::vector< std::pair<Carte*, int> > reserve2 = std::vector< std::pair<Carte*, int> >(reserve.begin() + half, reserve.end());
-
     auto it = reserve.begin();
 
     // Ajoute les cartes dans le 1er sizer

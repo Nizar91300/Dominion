@@ -35,6 +35,7 @@ class Modele{
         void initReserve(); // initialiser la reserve
         void initNewTour();    // initialise le nouveau tour du joueur
         
+        int getNbJoueurs() const; // retourne le nombre de joueurs
         std::vector< std::pair< Carte*, int > >  getReserve();  // retourne la reserve
         std::vector< std::pair< Carte*, int > > getMain();  // retourne la main du joueur actif
         std::vector<std::pair<Carte*, int >> getPlayedCards();    // retourne les cartes jouees par le joueur actif
