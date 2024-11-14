@@ -43,7 +43,7 @@ sudo dnf install gtk2-devel
 
 - Ouvrir le fichier ./Dominion/wxWidgets-3.2.6/wx-build/wx-config
 
-- A la ligne 28 et 32 du fichier, spécifier le chemin absolue vers le dossier wx-build, exemple "/home/user/Downloads/Dominion/wxWidgets-3.2.6/wx-build/.."
+- A la ligne 28 et 32 du fichier, spécifier le chemin absolue vers le dossier wx-build, pour la ligne 28 c'est de la forme : "/home/user/Downloads/Dominion/wxWidgets-3.2.6/wx-build/.." et pour la ligne 32 c'est de la forme : "/home/user/Downloads/Dominion/wxWidgets-3.2.6/wx-build/"
 
 Après avoir fait cela on peut directement passer à la compilation / exécution du jeu.
 
