@@ -3,6 +3,8 @@
 
 class Modele;
 
+class Carte;
+
 class PlayPanel : public wxPanel {
   private:
     Modele* m_modele;
@@ -10,6 +12,8 @@ class PlayPanel : public wxPanel {
     wxPanel* centerPanel;
     wxPanel* playedPanel; // panel des cartes jouees
     wxPanel* handPanel; // panel des cartes en main
+    wxBoxSizer* reserveSizer1;
+    wxBoxSizer* reserveSizer2;
 
   public:
     wxFrame* parentFrame;
@@ -18,7 +22,9 @@ class PlayPanel : public wxPanel {
     ~PlayPanel();
 
     void updateReserve(); // afficher les cartes de la reserve
+    void updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int>  > cartes); // afficher les cartes jouees dans le panel en parametre
     void updateMain(); // afficher les cartes en main
-    void updatePlayedPanel(); // afficher les cartes jouees
+    void updatePlayedCards(); // afficher les cartes jouees
+
 };
 #endif

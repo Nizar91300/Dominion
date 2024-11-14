@@ -36,8 +36,9 @@ class Modele{
         void initNewTour();    // initialise le nouveau tour du joueur
         
         std::vector< std::pair< Carte*, int > >  getReserve();  // retourne la reserve
-        std::vector<Carte*> getMain();  // retourne la main du joueur actif
-        std::vector<Carte*> getPlayedCards();    // retourne les cartes jouees par le joueur actif
+        std::vector< std::pair< Carte*, int > > getMain();  // retourne la main du joueur actif
+        std::vector<std::pair<Carte*, int >> getPlayedCards();    // retourne les cartes jouees par le joueur actif
+        std::vector<std::pair<Carte*, int >> convertVecCarteToVecPair(std::vector<Carte*> vec); // convertir un vecteur de cartes en vecteur de paires de cartes et de quantites
 
         void setView(MyFrame* mf);
 

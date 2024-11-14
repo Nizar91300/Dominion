@@ -116,7 +116,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFra
     this->updateMain();
 
     // afficher les cartes jouees
-    this->updatePlayedPanel();
+    this->updatePlayedCards();
 }
 
 
@@ -143,14 +143,17 @@ void PlayPanel::updateReserve() {
     centerPanel->DestroyChildren();
 
     // Cree deux sizers horizontaux
-    wxBoxSizer* reserveSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    wxBoxSizer* reserveSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    reserveSizer1 = new wxBoxSizer(wxHORIZONTAL);
+    reserveSizer2 = new wxBoxSizer(wxHORIZONTAL);
 
     // Recupere la reserve dans le modèle
     auto reserve = m_modele->getReserve();
 
-    // Divise les cartes en deux parties
+    // Cree 2 tableaux contenant les cartes divisees en 2
     size_t half = reserve.size() / 2;
+    std::vector< std::pair<Carte*, int> > reserve1 = std::vector< std::pair<Carte*, int> >(reserve.begin(), reserve.begin() + half);
+    std::vector< std::pair<Carte*, int> > reserve2 = std::vector< std::pair<Carte*, int> >(reserve.begin() + half, reserve.end());
+
     auto it = reserve.begin();
 
     // Ajoute les cartes dans le 1er sizer
@@ -183,64 +186,53 @@ void PlayPanel::updateReserve() {
     centerPanel->Layout(); // refresh
 }
 
-void PlayPanel::updateMain() {
-    // Efface les enfants existants dans handPanel pour les mettre à jour
-    handPanel->DestroyChildren();
+
+
+// Met a jour l'affichage d'un panel avec une liste de cartes donne
+void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > cartes) {
+    // Efface les enfants existants dans pan pour les mettre à jour
+    pan->DestroyChildren();
 
     // Création d'un sizer horizontal pour afficher la main sur une seule ligne
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
-    wxBoxSizer* handSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* panSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    // Récupère la main du joueur dans le modèle
+    // Parcours chaque carte de la main
+    for (auto& carte : cartes) {
+        Carte* c = carte.first;
+        int quantite = carte.second;
+
+        // Ccarte graphique pour chaque carte
+        wxCard* card = new wxCard(pan, c->getNom(), quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
+
+        // Ajouter la carte au sizer
+        panSizer->Add(card, 0, wxALL, 5);
+    }
+
+    // Ajoute le sizer des cartes en main au sizer principal
+    mainSizer->Add(panSizer, 0, wxALIGN_CENTER);
+
+    // Applique le sizer à pan pour afficher les cartes
+    pan->SetSizer(mainSizer);
+    pan->Layout(); // rafraichit l'affichage
+}
+
+
+// rafrachit l'affichage des cartes en main
+void PlayPanel::updateMain() {
+    // Recupere les cartes en main dans le modele
     auto main = m_modele->getMain();
 
-    // Parcours chaque carte de la main
-    for (auto& carte : main) {
-        // Ccarte graphique pour chaque carte
-        wxCard* card = new wxCard(handPanel, carte->getNom(), 1, 120, 180, 120, 180, wxColour(0, 0, 0));
-
-        // Ajouter la carte au sizer
-        handSizer->Add(card, 0, wxALL, 5);
-    }
-
-    // Ajoute le sizer des cartes en main au sizer principal
-    mainSizer->Add(handSizer, 0, wxALIGN_CENTER);
-
-    // Applique le sizer à handPanel pour afficher les cartes
-    handPanel->SetSizer(mainSizer);
-    handPanel->Layout(); // rafraichit l'affichage
+    // Ajoute les cartes dans le sizer
+    updatePanel(handPanel, main);
 }
 
+// rafrachit l'affichage des cartes jouees
+void PlayPanel::updatePlayedCards() {
+    // Recupere les cartes jouees dans le modele
+    auto played = m_modele->getPlayedCards();
 
-void PlayPanel::updatePlayedPanel(){
-    // Efface les enfants existants dans playedPanel pour les mettre à jour
-    playedPanel->DestroyChildren();
-
-    // Création d'un sizer horizontal pour afficher la main sur une seule ligne
-    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
-
-    wxBoxSizer* handSizer = new wxBoxSizer(wxHORIZONTAL);
-
-    // Récupère la main du joueur dans le modèle
-    auto main = m_modele->getPlayedCards();
-
-    // Parcours chaque carte de la main
-    for (auto& carte : main) {
-        // Ccarte graphique pour chaque carte
-        wxCard* card = new wxCard(playedPanel, carte->getNom(), 1, 120, 180, 120, 180, wxColour(0, 0, 0));
-
-        // Ajouter la carte au sizer
-        handSizer->Add(card, 0, wxALL, 5);
-    }
-
-    // Ajoute le sizer des cartes en main au sizer principal
-    mainSizer->Add(handSizer, 0, wxALIGN_CENTER);
-
-    // Applique le sizer à playedPanel pour afficher les cartes
-    playedPanel->SetSizer(mainSizer);
-    playedPanel->Layout(); // rafraichit l'affichage
+    // Ajoute les cartes dans le sizer
+    updatePanel(playedPanel, played);
 }
-
-
-

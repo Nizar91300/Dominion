@@ -36,12 +36,12 @@ Modele::Modele(){
 // destructeur
 Modele::~Modele(){
     // liberer la memoire des joueurs
-    for(unsigned int i = 0; i < m_joueurs.size(); i++){
+    for(size_t i = 0; i < m_joueurs.size(); i++){
         delete m_joueurs[i];
     }
 
     // liberer la memoire de la reserve
-    for(unsigned int i = 0; i < m_reserve.size(); i++){
+    for(size_t i = 0; i < m_reserve.size(); i++){
         delete m_reserve[i].first;
     }
 }
@@ -135,15 +135,42 @@ std::vector< std::pair< Carte*, int > > Modele::getReserve(){
     return m_reserve;
 }
 
-// retourne la main du joueur actif
-std::vector<Carte*> Modele::getMain(){
-    return m_joueurActif->getDeckManager()->getMain();
+// retourne la main du joueur actif en tant que vecteur de paires de cartes et de quantites
+std::vector< std::pair< Carte*, int > >Modele::getMain(){
+    auto main = m_joueurActif->getDeckManager()->getMain();
+
+    return convertVecCarteToVecPair(main);
 }
 
 // retourne les cartes jouees par le joueur actif
-std::vector<Carte*> Modele::getPlayedCards(){
-    return m_joueurActif->getDeckManager()->getCartesJouees();
+std::vector< std::pair< Carte*, int > > Modele::getPlayedCards(){
+    auto cartesJouees = m_joueurActif->getDeckManager()->getCartesJouees();
+
+    return convertVecCarteToVecPair(cartesJouees);
 }
+
+// convertit un vecteur de cartes en vecteur de paires de cartes et de quantites
+std::vector<std::pair<Carte*, int >> Modele::convertVecCarteToVecPair(std::vector<Carte*> vec){
+    std::vector<std::pair<Carte*, int >> res = std::vector<std::pair<Carte*, int >>();
+
+    // compter les cartes
+    for(Carte* carte : vec){
+        auto it = std::find_if(res.begin(), res.end(), 
+            [&carte](const std::pair<Carte*, int>& element) {
+                return element.first->getNom() == carte->getNom();
+            });
+
+        if ( it != res.end() ){
+            it->second++;
+        }
+        else{
+            res.push_back( std::make_pair(carte, 1) );
+        }
+    }
+
+    return res;
+}
+
 
 // setter de la vue
 void Modele::setView(MyFrame* mf){
