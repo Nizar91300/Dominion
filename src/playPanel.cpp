@@ -166,7 +166,6 @@ void PlayPanel::OnQuit(wxCommandEvent& event) {
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
 }
 
-<<<<<<< HEAD
 
 
 // FONCTION DE GESTION DES EVENEMENTS
@@ -181,11 +180,10 @@ void PlayPanel::OnButtonClicked(wxCommandEvent& event) {
         notifyEvent.SetString(buttonName);  // Include button name in the event
         wxPostEvent(this->parentFrame, notifyEvent); // Send event to parent frame
   }
-=======
+
 void PlayPanel::OnSave(wxCommandEvent& event) {
     //todo
 }
->>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
 
 void PlayPanel::OnResign(wxCommandEvent& event) {
   //todo
@@ -219,8 +217,10 @@ void PlayPanel::onLeftClicked(wxCommandEvent& event) {
         }
         // si on veut jouer une carte
         else if (parent == handPanel){
-            m_modele->jouerCarte(clickedCard);
-        }
+            m_modele->jouerCarte( void onKeyPress(wxKeyEvent& event);
+    void OnQuit(wxCommandEvent& event);
+    void OnSave(wxCommandEvent& event);
+    void OnResign(wxCommandEvent& event);
     }
     
     delete data;
@@ -251,13 +251,8 @@ void PlayPanel::updateReserve() {
         Carte* carte = it->first;
         int quantite = it->second;
 
-<<<<<<< HEAD
         // cree une carte graphique pour chaque carte 
         wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
-=======
-        // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte->getNom(), quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
->>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
         reserveSizer1->Add(card, 0, wxALL, 5);
     }
 
@@ -267,11 +262,7 @@ void PlayPanel::updateReserve() {
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-<<<<<<< HEAD
         wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
-=======
-        wxCard* card = new wxCard(centerPanel, carte->getNom(), quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
->>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
         reserveSizer2->Add(card, 0, wxALL, 5);
     }
 
@@ -283,8 +274,10 @@ void PlayPanel::updateReserve() {
     // Applique le nouveau sizer à centerPanel
     centerPanel->SetSizer(mainSizer);
     centerPanel->Layout(); // refresh
-}
-
+} void onKeyPress(wxKeyEvent& event);
+    void OnQuit(wxCommandEvent& event);
+    void OnSave(wxCommandEvent& event);
+    void OnResign(wxCommandEvent& event);
 
 
 // Met a jour l'affichage d'un panel avec une liste de cartes donne
@@ -303,11 +296,7 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
         int quantite = carte.second;
 
         // Ccarte graphique pour chaque carte
-<<<<<<< HEAD
         wxCard* card = new wxCard(pan, this, c, quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
-=======
-        wxCard* card = new wxCard(pan, c->getNom(), quantite, 50, 80, 50, 80, wxColour(0, 0, 0));
->>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
 
         // Ajouter la carte au sizer
         panSizer->Add(card, 0, wxALL, 5);
@@ -337,7 +326,6 @@ void PlayPanel::updatePlayedCards() {
     // Ajoute les cartes dans le sizer
     updatePanel(playedPanel, played);
 }
-<<<<<<< HEAD
 
 // Met a jour tout l'affichage
 void PlayPanel::update() {
@@ -350,5 +338,3 @@ void PlayPanel::update() {
     // Met a jour l'affichage des cartes jouees
     updatePlayedCards();
 }
-=======
->>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
