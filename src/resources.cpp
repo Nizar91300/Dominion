@@ -23,7 +23,10 @@ Resources* Resources::getInstance(){
     if (Resources::instance==NULL) {
       std::cout << "[Resources]getInstance (allocating)" << '\n';
       Resources::instance = new Resources();
-      Resources::instance->readSettings();
+      if(!Resources::instance->readSettings()){
+        Resources::instance->resetSettings();
+        Resources::instance->writeSettings();
+      }
     }
     return Resources::instance;
 }
@@ -95,10 +98,12 @@ void Resources::getSettings(int& nPlayers,int& nHumans,int& nSound,std::set<std:
 }
 
 void Resources::setSettings(int nPlayers,int nHumans,int nSound,std::set<std::string>cards) {
-  this->m_totalPlayers = nPlayers;
-  this->m_humanPlayers = nHumans;
-  this->m_sound = nSound;
-  this->m_chosenCards = cards;
+    if(cards.size()==10){
+      this->m_totalPlayers = nPlayers;
+      this->m_humanPlayers = nHumans;
+      this->m_sound = nSound;
+      this->m_chosenCards = cards;
+    }
 }
 
 bool Resources::readSettings() {
@@ -106,7 +111,7 @@ bool Resources::readSettings() {
     std::ifstream file("./resources/settings");
 
     if (!file.is_open()) {
-        std::cerr << "Error: Could not open the settings file.\n";
+        std::cerr << "Error: Could not open the ./resources/settings file.\n";
         return false;
     }
 
@@ -145,7 +150,7 @@ bool Resources::writeSettings() {
 
     std::ofstream file("./resources/settings", std::ios::trunc);
     if (!file.is_open()) {
-        std::cerr << "Error: Could not open the settings file for writing.\n";
+        std::cerr << "Error: Could not open the ./resources/settings file.\n";
         return false;
     }
 
@@ -154,4 +159,12 @@ bool Resources::writeSettings() {
 
     file.close();
     return true;
+}
+
+
+void Resources::resetSettings() {
+  this->m_totalPlayers = 5;
+  this->m_humanPlayers = 1;
+  this->m_sound  = 50;
+  this->m_chosenCards = {"cellar", "market", "militia", "mine", "moat", "remodel", "smithy", "village", "woodcutter",  "workshop"};
 }

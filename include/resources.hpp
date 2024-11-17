@@ -4,6 +4,7 @@
 #include <wx/wx.h>
 #include <wx/image.h>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -29,6 +30,7 @@ class Resources {
     void setSettings(int nPlayers,int nHumans,int nSound,std::set<std::string>cards);
     bool readSettings();
     bool writeSettings();
+    void resetSettings();
 
 
 

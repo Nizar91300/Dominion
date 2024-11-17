@@ -8,7 +8,7 @@
 #include "Modele.h"
 
 #define HEIGHLIGHT_COLOUR wxColour(255, 252, 51)
-#define SELECTED_COLOUR wxColour(173, 240, 180)
+#define SELECTED_COLOUR wxColour(255, 85, 66)
 
 
 
@@ -154,6 +154,10 @@ void SettingsPanel::OnSoundChange(wxCommandEvent& event) {
 
 
 void SettingsPanel::OnBackButtonClicked(wxCommandEvent& event){
+  if(this->m_cardsSelected!=10){
+     wxLogMessage("You chose %d cards. you must select exactly 10 cards. Reset otherwise", this->m_cardsSelected);
+     return;
+  }
   wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
   notifyEvent.SetString("Back");  // Include button name in the event
   wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
@@ -165,15 +169,16 @@ void SettingsPanel::OnBackButtonClicked(wxCommandEvent& event){
 
 
 void SettingsPanel::OnResetButtonClicked(wxCommandEvent& event){
-  this->m_totalPlayers = 5;
+
+  Resources::getInstance()->resetSettings();
+  Resources::getInstance()->getSettings(this->m_totalPlayers,this->m_humanPlayers,this->m_sound,this->m_chosenCards);
+
+
   m_totalPlayersSlider->SetValue(m_totalPlayers);
   m_humanPlayersSlider->SetMax(m_totalPlayers);
-  this->m_humanPlayers = 1;
   m_humanPlayersSlider->SetValue(m_humanPlayers);
-  this->m_sound  = 50;
   m_soundSlider->SetValue(m_sound);
   this->m_cardsSelected = 10;
-  this->m_chosenCards = {"cellar", "market", "militia", "mine", "moat", "remodel", "smithy", "village", "woodcutter",  "workshop"};
 
   for(const auto& cp : this->m_gridCards){
     wxColour colour;
@@ -203,13 +208,20 @@ void SettingsPanel::OnCardEvent(wxCommandEvent& event){
         case 3:
           if(m_chosenCards.find(c->m_name) != m_chosenCards.end()){
             m_chosenCards.erase(c->m_name);
+            this->m_cardsSelected-=1;
           }else{
-            m_chosenCards.insert(c->m_name);
-            newColour = SELECTED_COLOUR;
+            if(this->m_cardsSelected==10){
+              wxLogMessage("you can only choose 10 cards");
+            }else{
+              m_chosenCards.insert(c->m_name);
+              newColour = SELECTED_COLOUR;
+              this->m_cardsSelected+=1;
+            }
           }
           break;
       }
       c->SetBackgroundColour(newColour);
+      this->m_cardsLabel->SetLabel(wxString::Format("Initial Cards: %d", this->m_cardsSelected));
       break;
     }
   }
