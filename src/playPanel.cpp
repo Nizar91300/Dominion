@@ -11,75 +11,65 @@
 
 
 
-PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFrame(parent) {
-    m_modele = model;
+PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
 
-    // Main sizer for the entire window (horizontal layout)
+    wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+
+
+    this->mainPanel = new wxPanel(this,wxID_ANY);
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    //----------------------------------------------------------------------//
-    //------------------LEFT PANEL(yellow)---------------------------------//
-    //--------------------------------------------------------------------//
-    wxPanel* leftPanel = new wxPanel(this, wxID_ANY);
-    //leftPanel->SetBackgroundColour(wxColour(163, 146, 122));//yellow
+    //------------------LEFT---------------------------------//
+    wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
+    wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    wxPanel* leftPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+
+    leftSizer->Add(leftTopPanel, 1, wxEXPAND | wxLEFT | wxBOTTOM, 1);
+    leftSizer->Add(leftPanel, 4, wxEXPAND | wxLEFT, 1);
 
 
-    // Vertical sizer for left, center, and right panels
+
+
+    //------------------CENTER---------------------------------//
     wxBoxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
 
-    //---------------------------------------------------------------------//
-    //------------------TOP PANEL(dark red)-------------------------------//
-    //-------------------------------------------------------------------//
-    this->topPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 50));
-    //topPanel->SetBackgroundColour(wxColour(163, 146, 122));//reddish
-      wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
-      wxButton* resignButton = new wxButton(topPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
-      wxButton* quitButton = new wxButton(topPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
-      wxButton* saveButton = new wxButton(topPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
-      resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnButtonClicked, this);
-      quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnButtonClicked, this);
-      saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnButtonClicked, this);
-      buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-      buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-      buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-      topPanel->SetSizer(buttonTopSizer);
+    //----------------//
+    wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
+    wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxButton* resignButton = new wxButton(topPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
+    wxButton* quitButton = new wxButton(topPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
+    wxButton* saveButton = new wxButton(topPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
+    resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnResign, this);
+    quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
+    saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
+    buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+    buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+    buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+    topPanel->SetSizer(buttonTopSizer);
 
 
-    //---------------------------------------------------------------------//
-    //------------------Center panel (green)------------------------------//
-    //-------------------------------------------------------------------//
-    this->centerPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 200));
+    //----------------//
+    this->centerPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     centerPanel->SetBackgroundColour(wxColour(186, 219, 167));//green
 
-
-
-
-    //---------------------------------------------------------------------//
-    //------------------Played panel (cyan)------------------------------//
-    //-------------------------------------------------------------------//
-    this->playedPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 100));
+    //----------------//
+    this->playedPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     playedPanel->SetBackgroundColour(wxColour(137, 163, 122));
 
-
-
-
-    //---------------------------------------------------------------------//
-    //------------------Bottom panel (Pink)-------------------------------//
-    //-------------------------------------------------------------------//
-    this->handPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(-1, 100));
+    //----------------//
+    this->handPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     handPanel->SetBackgroundColour(wxColour(120, 160, 120));//pink
 
-    // Bottom sizer for played, hand, and small blue panels
+
+    verticalSizer->Add(topPanel, 0, wxEXPAND | wxBOTTOM, 1);
+    verticalSizer->Add(centerPanel, 5, wxEXPAND | wxBOTTOM, 1);
+    verticalSizer->Add(playedPanel, 2, wxEXPAND | wxBOTTOM, 1);
+    verticalSizer->Add(handPanel, 2, wxEXPAND | wxBOTTOM, 1);
+
+
+    //------------------Right---------------------------------//
     wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
-
-
-
-
-
-    //---------------------------------------------------------------------//
-    //------------------Right panel (red)---------------------------------//
-    //-------------------------------------------------------------------//
-    wxPanel* rightPanel = new wxPanel(this, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    wxPanel* rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     rightPanel->SetBackgroundColour(wxColour(122, 148, 163));//red
     
 
@@ -127,9 +117,6 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFra
     rightSizer->Add(tourPanel, 0, wxEXPAND | wxRIGHT, 5);  // Modification de la taille ici (0 pour qu'il ne prenne pas trop de place)
 
 
-    // Set the main sizer for the frame
-    SetSizer(mainSizer);
-    Layout();
 
 
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
@@ -137,19 +124,49 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFra
 
     // afficher les cartes de la reserve
     this->updateReserve();
-
     // afficher les cartes en main
     this->updateMain();
-
     // afficher les cartes jouees
     this->updatePlayedCards();
+
+
+    Bind(wxEVT_CHAR_HOOK, &PlayPanel::onKeyPress, this);
 }
 
 
 
-PlayPanel::~PlayPanel(){
+PlayPanel::~PlayPanel(){}
+
+
+
+void PlayPanel::onKeyPress(wxKeyEvent& event) {
+        if (event.GetKeyCode() == 27) {//press ESC
+            if (mainPanel->IsShown()) {
+                mainPanel->Hide();
+                informationPanel->Show();
+                informationPanel->SetFocus();
+            } else {
+                informationPanel->Hide();
+                mainPanel->Show();
+                mainPanel->SetFocus();
+            }
+            // Re-layout to apply changes
+            this->Layout();
+        } else {
+            // Pass unhandled key events to the default handler
+            event.Skip();
+        }
+    }
+
+
+
+void PlayPanel::OnQuit(wxCommandEvent& event) {
+    wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
+    notifyEvent.SetString("Quit");  // Include button name in the event
+    wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
 }
 
+<<<<<<< HEAD
 
 
 // FONCTION DE GESTION DES EVENEMENTS
@@ -164,7 +181,14 @@ void PlayPanel::OnButtonClicked(wxCommandEvent& event) {
         notifyEvent.SetString(buttonName);  // Include button name in the event
         wxPostEvent(this->parentFrame, notifyEvent); // Send event to parent frame
   }
+=======
+void PlayPanel::OnSave(wxCommandEvent& event) {
+    //todo
+}
+>>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
 
+void PlayPanel::OnResign(wxCommandEvent& event) {
+  //todo
 }
 
 void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
@@ -227,8 +251,13 @@ void PlayPanel::updateReserve() {
         Carte* carte = it->first;
         int quantite = it->second;
 
+<<<<<<< HEAD
         // cree une carte graphique pour chaque carte 
         wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+=======
+        // cree une carte graphique pour chaque carte
+        wxCard* card = new wxCard(centerPanel, carte->getNom(), quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
+>>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
         reserveSizer1->Add(card, 0, wxALL, 5);
     }
 
@@ -238,7 +267,11 @@ void PlayPanel::updateReserve() {
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
+<<<<<<< HEAD
         wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+=======
+        wxCard* card = new wxCard(centerPanel, carte->getNom(), quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
+>>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
         reserveSizer2->Add(card, 0, wxALL, 5);
     }
 
@@ -270,7 +303,11 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
         int quantite = carte.second;
 
         // Ccarte graphique pour chaque carte
+<<<<<<< HEAD
         wxCard* card = new wxCard(pan, this, c, quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
+=======
+        wxCard* card = new wxCard(pan, c->getNom(), quantite, 50, 80, 50, 80, wxColour(0, 0, 0));
+>>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190
 
         // Ajouter la carte au sizer
         panSizer->Add(card, 0, wxALL, 5);
@@ -289,7 +326,6 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
 void PlayPanel::updateMain() {
     // Recupere les cartes en main dans le modele
     auto main = m_modele->getMain();
-
     // Ajoute les cartes dans le sizer
     updatePanel(handPanel, main);
 }
@@ -298,10 +334,10 @@ void PlayPanel::updateMain() {
 void PlayPanel::updatePlayedCards() {
     // Recupere les cartes jouees dans le modele
     auto played = m_modele->getPlayedCards();
-
     // Ajoute les cartes dans le sizer
     updatePanel(playedPanel, played);
 }
+<<<<<<< HEAD
 
 // Met a jour tout l'affichage
 void PlayPanel::update() {
@@ -314,3 +350,5 @@ void PlayPanel::update() {
     // Met a jour l'affichage des cartes jouees
     updatePlayedCards();
 }
+=======
+>>>>>>> 0987cb3a6c972f22ca60527f20cde0b52fff1190

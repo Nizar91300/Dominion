@@ -28,11 +28,8 @@ bool MyApp::OnInit(){
 
     //main frame
     Modele* modele = new Modele();
-
     MyFrame* frame = new MyFrame(modele);
-
     modele->setView(frame);
-
     frame->Show(true);
     return true;
 }

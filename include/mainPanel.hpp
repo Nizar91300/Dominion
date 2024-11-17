@@ -14,7 +14,6 @@ private:
     Modele* m_modele;
 
 public:
-    wxFrame* parentFrame;
     MainPanel(wxFrame* parent, Modele* model);
     ~MainPanel();
     void paintEvent(wxPaintEvent & evt);

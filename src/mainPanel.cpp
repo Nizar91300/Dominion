@@ -10,7 +10,7 @@ EVT_SIZE(MainPanel::OnSize)
 END_EVENT_TABLE()
 
 
-MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent), parentFrame(parent){
+MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent){
     m_modele = model;
 
     image = Resources::getInstance()->getImage("background-img");
@@ -52,8 +52,7 @@ MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent), parentFr
 }
 
 
-MainPanel::~MainPanel(){
-}
+MainPanel::~MainPanel(){}
 
 void MainPanel::paintEvent(wxPaintEvent & evt){
     wxPaintDC dc(this);// depending on your system you may need to look at double-buffered dcs
@@ -100,6 +99,6 @@ void MainPanel::OnButtonClicked(wxCommandEvent& event) {
         //notify parent
         wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
         notifyEvent.SetString(buttonName);  // Include button name in the event
-        wxPostEvent(this->parentFrame, notifyEvent); // Send event to parent frame
+        wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
   }
 }

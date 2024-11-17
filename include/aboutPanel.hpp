@@ -8,13 +8,10 @@
 class Modele;
 
 class AboutPanel : public wxScrolledWindow{
-private:
-    Modele* m_modele;
 
 public:
-    wxFrame* parentFrame;
-    void OnButtonClicked(wxCommandEvent& event);
-    AboutPanel(wxFrame* parent, Modele* model);
+    void OnBackButtonClicked(wxCommandEvent& event);
+    AboutPanel(wxFrame* parent);
     ~AboutPanel();
 };
 
