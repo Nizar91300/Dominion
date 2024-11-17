@@ -2,8 +2,7 @@
 #include <wx/scrolwin.h>
 #include "Modele.h"
 
-AboutPanel::AboutPanel(wxFrame* parent, Modele* model): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL), parentFrame(parent){
-        m_modele = model;
+AboutPanel::AboutPanel(wxFrame* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL){
 
         SetBackgroundColour(wxColour(50, 82, 89));// Set background color to black
         wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);// Create a vertical sizer for layout
@@ -11,8 +10,7 @@ AboutPanel::AboutPanel(wxFrame* parent, Modele* model): wxScrolledWindow(parent,
 
         // Create a "Back" button with a left arrow label
         wxButton* backButton = new wxButton(this, wxID_ANY, "Back", wxDefaultPosition, wxSize(80, 30));
-        backButton->Bind(wxEVT_BUTTON, &AboutPanel::OnButtonClicked, this);
-
+        backButton->Bind(wxEVT_BUTTON, &AboutPanel::OnBackButtonClicked, this);
         navSizer->Add(backButton, 0, wxLEFT | wxTOP, 10);// Add the back button to the navigation sizer
         mainSizer->Add(navSizer, 0, wxEXPAND);// Add the navigation bar to the main sizer
 
@@ -50,19 +48,11 @@ AboutPanel::AboutPanel(wxFrame* parent, Modele* model): wxScrolledWindow(parent,
 
 
 
-AboutPanel::~AboutPanel(){
-}
+AboutPanel::~AboutPanel(){}
 
 
-void AboutPanel::OnButtonClicked(wxCommandEvent& event) {
-  //wxLogMessage(name);
-  wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
-  if (button) {
-        wxString buttonName = button->GetLabel();
-        //notify parent
-        wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
-        notifyEvent.SetString(buttonName);  // Include button name in the event
-        wxPostEvent(this->parentFrame, notifyEvent); // Send event to parent frame
-  }
-
+void AboutPanel::OnBackButtonClicked(wxCommandEvent& event){
+  wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
+  notifyEvent.SetString("Back");  // Include button name in the event
+  wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
 }

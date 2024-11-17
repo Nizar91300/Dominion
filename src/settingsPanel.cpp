@@ -16,15 +16,6 @@ SettingsPanel::SettingsPanel(wxWindow* parent, Modele* model): wxScrolledWindow(
 
 
   Resources::getInstance()->getSettings(this->m_totalPlayers,this->m_humanPlayers,this->m_sound,this->m_chosenCards);
-  /*m_totalPlayers = 5;//todo
-  m_humanPlayers = 5;//todo
-  m_sound = 50;//todo
-  //todo
-  m_chosenCards.insert("artisan");
-  m_chosenCards.insert("bandit");
-  m_chosenCards.insert("bureaucrat");
-  m_chosenCards.insert("cellar");
-  m_chosenCards.insert("chapel");*/
 
   this->SetBackgroundColour(wxColour(86, 118, 153));//background color
   wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);//sizer

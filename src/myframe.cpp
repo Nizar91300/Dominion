@@ -47,17 +47,11 @@ MyFrame::~MyFrame(){
   std::cout << "[MyFrame]delete" << '\n';
 }
 
-void MyFrame::OnExit(wxCommandEvent& event){
-  Close(true);
-}
+void MyFrame::OnExit(wxCommandEvent& event){Close(true);}
 
-void MyFrame::OnAbout(wxCommandEvent& event){
-  wxMessageBox("This project is mage by Alaeddine and Nizar from Polytech","About The Project", wxOK | wxICON_INFORMATION);
-}
+void MyFrame::OnAbout(wxCommandEvent& event){wxMessageBox("This project is mage by Alaeddine and Nizar from Polytech","About The Project", wxOK | wxICON_INFORMATION);}
 
-void MyFrame::OnHello(wxCommandEvent& event){
-  wxLogMessage("This an implementation for the famous card Game Dominion in c++ GUI is made using wWidgets!");
-}
+void MyFrame::OnHello(wxCommandEvent& event){  wxLogMessage("This an implementation for the famous card Game Dominion in c++ GUI is made using wWidgets!");}
 
 
 void MyFrame::OnButtonClicked(wxCommandEvent& event) {
@@ -65,9 +59,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
     if(event.GetString()=="New Game"){
 
-
         m_modele->initNewGame( m_modele->getNbJoueurs() );
-
         this->currentpanelName = "Play";
         this->currentpanel->Destroy();
         this->currentpanel = new PlayPanel(this, m_modele);
@@ -91,20 +83,19 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
         this->currentpanelName = "About";
         this->currentpanel->Destroy();
-        this->currentpanel = new AboutPanel(this, m_modele);
+        this->currentpanel = new AboutPanel(this);
         this->currentpanel->Show();
         Layout();
 
     }else if(event.GetString()=="Quit"){
+
       this->OnExit(event);
-    }else{
-      wxLogMessage("Unknown event!");
+
     }
 
 
 
 
-  //--------------------------------------
   }else if(this->currentpanelName=="About"  || this->currentpanelName=="Settings"){
 
     if(event.GetString()=="Back"){
@@ -115,10 +106,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
         this->currentpanel->Show();
         Layout();
 
-    }else{
-      wxLogMessage("Unknown event!");
     }
-
 
 
   //--------------------------------------
@@ -132,11 +120,9 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
         this->currentpanel->Show();
         Layout();
 
-    }else{
-      wxLogMessage("Unknown event!");
     }
 
   }
 
-  
+
 }
