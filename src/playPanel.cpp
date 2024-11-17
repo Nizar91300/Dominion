@@ -88,13 +88,26 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     this->informationPanel = new wxPanel(this,wxID_ANY);
     informationPanel->SetBackgroundColour(wxColour(204, 219, 149));
+    wxBoxSizer* informationSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxCard* informationCard = new wxCard(informationPanel, "gold", 1, 250, 400, 250, 400, wxColour(0, 0, 0));
+    informationSizer->AddSpacer(200);
+    informationSizer->Add(informationCard, 0, wxALIGN_CENTER | wxALL, 5);
 
+    wxStaticText* description = new wxStaticText(informationPanel, wxID_ANY, "Title:\nDescription:Nec vox aerebatur acervis \nut saltem speatur impleri.");
+    informationSizer->Add(description, 0, wxALIGN_CENTER | wxALL, 5);
+
+    informationPanel->SetSizer(informationSizer);
 
     sizer->Add(mainPanel, 1, wxEXPAND | wxALL, 0);
     sizer->Add(informationPanel, 1, wxEXPAND | wxALL, 0);
     informationPanel->Hide();
+    mainPanel->SetFocus();
     this->SetSizer(sizer);
     this->Layout();
+
+
+
+
 
     // afficher les cartes de la reserve
     this->updateReserve();
