@@ -28,9 +28,6 @@ wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageNam
   
   m_parentPan = parentPan;
   m_parent = parent;
-  
-  wxImage image = *(Resources::getInstance()->getImage(imageName));
-  wxBitmap resized = wxBitmap( image.Scale( imageWidth, imageHeight /*, wxIMAGE_QUALITY_HIGH*/ ) );;
 
   this->SetBackgroundColour(backgroundColor);
   wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -63,9 +60,8 @@ wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageNam
   SetSizer(mainSizer);
   Layout();
   //--------------------events--------------------
-  imageCtrl->Bind(wxEVT_LEFT_DOWN, &wxCard::OnMouseClick, this);
-  imageCtrl->Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
-  imageCtrl->Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
+  //imageCtrl->Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
+  //imageCtrl->Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
 
 
   imageCtrl->Bind(wxEVT_LEFT_DOWN, &wxCard::OnMouseClick, this);
@@ -75,7 +71,7 @@ wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageNam
 }
 
 
-wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageName, int occurrences) : wxCard::wxCard(parent, parentPan,imageName,occurrences,250,400,250,400,wxColour(177, 168, 189)){}
+wxCard::wxCard(wxWindow* parent,wxPanel* parentPanel, const std::string& imageName, int occurrences) : wxCard::wxCard(parent, parentPanel,imageName,occurrences,250,400,250,400,wxColour(177, 168, 189)){}
 
 
 
@@ -111,7 +107,7 @@ void wxCard::OnRightClick(wxMouseEvent& event) {
 }
 
 void wxCard::OnMouseEnter(wxMouseEvent& event) {
-    xCommandEvent notifyEvent(wxEVT_BUTTON, 1);
+    wxCommandEvent notifyEvent(wxEVT_BUTTON, 1);
     notifyEvent.SetString(m_name);  // Include button name in the event
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
     event.Skip();

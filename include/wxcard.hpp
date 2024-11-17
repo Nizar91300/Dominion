@@ -33,5 +33,6 @@ class wxCard : public wxPanel {
     void OnMouseEnter(wxMouseEvent& event);
     void OnMouseLeave(wxMouseEvent& event);
     void OnMouseClick(wxMouseEvent& event);
+    void OnRightClick(wxMouseEvent& event);
 };
 #endif

@@ -325,6 +325,11 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
         return;
     }
 
+    // verifier si le joueur a assez d'achats
+    if(m_nbAchats == 0){
+        return;
+    }
+
     // verifier si le joueur a assez de pieces
     if(m_nbPieces < carte->getCout())
         return;

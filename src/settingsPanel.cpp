@@ -94,7 +94,7 @@ SettingsPanel::SettingsPanel(wxWindow* parent, Modele* model): wxScrolledWindow(
       colour = SELECTED_COLOUR;
     }
 
-    wxCard* card = new wxCard(gridContainer,c, 0,200,320,180,288,colour);
+    wxCard* card = new wxCard(gridContainer,nullptr, c, 0,200,320,180,288,colour);
     this->m_gridCards.push_back(card);
     gridSizer->Add(card, 0, wxALIGN_CENTER, 2);
   }

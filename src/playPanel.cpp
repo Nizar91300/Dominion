@@ -13,10 +13,9 @@
 
 PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
 
-    wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
-
-    this->mainPanel = new wxPanel(this,wxID_ANY);
+    //this->mainPanel = new wxPanel(this,wxID_ANY);
+    mainPanel = this;
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
 
     //------------------LEFT---------------------------------//
@@ -61,12 +60,6 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     handPanel->SetBackgroundColour(wxColour(120, 160, 120));//pink
 
 
-    verticalSizer->Add(topPanel, 0, wxEXPAND | wxBOTTOM, 1);
-    verticalSizer->Add(centerPanel, 5, wxEXPAND | wxBOTTOM, 1);
-    verticalSizer->Add(playedPanel, 2, wxEXPAND | wxBOTTOM, 1);
-    verticalSizer->Add(handPanel, 2, wxEXPAND | wxBOTTOM, 1);
-
-
     //------------------Right---------------------------------//
     wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
     wxPanel* rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
@@ -80,7 +73,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     //------------------bottom right panel (red)--------------------------//
     //-------------------------------------------------------------------//
     // Créer le tourPanel et définir sa couleur de fond
-    wxPanel* tourPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(100, -1));
+    wxPanel* tourPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(100, -1));
     tourPanel->SetBackgroundColour(wxColour(122, 148, 163));  // Bleu
 
     // Créer le bouton "END ACTION PHASE"
@@ -102,12 +95,12 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     //---------------------------------------------------------------------//
     // Ajouter les panneaux dans leurs sizers respectifs
-    mainSizer->Add(leftPanel, 1, wxEXPAND | wxALL, 5);
+    mainSizer->Add(leftSizer, 1, wxEXPAND | wxALL, 5);
     mainSizer->Add(verticalSizer, 5, wxEXPAND | wxALL, 5);
     mainSizer->Add(rightSizer, 1, wxEXPAND | wxALL, 5);
 
     // Ajouter les panels dans verticalSizer
-    verticalSizer->Add(topPanel, 0, wxEXPAND | wxBOTTOM, 5);
+    verticalSizer->Add(topPanel, 1, wxEXPAND | wxBOTTOM, 5);
     verticalSizer->Add(centerPanel, 5, wxEXPAND | wxBOTTOM, 5);
     verticalSizer->Add(playedPanel, 2, wxEXPAND | wxBOTTOM, 5);
     verticalSizer->Add(handPanel, 2, wxEXPAND | wxBOTTOM, 5);
@@ -116,21 +109,15 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     rightSizer->Add(rightPanel, 4, wxEXPAND | wxRIGHT | wxBOTTOM, 5);
     rightSizer->Add(tourPanel, 0, wxEXPAND | wxRIGHT, 5);  // Modification de la taille ici (0 pour qu'il ne prenne pas trop de place)
 
-
+    // Appliquer le sizer principal à mainPanel
+    mainPanel->SetSizer(mainSizer);
 
 
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
-
-    // afficher les cartes de la reserve
-    this->updateReserve();
-    // afficher les cartes en main
-    this->updateMain();
-    // afficher les cartes jouees
-    this->updatePlayedCards();
-
-
     Bind(wxEVT_CHAR_HOOK, &PlayPanel::onKeyPress, this);
+
+    update();
 }
 
 
@@ -180,6 +167,7 @@ void PlayPanel::OnButtonClicked(wxCommandEvent& event) {
         notifyEvent.SetString(buttonName);  // Include button name in the event
         wxPostEvent(this->parentFrame, notifyEvent); // Send event to parent frame
   }
+}
 
 void PlayPanel::OnSave(wxCommandEvent& event) {
     //todo
@@ -217,10 +205,8 @@ void PlayPanel::onLeftClicked(wxCommandEvent& event) {
         }
         // si on veut jouer une carte
         else if (parent == handPanel){
-            m_modele->jouerCarte( void onKeyPress(wxKeyEvent& event);
-    void OnQuit(wxCommandEvent& event);
-    void OnSave(wxCommandEvent& event);
-    void OnResign(wxCommandEvent& event);
+            m_modele->jouerCarte(clickedCard);
+        }
     }
     
     delete data;
@@ -274,10 +260,7 @@ void PlayPanel::updateReserve() {
     // Applique le nouveau sizer à centerPanel
     centerPanel->SetSizer(mainSizer);
     centerPanel->Layout(); // refresh
-} void onKeyPress(wxKeyEvent& event);
-    void OnQuit(wxCommandEvent& event);
-    void OnSave(wxCommandEvent& event);
-    void OnResign(wxCommandEvent& event);
+}
 
 
 // Met a jour l'affichage d'un panel avec une liste de cartes donne
@@ -323,6 +306,12 @@ void PlayPanel::updateMain() {
 void PlayPanel::updatePlayedCards() {
     // Recupere les cartes jouees dans le modele
     auto played = m_modele->getPlayedCards();
+
+    // afficher les cartes jouees
+    for (auto& carte : played) {
+        std::cout << "AFFFICHAGE :::: \n" <<carte.first->getNom() << " " << carte.second << std::endl << "\n\n\n\n\n\n";
+    }
+
     // Ajoute les cartes dans le sizer
     updatePanel(playedPanel, played);
 }
