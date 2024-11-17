@@ -55,6 +55,7 @@ void MyFrame::OnHello(wxCommandEvent& event){  wxLogMessage("This an implementat
 
 
 void MyFrame::OnButtonClicked(wxCommandEvent& event) {
+
   if(this->currentpanelName=="Main"){
 
     if(event.GetString()=="New Game"){
@@ -93,36 +94,18 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
     }
 
-
-
-
-  }else if(this->currentpanelName=="About"  || this->currentpanelName=="Settings"){
-
-    if(event.GetString()=="Back"){
-
-        this->currentpanelName = "Main";
-        this->currentpanel->Destroy();
-        this->currentpanel = new MainPanel(this, m_modele);
-        this->currentpanel->Show();
-        Layout();
-
-    }
-
-
-  //--------------------------------------
-  }else if(this->currentpanelName=="Play"){
-
-    if(event.GetString()=="Quit"){
-
-        this->currentpanelName = "Main";
-        this->currentpanel->Destroy();
-        this->currentpanel = new MainPanel(this, m_modele);
-        this->currentpanel->Show();
-        Layout();
-
-    }
-
+    return;
   }
+
+
+  if(event.GetString()=="Back" || event.GetString()=="Quit"){
+        this->currentpanelName = "Main";
+        this->currentpanel->Destroy();
+        this->currentpanel = new MainPanel(this, m_modele);
+        this->currentpanel->Show();
+        Layout();
+  }
+
 
 
 }

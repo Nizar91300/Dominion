@@ -34,14 +34,14 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     wxBoxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
 
     //----------------//
-    this->topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
+    wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
     wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
     wxButton* resignButton = new wxButton(topPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
     wxButton* quitButton = new wxButton(topPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
     wxButton* saveButton = new wxButton(topPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
-    resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnButtonClicked, this);
-    quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnButtonClicked, this);
-    saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnButtonClicked, this);
+    resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnResign, this);
+    quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
+    saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
     buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
     buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
     buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
@@ -97,11 +97,11 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     this->Layout();
 
     // afficher les cartes de la reserve
-    //this->updateReserve();
+    this->updateReserve();
     // afficher les cartes en main
-    //this->updateMain();
+    this->updateMain();
     // afficher les cartes jouees
-    //this->updatePlayedCards();
+    this->updatePlayedCards();
 
 
     Bind(wxEVT_CHAR_HOOK, &PlayPanel::onKeyPress, this);
@@ -109,14 +109,12 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
 
 
-PlayPanel::~PlayPanel(){
-}
+PlayPanel::~PlayPanel(){}
 
 
 
 void PlayPanel::onKeyPress(wxKeyEvent& event) {
-        // Check for a specific key (e.g., 'T' key to toggle)
-        if (event.GetKeyCode() == 27) {
+        if (event.GetKeyCode() == 27) {//press ESC
             if (mainPanel->IsShown()) {
                 mainPanel->Hide();
                 informationPanel->Show();
@@ -136,32 +134,23 @@ void PlayPanel::onKeyPress(wxKeyEvent& event) {
 
 
 
+void PlayPanel::OnQuit(wxCommandEvent& event) {
+    wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
+    notifyEvent.SetString("Quit");  // Include button name in the event
+    wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
+}
 
+void PlayPanel::OnSave(wxCommandEvent& event) {
+    //todo
+}
 
-
-
-
-
-
-
-
-
-void PlayPanel::OnButtonClicked(wxCommandEvent& event) {
-  /*//wxLogMessage(name);
-  wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
-  if (button) {
-        wxString buttonName = button->GetLabel();
-        //notify parent
-        wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
-        notifyEvent.SetString(buttonName);  // Include button name in the event
-        wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
-  }*/
-
+void PlayPanel::OnResign(wxCommandEvent& event) {
+  //todo
 }
 
 
 void PlayPanel::updateReserve() {
-    /*// Efface les enfants existants dans centerPanel pour les mettre à jour
+    // Efface les enfants existants dans centerPanel pour les mettre à jour
     centerPanel->DestroyChildren();
 
     // Cree deux sizers horizontaux
@@ -202,14 +191,14 @@ void PlayPanel::updateReserve() {
 
     // Applique le nouveau sizer à centerPanel
     centerPanel->SetSizer(mainSizer);
-    centerPanel->Layout(); // refresh*/
+    centerPanel->Layout(); // refresh
 }
 
 
 
 // Met a jour l'affichage d'un panel avec une liste de cartes donne
 void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > cartes) {
-    /*// Efface les enfants existants dans pan pour les mettre à jour
+    // Efface les enfants existants dans pan pour les mettre à jour
     pan->DestroyChildren();
 
     // Création d'un sizer horizontal pour afficher la main sur une seule ligne
@@ -234,24 +223,22 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
 
     // Applique le sizer à pan pour afficher les cartes
     pan->SetSizer(mainSizer);
-    pan->Layout(); // rafraichit l'affichage*/
+    pan->Layout(); // rafraichit l'affichage
 }
 
 
 // rafrachit l'affichage des cartes en main
 void PlayPanel::updateMain() {
-    /*// Recupere les cartes en main dans le modele
+    // Recupere les cartes en main dans le modele
     auto main = m_modele->getMain();
-
     // Ajoute les cartes dans le sizer
-    updatePanel(handPanel, main);*/
+    updatePanel(handPanel, main);
 }
 
 // rafrachit l'affichage des cartes jouees
 void PlayPanel::updatePlayedCards() {
-    /*// Recupere les cartes jouees dans le modele
+    // Recupere les cartes jouees dans le modele
     auto played = m_modele->getPlayedCards();
-
     // Ajoute les cartes dans le sizer
-    updatePanel(playedPanel, played);*/
+    updatePanel(playedPanel, played);
 }
