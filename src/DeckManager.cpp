@@ -78,7 +78,9 @@ void DeckManager::addCardMainToJouees(Carte* carte){
 
 // melanger la pioche
 void DeckManager::melangerPioche() {
-    std::shuffle(m_pioche.begin(), m_pioche.end(),  std::random_device());
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(m_pioche.begin(), m_pioche.end(),  g);
 }
 
 // piocher n cartes, les met dans la main
@@ -143,11 +145,10 @@ void DeckManager::ajusterDeck() {
     }
     m_cartesjouees.clear(); // on vide les cartes jouees
 
-    // on remet les cartes en attente dans la pioche
-    for (Carte* carte : m_cartesEnAttente) {
-        m_pioche.push_back(carte);
+    for(Carte* carte : m_main){
+        m_defausse.push_back(carte);
     }
-    m_cartesEnAttente.clear(); // on vide les cartes en attente
+    m_main.clear(); // on vide la main
 
     // on pioche 5 cartes
     piocher(5);
