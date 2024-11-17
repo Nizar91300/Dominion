@@ -64,7 +64,7 @@ SettingsPanel::SettingsPanel(wxWindow* parent, Modele* model): wxPanel(parent),p
     int numRows = (numPanels + numColumns - 1) / numColumns; // Calculate rows needed
     wxGridSizer* gridSizer = new wxGridSizer(numRows, numColumns, 5, 5); // 5px gap between panels
     for (int i = 0; i < numPanels; ++i) {
-        wxCard* card = new wxCard(gridContainer,"gold", 0);
+        wxCard* card = new wxCard(gridContainer, this,"gold", 0);
         gridSizer->Add(card, 0, wxALIGN_CENTER, 2);
     }
     gridContainer->SetSizer(gridSizer);

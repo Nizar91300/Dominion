@@ -22,6 +22,8 @@ class Modele{
         int m_indexJoueurActif; // index du joueur actif
         Joueur* m_joueurActif;  // joueur actif
 
+        bool m_tourAction;  // vrai si le joueur est en phase d'action faux sinon c'est-a-dire en phase d'achat
+
         bool m_achatSuiteAction;   // indique si le joueur est en phase d'achat suite a une carte action
         int m_coutMax;              // cout maximal de la carte a recevoir suite a une carte action
     
@@ -35,6 +37,7 @@ class Modele{
         void initReserve(); // initialiser la reserve
         void initNewTour();    // initialise le nouveau tour du joueur
         
+        bool getTourAction();    // retourne vrai si le joueur est en phase d'action faux sinon
         int getNbJoueurs() const; // retourne le nombre de joueurs
         std::vector< std::pair< Carte*, int > >  getReserve();  // retourne la reserve
         std::vector< std::pair< Carte*, int > > getMain();  // retourne la main du joueur actif
@@ -42,6 +45,8 @@ class Modele{
         std::vector<std::pair<Carte*, int >> convertVecCarteToVecPair(std::vector<Carte*> vec); // convertir un vecteur de cartes en vecteur de paires de cartes et de quantites
 
         void setView(MyFrame* mf);
+
+        void endPhase();    // passer a la phase suivante
 
         void ajouterCarte(Carte* carte, int quantite); // ajouter une carte a la reserve
         void ajouterNbActions(int nb);  // ajouter des actions
@@ -54,8 +59,7 @@ class Modele{
         void recevoirCarteMain(Carte* carte); // recevoir une carte dans la main
         void recevoirCarteDefausse(Carte* carte); // recevoir une carte dans la defausse        
 
-        void jouerCarteAction(Carte* carte);   // jouer une carte action
-        void jouerCarteTresor(Carte* carte);   // jouer une carte tresor
+        void jouerCarte(Carte* carte);   // jouer une carte action ou tresor
         void acheterCarteAvecVerif(Carte* carte);    // acheter une carte en verifiant les conditions pour l'achat
         bool acheterCarte(Carte* carte);    // acheter une carte sans verification
         

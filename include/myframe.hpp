@@ -10,6 +10,7 @@ public:
     MyFrame(Modele* model);
     virtual ~MyFrame ();
     wxPanel* currentpanel = NULL;
+    void updateCurrentPanel(); // update the current pannel
 private:
     Modele* m_modele;
     std::string currentpanelName;

@@ -81,6 +81,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFra
     //-------------------------------------------------------------------//
     wxPanel* rightPanel = new wxPanel(this, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     rightPanel->SetBackgroundColour(wxColour(122, 148, 163));//red
+    
 
 
 
@@ -88,26 +89,51 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFra
     //---------------------------------------------------------------------//
     //------------------bottom right panel (red)--------------------------//
     //-------------------------------------------------------------------//
-    wxPanel* smallBluePanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(100, -1));
-    smallBluePanel->SetBackgroundColour(wxColour(122, 148, 163));//blue
+    // Créer le tourPanel et définir sa couleur de fond
+    wxPanel* tourPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(100, -1));
+    tourPanel->SetBackgroundColour(wxColour(122, 148, 163));  // Bleu
+
+    // Créer le bouton "END ACTION PHASE"
+    this->tourBtn = new wxButton(tourPanel, wxID_ANY, "END ACTION PHASE");
+    wxButton* endGameBtn = new wxButton(tourPanel, wxID_ANY, "END GAME NOW");
+
+    tourBtn->Bind(wxEVT_BUTTON, &PlayPanel::OnTourButtonClicked, this);
+    endGameBtn->Bind(wxEVT_BUTTON, &PlayPanel::OnEndButtonClicked, this);
+
+    // Créer le sizer pour le tourPanel
+    wxBoxSizer* tourPanelSizer = new wxBoxSizer(wxVERTICAL);
+
+    // Ajouter le bouton au sizer du tourPanel et le centrer
+    tourPanelSizer->Add(tourBtn, 0, wxALIGN_CENTER | wxALL, 5);
+    tourPanelSizer->Add(endGameBtn, 0, wxALIGN_CENTER | wxALL, 5);
+
+    // Appliquer le sizer au tourPanel
+    tourPanel->SetSizer(tourPanelSizer);
 
     //---------------------------------------------------------------------//
-    // Add the panels to their respective sizers
+    // Ajouter les panneaux dans leurs sizers respectifs
     mainSizer->Add(leftPanel, 1, wxEXPAND | wxALL, 5);
     mainSizer->Add(verticalSizer, 5, wxEXPAND | wxALL, 5);
     mainSizer->Add(rightSizer, 1, wxEXPAND | wxALL, 5);
 
+    // Ajouter les panels dans verticalSizer
     verticalSizer->Add(topPanel, 0, wxEXPAND | wxBOTTOM, 5);
     verticalSizer->Add(centerPanel, 5, wxEXPAND | wxBOTTOM, 5);
     verticalSizer->Add(playedPanel, 2, wxEXPAND | wxBOTTOM, 5);
     verticalSizer->Add(handPanel, 2, wxEXPAND | wxBOTTOM, 5);
 
+    // Ajouter rightPanel et tourPanel dans rightSizer
     rightSizer->Add(rightPanel, 4, wxEXPAND | wxRIGHT | wxBOTTOM, 5);
-    rightSizer->Add(smallBluePanel, 1, wxEXPAND | wxRIGHT, 5);
+    rightSizer->Add(tourPanel, 0, wxEXPAND | wxRIGHT, 5);  // Modification de la taille ici (0 pour qu'il ne prenne pas trop de place)
+
 
     // Set the main sizer for the frame
     SetSizer(mainSizer);
     Layout();
+
+
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
+    Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
 
     // afficher les cartes de la reserve
     this->updateReserve();
@@ -124,6 +150,10 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),parentFra
 PlayPanel::~PlayPanel(){
 }
 
+
+
+// FONCTION DE GESTION DES EVENEMENTS
+
 void PlayPanel::OnButtonClicked(wxCommandEvent& event) {
   //wxLogMessage(name);
   wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
@@ -136,6 +166,45 @@ void PlayPanel::OnButtonClicked(wxCommandEvent& event) {
   }
 
 }
+
+void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
+    m_modele->endPhase();
+    int tourAction = m_modele->getTourAction();
+    if(tourAction){
+        tourBtn->SetLabel("END ACTION PHASE");
+    }else{
+        tourBtn->SetLabel("END BUY PHASE");
+    }
+}
+
+void PlayPanel::OnEndButtonClicked(wxCommandEvent& event) {
+    //m_modele->endGame();
+}
+
+void PlayPanel::onLeftClicked(wxCommandEvent& event) {
+
+    std::cout << "/* event recue du fils */" << '\n';
+    std::pair <Carte*, wxWindow*>* data = static_cast< std::pair <Carte*, wxWindow*>* >(event.GetClientData());
+    if (data) {
+        Carte* clickedCard = data->first;
+        wxWindow* parent = data->second;
+
+        // si on veut acheter une carte
+        if (parent == centerPanel){
+            m_modele->acheterCarteAvecVerif(clickedCard);
+        }
+        // si on veut jouer une carte
+        else if (parent == handPanel){
+            m_modele->jouerCarte(clickedCard);
+        }
+    }
+    
+    delete data;
+}
+
+
+
+// FONCTION DE MISE A JOUR DE L'AFFICHAGE
 
 
 void PlayPanel::updateReserve() {
@@ -159,7 +228,7 @@ void PlayPanel::updateReserve() {
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte 
-        wxCard* card = new wxCard(centerPanel, carte->getNom(), quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
         reserveSizer1->Add(card, 0, wxALL, 5);
     }
 
@@ -169,7 +238,7 @@ void PlayPanel::updateReserve() {
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte->getNom(), quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
         reserveSizer2->Add(card, 0, wxALL, 5);
     }
 
@@ -201,7 +270,7 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
         int quantite = carte.second;
 
         // Ccarte graphique pour chaque carte
-        wxCard* card = new wxCard(pan, c->getNom(), quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(pan, this, c, quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
 
         // Ajouter la carte au sizer
         panSizer->Add(card, 0, wxALL, 5);
@@ -232,4 +301,16 @@ void PlayPanel::updatePlayedCards() {
 
     // Ajoute les cartes dans le sizer
     updatePanel(playedPanel, played);
+}
+
+// Met a jour tout l'affichage
+void PlayPanel::update() {
+    // Met a jour l'affichage de la reserve
+    updateReserve();
+
+    // Met a jour l'affichage des cartes en main
+    updateMain();
+
+    // Met a jour l'affichage des cartes jouees
+    updatePlayedCards();
 }

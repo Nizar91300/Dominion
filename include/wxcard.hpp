@@ -4,12 +4,23 @@
 #include<string>
 #include<vector>
 
+class Carte;
 
 class wxCard : public wxPanel {
+  private:
+  wxPanel* m_parentPan;
+  Carte* m_carte;
+  wxWindow* m_parent;
+
   public:
     static std::vector<std::string> cards;
-    wxCard(wxWindow* parent, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor);
-    wxCard(wxWindow* parent,const std::string& imageName, int occurrences);
+
+    // constructeur avec une carte
+    wxCard(wxWindow* parent, wxPanel* parentPan, Carte* card, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor);
+    
+    // constructeur sans carte
+    wxCard(wxWindow* parent, wxPanel* parentPanel, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor);
+    wxCard(wxWindow* parent,wxPanel* parentPanel,const std::string& imageName, int occurrences);
     ~wxCard();
     void UpdateOccurrences(int occurrences);
 

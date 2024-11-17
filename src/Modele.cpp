@@ -22,6 +22,8 @@
 #include "Voleur.h"
 #include "Festin.h"
 
+#include "myframe.hpp"
+
 
 // constructeur
 Modele::Modele(){
@@ -50,6 +52,7 @@ Modele::~Modele(){
 void Modele::initNewGame(int nbJoueurs){
     // initialiser les joueurs
     m_nbJoueurs = nbJoueurs;
+    m_tourAction = true;
     initJoueurs();
 
     // initialiser le tour
@@ -116,6 +119,17 @@ void Modele::initNewTour(){
     // ajuste le deck de l'ancien joueur actif
     m_joueurActif->getDeckManager()->ajusterDeck();
 
+    // si chaque joueur a joue son tour
+    if( !m_tourAction && m_indexJoueurActif == m_joueurs.size() - 1){
+        // on peut maintenant verifier la fin de la partie
+        if(finPartie()){
+            // fin de la partie
+            std::cout << "FIN DE LA PARTIE" << std::endl;
+            // endGame();
+            return;
+        }
+    }
+
     // changer le joueur actif
     m_indexJoueurActif = (m_indexJoueurActif + 1) % m_nbJoueurs;
     m_joueurActif = m_joueurs[m_indexJoueurActif];
@@ -129,6 +143,9 @@ void Modele::initNewTour(){
 }
 
 
+bool Modele::getTourAction(){
+    return m_tourAction;
+}
 
 // get le nombres de joueurs
 int Modele::getNbJoueurs() const{
@@ -183,6 +200,24 @@ void Modele::setView(MyFrame* mf){
 }
 
 
+// passer a la phase suivante
+void Modele::endPhase(){
+    // si le joueur est en phase d'action
+    if(m_tourAction){
+        // passer a la phase d'achat
+        m_tourAction = false;
+    }
+    // si le joueur est en phase d'achat
+    else {
+        // fin du tour
+        initNewTour();
+
+        m_tourAction = true;
+
+        m_view->updateCurrentPanel();        // refresh l'affichage
+    }
+}
+
 
 // ajouter une carte a la reserve
 void Modele::ajouterCarte(Carte* carte, int nbCartes){
@@ -229,40 +264,48 @@ void Modele::recevoirCarteDefausse(Carte* carte){
     m_joueurActif->getDeckManager()->addCardToDefausse(carte);
 }
 
-// jouer une carte action
-void Modele::jouerCarteAction(Carte* carte){
-    // verifier si le joueur a assez d'actions
-    if(m_nbActions == 0)
-        return;
+// jouer une carte action ou tresor
+void Modele::jouerCarte(Carte* carte){
+    // si le joueur est en phase d'action
+    if(m_tourAction){
+        // verifier si le joueur a assez d'actions
+        if(m_nbActions == 0)
+            return;
 
-    // verifier si la carte est de type action
-    if( carte->getType() == TypeCarte::ACTION ){
-        Action* action = static_cast<Action*>(carte);
+        // verifier si la carte est de type action
+        if( carte->getType() == TypeCarte::ACTION ){
+            Action* action = static_cast<Action*>(carte);
 
-        // jouer la carte
-        action->faireAction();  
-        
-        // decrementer le nombre d'actions
-        m_nbActions--;
+            // jouer la carte
+            action->faireAction();  
+            
+            // decrementer le nombre d'actions
+            m_nbActions--;
 
-        // ajouter la carte a la liste des cartes jouees
-        m_joueurActif->getDeckManager()->addCardMainToJouees(carte);
+            // ajouter la carte a la liste des cartes jouees
+            m_joueurActif->getDeckManager()->addCardMainToJouees(carte);
+
+            m_view->updateCurrentPanel();        // refresh l'affichage
+        }
     }
+    // si le joueur est en phase d'achat
+    else {
+        // verifier si la carte est de type tresor
+        if( carte->getType() == TypeCarte::TRESOR ){
+            Tresor* tresor = static_cast<Tresor*>(carte);
+
+            // ajoute les pieces
+            m_nbPieces += tresor->getValeur();
+
+            // ajouter la carte a la liste des cartes jouees
+            m_joueurActif->getDeckManager()->addCardMainToJouees(carte);
+
+            m_view->updateCurrentPanel();        // refresh l'affichage
+        }
+    }
+
 }
 
-// jouer une carte tresor
-void Modele::jouerCarteTresor(Carte* carte){
-    // verifier si la carte est de type tresor
-    if( carte->getType() == TypeCarte::TRESOR ){
-        Tresor* tresor = static_cast<Tresor*>(carte);
-
-        // ajoute les pieces
-        m_nbPieces += tresor->getValeur();
-
-        // ajouter la carte a la liste des cartes jouees
-        m_joueurActif->getDeckManager()->addCardMainToJouees(carte);
-    }
-}
 
 // acheter une carte
 void Modele::acheterCarteAvecVerif(Carte* carte){
@@ -274,6 +317,11 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
         }
         m_achatSuiteAction = false;     // sinon on peut acheter la carte
         acheterCarte(carte);            // achat
+        return;
+    }
+
+    // si le joueur est en phase d'action on ne peut pas acheter de carte
+    if(m_tourAction){
         return;
     }
 
@@ -290,11 +338,6 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
 
         // decremente le nombre de pieces
         m_nbPieces -= carte->getCout();
-
-        // si le nombre d'achats est nul, fin du tour
-        if(m_nbAchats == 0){
-            initNewTour();
-        }
     }
     
 }
@@ -309,6 +352,9 @@ bool Modele::acheterCarte(Carte* carte){
 
             // ajoute une copie de la carte a la defausse du joueur
             m_joueurActif->getDeckManager()->addCardToDefausse( new Carte(carte) );
+
+            // mettre a jour l'affichage
+            m_view->updateCurrentPanel();
 
             return true;
         }
