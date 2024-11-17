@@ -10,6 +10,7 @@ class PlayPanel : public wxPanel {
     Modele* m_modele;
     wxPanel* mainPanel;
     wxPanel* informationPanel;
+    wxFrame* parentFrame;
 
 
     wxPanel* centerPanel;
@@ -21,6 +22,14 @@ class PlayPanel : public wxPanel {
 
     PlayPanel(wxFrame* parent, Modele* model);
     ~PlayPanel();
+
+    
+    void OnButtonClicked(wxCommandEvent& event);
+    void OnTourButtonClicked(wxCommandEvent& event);
+    void OnEndButtonClicked(wxCommandEvent& event);
+    void onLeftClicked(wxCommandEvent& event);
+
+    void update();    // met a jour tout l'affichage
 
     void onKeyPress(wxKeyEvent& event);
     void OnQuit(wxCommandEvent& event);

@@ -111,11 +111,15 @@ void wxCard::OnRightClick(wxMouseEvent& event) {
 }
 
 void wxCard::OnMouseEnter(wxMouseEvent& event) {
-      std::cout << "/* MOUSE ENTERED */" << '\n';
-        event.Skip();
+    xCommandEvent notifyEvent(wxEVT_BUTTON, 1);
+    notifyEvent.SetString(m_name);  // Include button name in the event
+    wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
+    event.Skip();
 }
 
 void wxCard::OnMouseLeave(wxMouseEvent& event) {
-        std::cout << "/* MOUSE LEFT */" << '\n';
-        event.Skip();
+    wxCommandEvent notifyEvent(wxEVT_BUTTON, 2);
+    notifyEvent.SetString(m_name);  // Include button name in the event
+    wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
+    event.Skip();
 }

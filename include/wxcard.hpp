@@ -22,8 +22,12 @@ class wxCard : public wxPanel {
     wxPanel* countPanel;
     wxStaticText* countText;
 
-    wxCard(wxWindow* parent, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor);
-    wxCard(wxWindow* parent,const std::string& imageName, int occurrences);
+    // constructeur avec une carte
+    wxCard(wxWindow* parent, wxPanel* parentPan, Carte* card, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor);
+    
+    // constructeur sans carte
+    wxCard(wxWindow* parent, wxPanel* parentPanel, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor);
+    wxCard(wxWindow* parent,wxPanel* parentPanel,const std::string& imageName, int occurrences);
     ~wxCard();
     void UpdateOccurrences(int occurrences);
     void OnMouseEnter(wxMouseEvent& event);
