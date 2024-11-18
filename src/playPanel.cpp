@@ -113,7 +113,9 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     mainPanel->SetSizer(mainSizer);
 
 
-    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
+    centerPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
+    handPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
+    
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
     Bind(wxEVT_CHAR_HOOK, &PlayPanel::onKeyPress, this);
 

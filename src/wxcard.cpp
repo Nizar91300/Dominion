@@ -19,11 +19,13 @@ std::vector<std::string>  wxCard::OtherCards = {"copper", "curse", "duchy", "est
 wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, Carte* card, int occurrences, int paneWidth, int paneHeight, int imageWidth, int imageHeight, wxColour backgroundColor)
     : wxCard(parent, parentPan, card->getNom(), occurrences, paneWidth, paneHeight, imageWidth, imageHeight, backgroundColor) {
     m_carte = card;
+
 }
 
 
 
-wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor) : wxPanel(parent){
+wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor)
+ : wxPanel(parent), m_name(imageName){
   this->SetSize(paneWidth,paneHeight);
   
   m_parentPan = parentPan;
@@ -60,14 +62,12 @@ wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageNam
   SetSizer(mainSizer);
   Layout();
   //--------------------events--------------------
-  //imageCtrl->Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
-  //imageCtrl->Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
+  Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
+  Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
 
 
   imageCtrl->Bind(wxEVT_LEFT_DOWN, &wxCard::OnMouseClick, this);
-  imageCtrl->Bind(wxEVT_RIGHT_DOWN, &wxCard::OnRightClick, this);
-  Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
-  Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
+  //imageCtrl->Bind(wxEVT_RIGHT_DOWN, &wxCard::OnRightClick, this);
 }
 
 
@@ -107,6 +107,7 @@ void wxCard::OnRightClick(wxMouseEvent& event) {
 }
 
 void wxCard::OnMouseEnter(wxMouseEvent& event) {
+  std::cout << "/* MOUSE ENTERED */" << '\n';
     wxCommandEvent notifyEvent(wxEVT_BUTTON, 1);
     notifyEvent.SetString(m_name);  // Include button name in the event
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
@@ -114,6 +115,7 @@ void wxCard::OnMouseEnter(wxMouseEvent& event) {
 }
 
 void wxCard::OnMouseLeave(wxMouseEvent& event) {
+  std::cout << "/* MOUSE LEFT */" << '\n';
     wxCommandEvent notifyEvent(wxEVT_BUTTON, 2);
     notifyEvent.SetString(m_name);  // Include button name in the event
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
