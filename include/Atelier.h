@@ -13,7 +13,12 @@ class Atelier : public Action{
         Atelier(Modele* m) : Action(m, COUT_ACHAT, "workshop") {}
         ~Atelier(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Atelier(*this); 
+        }
+
+        void faireAction()override;
 };
 
 #endif

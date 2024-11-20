@@ -13,5 +13,10 @@ class Jardin : public Victoire{
     public:
         Jardin(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "gardens") {}
         ~Jardin(){}
+
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Jardin(*this); 
+        }
 };
 #endif

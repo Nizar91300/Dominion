@@ -13,7 +13,12 @@ class Chapelle : public Action{
         Chapelle(Modele* m) : Action(m, COUT_ACHAT, "chapel") {}
         ~Chapelle(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Chapelle(*this); 
+        }
+
+        void faireAction()override;
 
 };
 

@@ -13,5 +13,10 @@ class Or : public Tresor{
     public:
         Or(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "gold") {}
         ~Or(){}
+
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Or(*this); 
+        }
 };
 #endif

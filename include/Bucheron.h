@@ -13,7 +13,12 @@ class Bucheron : public Action{
         Bucheron(Modele* m) : Action(m, COUT_ACHAT, "woodcutter") {}
         ~Bucheron(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Bucheron(*this); 
+        }
+
+        void faireAction()override;
 };
 
 #endif

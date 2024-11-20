@@ -13,7 +13,12 @@ class Festin : public Action{
         Festin(Modele* m) : Action(m, COUT_ACHAT, "feast") {}
         ~Festin(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Festin(*this); 
+        }
+
+        void faireAction() override;
 
 };
 

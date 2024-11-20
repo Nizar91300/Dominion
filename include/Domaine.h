@@ -13,6 +13,11 @@ class Domaine : public Victoire{
     public:
         Domaine(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "estate") {}
         ~Domaine(){}
+
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Domaine(*this); 
+        }
 };
 
 #endif
