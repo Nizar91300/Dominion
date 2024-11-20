@@ -95,7 +95,7 @@ void wxCard::OnLeftClick(wxMouseEvent& event) {
     wxCommandEvent notifyEvent(wxEVT_COMMAND_LEFT_CLICK, event.GetId());
     notifyEvent.SetString(m_name);
     std::cout << "Left click on " << m_name << std::endl;
-    std::pair <Carte*, wxWindow*>* data = new std::pair<Carte*, wxWindow*>(m_carte, m_parent);
+    std::pair <Carte*, wxWindow*>* data = new std::pair<Carte*, wxWindow*>(m_carte, this->GetParent());
     notifyEvent.SetClientData(static_cast<void*>(data));
     wxPostEvent(this->GetParent(), notifyEvent);
     event.Skip();
