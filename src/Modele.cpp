@@ -86,8 +86,8 @@ void Modele::initReserve(){
 
     // CARTES VICTOIRE
     int nbCartesVictoire = (m_nbJoueurs > 2) ? 12 : 8;
-    ajouterCarte(new Domaine(this), nbCartesVictoire);
-    ajouterCarte(new Duche(this), nbCartesVictoire);
+    ajouterCarte(new Domaine(this), 24);
+    ajouterCarte(new Duche(this), 12);
     ajouterCarte(new Province(this), nbCartesVictoire);
 
     // CARTES ROYAUME
@@ -140,6 +140,8 @@ void Modele::initNewTour(){
 
     // reinitialiser les pieces
     m_nbPieces = 0;
+
+    m_achatSuiteAction = false;
 }
 
 
