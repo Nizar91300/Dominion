@@ -8,10 +8,10 @@ InfoPanel::InfoPanel(wxWindow* parent) : wxPanel(parent){
 
   SetBackgroundColour(wxColour(204, 219, 149));
   wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
-  wxCard* informationCard = new wxCard(this, "gold", 1, 250, 400, 250, 400, wxColour(0, 0, 0));
-  mainSizer->AddSpacer(200);
+  this->informationCard = new wxCard(this, "gold", 1, 250, 400, 250, 400, wxColour(0, 0, 0));
+  mainSizer->AddSpacer(400);
   mainSizer->Add(informationCard, 0, wxALIGN_CENTER | wxALL, 5);
-  wxStaticText* description = new wxStaticText(this, wxID_ANY, "Title:\nDescription:Nec vox aerebatur acervis \nut saltem speatur impleri.");
+  this->description = new wxStaticText(this, wxID_ANY, "Title:");
   mainSizer->Add(description, 0, wxALIGN_CENTER | wxALL, 5);
 
   Bind(wxEVT_CHAR_HOOK, &InfoPanel::OnQuit, this);
@@ -35,11 +35,7 @@ void InfoPanel::OnQuit(wxEvent& event) {
   wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
 }
 
-
-
-void updateImage(){
-
-}
-void updateText(){
-
+void InfoPanel::updateImage(std::string imageName){
+  this->informationCard->updateImage(imageName,250,400);
+  this->description->SetLabel(wxString::Format("Title: %s", imageName));
 }

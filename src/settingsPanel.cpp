@@ -14,7 +14,6 @@
 
 SettingsPanel::SettingsPanel(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL){
 
-
   Resources::getInstance()->getSettings(this->m_totalPlayers,this->m_humanPlayers,this->m_sound,this->m_chosenCards);
   this->m_cardsSelected = this->m_chosenCards.size();
 
@@ -195,27 +194,8 @@ void SettingsPanel::OnCardEvent(wxCommandEvent& event){
       wxColour newColour;
 
       switch (event.GetId()) {
-        case 1:
-          newColour = HEIGHLIGHT_COLOUR;break;
-
-        case 2:
-          if(m_chosenCards.find(c->m_name) != m_chosenCards.end()){newColour = SELECTED_COLOUR;}
-          break;
-
-        case 3:
-          if(m_chosenCards.find(c->m_name) != m_chosenCards.end()){
-            m_chosenCards.erase(c->m_name);
-            this->m_cardsSelected-=1;
-          }else{
-            if(this->m_cardsSelected==10){
-              wxLogMessage("you can only choose 10 cards");
-            }else{
-              m_chosenCards.insert(c->m_name);
-              newColour = SELECTED_COLOUR;
-              this->m_cardsSelected+=1;
-            }
-          }
-          break;
+        case 1:newColour = HEIGHLIGHT_COLOUR;break;
+        case 2:if(m_chosenCards.find(c->m_name) != m_chosenCards.end()){newColour = SELECTED_COLOUR;}break;
       }
       c->SetBackgroundColour(newColour);
       this->m_cardsLabel->SetLabel(wxString::Format("Initial Cards: %d", this->m_cardsSelected));
