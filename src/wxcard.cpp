@@ -55,8 +55,8 @@ wxCard::wxCard(wxWindow* parent, const std::string& imageName, int occurrences,i
   //--------------------events--------------------
   Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
   Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
-  Bind(wxEVT_LEFT_DOWN, &wxCard::OnLeftClick, this);
-  Bind(wxEVT_RIGHT_DOWN, &wxCard::OnRightClick, this);
+  imageCtrl->Bind(wxEVT_LEFT_DOWN, &wxCard::OnLeftClick, this);
+  imageCtrl->Bind(wxEVT_RIGHT_DOWN, &wxCard::OnRightClick, this);
 }
 
 
@@ -94,6 +94,7 @@ void wxCard::OnMouseLeave(wxMouseEvent& event) {
 void wxCard::OnLeftClick(wxMouseEvent& event) {
     wxCommandEvent notifyEvent(wxEVT_COMMAND_LEFT_CLICK, event.GetId());
     notifyEvent.SetString(m_name);
+    std::cout << "Left click on " << m_name << std::endl;
     std::pair <Carte*, wxWindow*>* data = new std::pair<Carte*, wxWindow*>(m_carte, m_parent);
     notifyEvent.SetClientData(static_cast<void*>(data));
     wxPostEvent(this->GetParent(), notifyEvent);
@@ -103,6 +104,7 @@ void wxCard::OnLeftClick(wxMouseEvent& event) {
 
 void wxCard::OnRightClick(wxMouseEvent& event) {
     wxCommandEvent notifyEvent(wxEVT_COMMAND_RIGHT_CLICK,  event.GetId());
+        std::cout << "Left click on " << m_name << std::endl;
     notifyEvent.SetString(m_name);
     wxPostEvent(this->GetParent(), notifyEvent);
     event.Skip();

@@ -34,6 +34,7 @@ SettingsPanel::SettingsPanel(wxWindow* parent): wxScrolledWindow(parent, wxID_AN
 
 
   wxPanel* firstPanel = new wxPanel(this);
+  firstPanel->SetBackgroundColour(wxColour(86, 118, 153));//background color
   wxBoxSizer* firstPanelSizer = new wxBoxSizer(wxVERTICAL);
 
   //--------------------text--------------------
@@ -74,6 +75,8 @@ SettingsPanel::SettingsPanel(wxWindow* parent): wxScrolledWindow(parent, wxID_AN
   //----------------------------------------
 
   wxPanel* secondPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(800, 2500));
+  secondPanel->SetBackgroundColour(wxColour(86, 118, 153));//background color
+
   wxBoxSizer* secondPanelSizer = new wxBoxSizer(wxVERTICAL);
 
   //--------------------text--------------------
@@ -85,6 +88,7 @@ SettingsPanel::SettingsPanel(wxWindow* parent): wxScrolledWindow(parent, wxID_AN
   int numPanels = wxCard::ActionCards.size();
   int numColumns = 4;
   wxPanel* gridContainer = new wxPanel(secondPanel);
+  gridContainer->SetBackgroundColour(wxColour(86, 118, 153));//background color
   int numRows = (numPanels + numColumns - 1) / numColumns;
   wxGridSizer* gridSizer = new wxGridSizer(numRows, numColumns, 5, 5); // 5px gap between panels
 
