@@ -13,5 +13,10 @@ class Cuivre : public Tresor{
     public:
         Cuivre(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "copper") {}
         ~Cuivre(){}
+
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Cuivre(*this); 
+        }
 };
 #endif

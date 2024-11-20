@@ -13,7 +13,12 @@ class Sorciere : public Action{
         Sorciere(Modele* m) : Action(m, COUT_ACHAT, "witch") {}
         ~Sorciere(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Sorciere(*this); 
+        }
+
+        void faireAction()override;
 };
 
 #endif

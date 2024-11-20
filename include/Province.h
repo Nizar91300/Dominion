@@ -13,5 +13,10 @@ class Province : public Victoire{
     public:
         Province(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "province") {}
         ~Province(){}
+
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Province(*this); 
+        }
 };
 #endif

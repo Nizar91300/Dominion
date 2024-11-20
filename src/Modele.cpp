@@ -53,6 +53,10 @@ void Modele::initNewGame(int nbJoueurs){
     // initialiser les joueurs
     m_nbJoueurs = nbJoueurs;
     m_tourAction = true;
+
+    m_joueurs = std::vector<Joueur*>();
+    m_reserve = std::vector< std::pair< Carte*, int > >();
+
     initJoueurs();
 
     // initialiser le tour
@@ -191,6 +195,15 @@ std::vector<std::pair<Carte*, int >> Modele::convertVecCarteToVecPair(std::vecto
             res.push_back( std::make_pair(carte, 1) );
         }
     }
+
+    // trier les cartes par type puis par nom
+    std::sort(res.begin(), res.end(),
+        [](const std::pair<Carte*, int>& a, const std::pair<Carte*, int>& b) {
+            if (a.first->getType() != b.first->getType()) {
+                return a.first->getType() < b.first->getType(); // Trier par type
+            }
+            return a.first->getNom() < b.first->getNom(); // Puis par nom
+        });
 
     return res;
 }
@@ -358,7 +371,7 @@ bool Modele::acheterCarte(Carte* carte){
             m_reserve[i].second--;
 
             // ajoute une copie de la carte a la defausse du joueur
-            m_joueurActif->getDeckManager()->addCardToDefausse( new Carte(carte) );
+            m_joueurActif->getDeckManager()->addCardToDefausse( carte->clone() );
 
             // mettre a jour l'affichage
             m_view->updateCurrentPanel();

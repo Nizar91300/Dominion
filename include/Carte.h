@@ -29,6 +29,12 @@ class Carte{
         // destructeur
         virtual ~Carte(){}
 
+        // methode virtuelle pour cloner une carte
+        virtual Carte* clone() const {
+            return new Carte(*this);
+        }
+
+
         int getCout() const { return m_cout; }
 
         TypeCarte getType() const { return m_type; }

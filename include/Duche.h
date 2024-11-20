@@ -13,5 +13,10 @@ class Duche : public Victoire{
     public:
         Duche(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "duchy") {}
         ~Duche(){}
+
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Duche(*this); 
+        }
 };
 #endif

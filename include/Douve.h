@@ -15,8 +15,13 @@ class Douve : public Reaction, public Action{
         Douve(Modele* m) : Action(m, COUT_ACHAT, "moat") {}
         ~Douve(){}
 
-        void defendre();
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Douve(*this); 
+        }
+
+        void defendre()override;
+        void faireAction()override;
 
 };
 

@@ -13,6 +13,11 @@ class Malediction : public Victoire{
     public:
         Malediction(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "curse") {}
         ~Malediction(){}
+
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Malediction(*this); 
+        }
 };
 
 #endif

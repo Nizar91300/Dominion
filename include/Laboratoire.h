@@ -13,7 +13,12 @@ class Laboratoire : public Action{
         Laboratoire(Modele* m) : Action(m, COUT_ACHAT, "laboratory") {}
         ~Laboratoire(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Laboratoire(*this); 
+        }
+
+        void faireAction()override;
 
 };
 

@@ -13,7 +13,12 @@ class Village : public Action{
         Village(Modele* m) : Action(m, COUT_ACHAT, "village") {}
         ~Village(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Village(*this); 
+        }
+
+        void faireAction()override;
 
 };
 

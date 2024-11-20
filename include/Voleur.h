@@ -13,7 +13,12 @@ class Voleur : public Action{
         Voleur(Modele* m) : Action(m, COUT_ACHAT, "bandit") {}
         ~Voleur(){}
 
-        void faireAction();
+        // Implementation de la methode clone
+        Carte* clone() const override {
+            return new Voleur(*this); 
+        }
+
+        void faireAction() override;
 
 };
 
