@@ -4,7 +4,7 @@
 #include"wxcard.hpp"
 
 
-InfoPanel::InfoPanel(wxFrame* parent) : wxPanel(parent){
+InfoPanel::InfoPanel(wxWindow* parent) : wxPanel(parent){
 
   SetBackgroundColour(wxColour(204, 219, 149));
   wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -17,7 +17,6 @@ InfoPanel::InfoPanel(wxFrame* parent) : wxPanel(parent){
   Bind(wxEVT_CHAR_HOOK, &InfoPanel::OnQuit, this);
   Bind(wxEVT_COMMAND_LEFT_CLICK, &InfoPanel::OnQuit, this);
   Bind(wxEVT_COMMAND_RIGHT_CLICK, &InfoPanel::OnQuit, this);
-  Bind(wxEVT_BUTTON, &InfoPanel::OnQuit, this);
 
   SetSizer(mainSizer);
   Layout();

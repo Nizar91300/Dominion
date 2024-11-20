@@ -6,7 +6,7 @@ class InfoPanel : public wxPanel {
 
   public:
 
-    InfoPanel(wxFrame* parent);
+    InfoPanel(wxWindow* parent);
     ~InfoPanel();
     void OnQuit(wxEvent& event);
     void updateImage();

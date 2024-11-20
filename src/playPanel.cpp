@@ -2,8 +2,10 @@
 #include <wx/panel.h>
 #include <vector>
 #include <string>
+
 #include "playPanel.hpp"
 #include"wxcard.hpp"
+#include"infoPanel.hpp"
 
 #include "Modele.h"
 #include "Carte.h"
@@ -13,108 +15,98 @@
 
 PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
 
-
-    //this->mainPanel = new wxPanel(this,wxID_ANY);
-    mainPanel = this;
-    wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
-
-    //------------------LEFT---------------------------------//
-    wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
-    wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
-    wxPanel* leftPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
-
-    leftSizer->Add(leftTopPanel, 1, wxEXPAND | wxLEFT | wxBOTTOM, 1);
-    leftSizer->Add(leftPanel, 4, wxEXPAND | wxLEFT, 1);
+  wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 
 
+  this->mainPanel = new wxPanel(this,wxID_ANY);
+  wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
 
+  //------------------LEFT---------------------------------//
+  wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
+  wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+  wxPanel* leftPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
 
-    //------------------CENTER---------------------------------//
-    wxBoxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
-
-    //----------------//
-    wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
-    wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    wxButton* resignButton = new wxButton(topPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
-    wxButton* quitButton = new wxButton(topPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
-    wxButton* saveButton = new wxButton(topPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
-    resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnResign, this);
-    quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
-    saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
-    buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-    buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-    buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-    topPanel->SetSizer(buttonTopSizer);
-
-
-    //----------------//
-    this->centerPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-    centerPanel->SetBackgroundColour(wxColour(186, 219, 167));//green
-
-    //----------------//
-    this->playedPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-    playedPanel->SetBackgroundColour(wxColour(137, 163, 122));
-
-    //----------------//
-    this->handPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-    handPanel->SetBackgroundColour(wxColour(120, 160, 120));//pink
-
-
-    //------------------Right---------------------------------//
-    wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
-    wxPanel* rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
-    rightPanel->SetBackgroundColour(wxColour(122, 148, 163));//red
+  leftSizer->Add(leftTopPanel, 1, wxEXPAND | wxLEFT | wxBOTTOM, 1);
+  leftSizer->Add(leftPanel, 4, wxEXPAND | wxLEFT, 1);
 
 
 
 
+  //------------------CENTER---------------------------------//
+  wxBoxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
 
-    //---------------------------------------------------------------------//
-    //------------------bottom right panel (red)--------------------------//
-    //-------------------------------------------------------------------//
-    // Créer le tourPanel et définir sa couleur de fond
-    wxPanel* tourPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(100, -1));
-    tourPanel->SetBackgroundColour(wxColour(122, 148, 163));  // Bleu
+  //----------------//
+  wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
+  wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
+  wxButton* resignButton = new wxButton(topPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
+  wxButton* quitButton = new wxButton(topPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
+  wxButton* saveButton = new wxButton(topPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
+  resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnResign, this);
+  quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
+  saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
+  buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+  buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+  buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+  topPanel->SetSizer(buttonTopSizer);
 
-    // Créer le bouton "END ACTION PHASE"
-    this->tourBtn = new wxButton(tourPanel, wxID_ANY, "END ACTION PHASE");
-    wxButton* endGameBtn = new wxButton(tourPanel, wxID_ANY, "END GAME NOW");
 
-    tourBtn->Bind(wxEVT_BUTTON, &PlayPanel::OnTourButtonClicked, this);
-    endGameBtn->Bind(wxEVT_BUTTON, &PlayPanel::OnEndButtonClicked, this);
+  //----------------//
+  this->centerPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+  centerPanel->SetBackgroundColour(wxColour(186, 219, 167));//green
 
-    // Créer le sizer pour le tourPanel
-    wxBoxSizer* tourPanelSizer = new wxBoxSizer(wxVERTICAL);
+  //----------------//
+  this->playedPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+  playedPanel->SetBackgroundColour(wxColour(137, 163, 122));
 
-    // Ajouter le bouton au sizer du tourPanel et le centrer
-    tourPanelSizer->Add(tourBtn, 0, wxALIGN_CENTER | wxALL, 5);
-    tourPanelSizer->Add(endGameBtn, 0, wxALIGN_CENTER | wxALL, 5);
+  //----------------//
+  this->handPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+  handPanel->SetBackgroundColour(wxColour(120, 160, 120));//pink
 
-    // Appliquer le sizer au tourPanel
-    tourPanel->SetSizer(tourPanelSizer);
 
-    //---------------------------------------------------------------------//
-    // Ajouter les panneaux dans leurs sizers respectifs
-    mainSizer->Add(leftSizer, 1, wxEXPAND | wxALL, 5);
-    mainSizer->Add(verticalSizer, 5, wxEXPAND | wxALL, 5);
-    mainSizer->Add(rightSizer, 1, wxEXPAND | wxALL, 5);
+  verticalSizer->Add(topPanel, 0, wxEXPAND | wxBOTTOM, 1);
+  verticalSizer->Add(centerPanel, 5, wxEXPAND | wxBOTTOM, 1);
+  verticalSizer->Add(playedPanel, 2, wxEXPAND | wxBOTTOM, 1);
+  verticalSizer->Add(handPanel, 2, wxEXPAND | wxBOTTOM, 1);
 
-    // Ajouter les panels dans verticalSizer
-    verticalSizer->Add(topPanel, 1, wxEXPAND | wxBOTTOM, 5);
-    verticalSizer->Add(centerPanel, 5, wxEXPAND | wxBOTTOM, 5);
-    verticalSizer->Add(playedPanel, 2, wxEXPAND | wxBOTTOM, 5);
-    verticalSizer->Add(handPanel, 2, wxEXPAND | wxBOTTOM, 5);
 
-    // Ajouter rightPanel et tourPanel dans rightSizer
-    rightSizer->Add(rightPanel, 4, wxEXPAND | wxRIGHT | wxBOTTOM, 5);
-    rightSizer->Add(tourPanel, 0, wxEXPAND | wxRIGHT, 5);  // Modification de la taille ici (0 pour qu'il ne prenne pas trop de place)
+  //------------------Right---------------------------------//
+  wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
+  wxPanel* rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+  rightPanel->SetBackgroundColour(wxColour(122, 148, 163));//red
+  wxPanel* rightBottomPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(100, -1));
+  rightBottomPanel->SetBackgroundColour(wxColour(122, 148, 163));//blue
+  rightSizer->Add(rightPanel, 4, wxEXPAND | wxRIGHT | wxBOTTOM, 1);
+  rightSizer->Add(rightBottomPanel, 1, wxEXPAND | wxRIGHT, 1);
 
-    // Appliquer le sizer principal à mainPanel
-    mainPanel->SetSizer(mainSizer);
+
+  //---------------------------------------------------------------------//
+  // Add the panels to their respective sizers
+  mainSizer->Add(leftSizer, 1, wxEXPAND | wxALL, 2);
+  mainSizer->Add(verticalSizer, 5, wxEXPAND | wxALL, 2);
+  mainSizer->Add(rightSizer, 1, wxEXPAND | wxALL, 2);
+  mainPanel->SetSizer(mainSizer);
+
+
+
+
+  this->informationPanel = new InfoPanel(this);
+
+  sizer->Add(mainPanel, 1, wxEXPAND | wxALL, 0);
+  sizer->Add(informationPanel, 1, wxEXPAND | wxALL, 0);
+  informationPanel->Hide();
+  mainPanel->SetFocus();
+  this->SetSizer(sizer);
+  this->Layout();
+
 
 
     centerPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
     handPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
+
+
+
+
+
 
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
     Bind(wxEVT_CHAR_HOOK, &PlayPanel::onKeyPress, this);
