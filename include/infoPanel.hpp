@@ -1,6 +1,6 @@
 #include <wx/wx.h>
 #include<string>
-#include "wxCard.hpp"
+#include "wxcard.hpp"
 
 #ifndef INFO_PANEL_HPP
 #define INFO_PANEL_HPP

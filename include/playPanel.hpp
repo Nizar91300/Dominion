@@ -1,5 +1,6 @@
 #ifndef PLAY_PANEL_HPP
 #define PLAY_PANEL_HPP
+#include"infoPanel.hpp"
 
 class Modele;
 
@@ -9,7 +10,7 @@ class PlayPanel : public wxPanel {
   private:
     Modele* m_modele;
     wxPanel* mainPanel;
-    wxPanel* informationPanel;
+    InfoPanel* informationPanel;
     wxFrame* parentFrame;
 
 
@@ -23,11 +24,13 @@ class PlayPanel : public wxPanel {
     PlayPanel(wxFrame* parent, Modele* model);
     ~PlayPanel();
 
-    
+
     void OnButtonClicked(wxCommandEvent& event);
     void OnTourButtonClicked(wxCommandEvent& event);
     void OnEndButtonClicked(wxCommandEvent& event);
     void onLeftClicked(wxCommandEvent& event);
+
+    void onRightClicked(wxCommandEvent& event);
 
     void update();    // met a jour tout l'affichage
 

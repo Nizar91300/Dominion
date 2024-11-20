@@ -16,8 +16,6 @@
 PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
 
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
-
-
     this->mainPanel = new wxPanel(this,wxID_ANY);
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -25,11 +23,8 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
     wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     wxPanel* leftPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
-
     leftSizer->Add(leftTopPanel, 1, wxEXPAND | wxLEFT | wxBOTTOM, 1);
     leftSizer->Add(leftPanel, 4, wxEXPAND | wxLEFT, 1);
-
-
 
 
     //------------------CENTER---------------------------------//
@@ -62,12 +57,10 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     this->handPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     handPanel->SetBackgroundColour(wxColour(120, 160, 120));//pink
 
-
     verticalSizer->Add(topPanel, 0, wxEXPAND | wxBOTTOM, 1);
     verticalSizer->Add(centerPanel, 5, wxEXPAND | wxBOTTOM, 1);
     verticalSizer->Add(playedPanel, 2, wxEXPAND | wxBOTTOM, 1);
     verticalSizer->Add(handPanel, 2, wxEXPAND | wxBOTTOM, 1);
-
 
     //------------------Right---------------------------------//
     wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
@@ -91,7 +84,6 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     rightSizer->Add(rightPanel, 4, wxEXPAND | wxRIGHT | wxBOTTOM, 1);
     rightSizer->Add(rightBottomPanel, 1, wxEXPAND | wxRIGHT, 1);
 
-
     //---------------------------------------------------------------------//
     // Add the panels to their respective sizers
     mainSizer->Add(leftSizer, 1, wxEXPAND | wxALL, 2);
@@ -100,10 +92,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     mainPanel->SetSizer(mainSizer);
 
 
-
-
     this->informationPanel = new InfoPanel(this);
-
     sizer->Add(mainPanel, 1, wxEXPAND | wxALL, 0);
     sizer->Add(informationPanel, 1, wxEXPAND | wxALL, 0);
     informationPanel->Hide();
@@ -112,16 +101,12 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     this->Layout();
 
 
-
+    //events
     centerPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
     handPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
 
-
-
-
-
-
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
+    Bind(wxEVT_COMMAND_RIGHT_CLICK, &PlayPanel::onRightClicked, this);
 
     update();
 }
@@ -197,7 +182,17 @@ void PlayPanel::onLeftClicked(wxCommandEvent& event) {
     delete data;
 }
 
+void PlayPanel::onRightClicked(wxCommandEvent& event) {
+    if(event.GetString().empty()) return;
 
+    std::string stlstring = std::string(event.GetString().mb_str());
+
+    this->informationPanel->updateImage(stlstring);
+    this->mainPanel->Hide();
+    this->informationPanel->Show();
+    this->informationPanel->SetFocus();
+    Layout();
+}
 
 // FONCTION DE MISE A JOUR DE L'AFFICHAGE
 
@@ -223,7 +218,7 @@ void PlayPanel::updateReserve() {
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
         reserveSizer1->Add(card, 0, wxALL, 5);
     }
 
@@ -233,7 +228,7 @@ void PlayPanel::updateReserve() {
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
         reserveSizer2->Add(card, 0, wxALL, 5);
     }
 
@@ -264,7 +259,7 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
         int quantite = carte.second;
 
         // Ccarte graphique pour chaque carte
-        wxCard* card = new wxCard(pan, c, quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(pan, c, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
 
         // Ajouter la carte au sizer
         panSizer->Add(card, 0, wxALL, 5);

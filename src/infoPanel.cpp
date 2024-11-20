@@ -31,7 +31,7 @@ InfoPanel::~InfoPanel(){}
 
 void InfoPanel::OnQuit(wxEvent& event) {
   wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
-  notifyEvent.SetString("Back");  // Include button name in the event
+  notifyEvent.SetString("Switch");  // Include button name in the event
   wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
 }
 
