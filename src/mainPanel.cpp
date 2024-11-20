@@ -96,7 +96,6 @@ void MainPanel::OnButtonClicked(wxCommandEvent& event) {
   wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
   if (button) {
         wxString buttonName = button->GetLabel();
-        //notify parent
         wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
         notifyEvent.SetString(buttonName);  // Include button name in the event
         wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame

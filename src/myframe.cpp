@@ -10,8 +10,8 @@
 enum{ID_Hello = 1};
 
 
-MyFrame::MyFrame(Modele* model): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE | wxMAXIMIZE) {
-    m_modele = model;
+MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE | wxMAXIMIZE),m_modele(new Modele()),currentpanelName("Main") {
+    m_modele->setView(this);
     std::cout << "[MyFrame]constructor" << '\n';
     //top menu
     wxMenu *menuFile = new wxMenu;
@@ -33,19 +33,17 @@ MyFrame::MyFrame(Modele* model): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPo
     Bind(wxEVT_MENU, &MyFrame::OnExit, this, wxID_EXIT);
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &MyFrame::OnButtonClicked, this);
 
-    this->currentpanelName = "Main";
     this->currentpanel = new MainPanel(this, m_modele);
 
 }
 
 
 MyFrame::~MyFrame(){
-  if(currentpanel!=NULL){
-    this->currentpanel->Destroy();
-  }
+  if(currentpanel!=NULL){this->currentpanel->Destroy();}
   delete m_modele;
   std::cout << "[MyFrame]delete" << '\n';
 }
+
 
 void MyFrame::OnExit(wxCommandEvent& event){Close(true);}
 
@@ -63,8 +61,8 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
         m_modele->initNewGame( m_modele->getNbJoueurs() );
         this->currentpanelName = "Play";
         this->currentpanel->Destroy();
-        this->currentpanel = new PlayPanel(this, m_modele);
         // Initialiser une nouvelle partie avec le meme nombre de joueurs
+        this->currentpanel = new PlayPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
 
@@ -76,7 +74,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
         this->currentpanelName = "Settings";
         this->currentpanel->Destroy();
-        this->currentpanel = new SettingsPanel(this, m_modele);
+        this->currentpanel = new SettingsPanel(this);
         this->currentpanel->Show();
         Layout();
 
@@ -89,11 +87,8 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
         Layout();
 
     }else if(event.GetString()=="Quit"){
-
       this->OnExit(event);
-
     }
-
     return;
   }
 
@@ -105,8 +100,6 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
         this->currentpanel->Show();
         Layout();
   }
-
-
 
 }
 

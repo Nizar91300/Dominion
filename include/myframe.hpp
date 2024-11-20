@@ -7,10 +7,10 @@ class Modele;
 
 class MyFrame : public wxFrame{
 public:
-    MyFrame(Modele* model);
+    MyFrame();
     virtual ~MyFrame ();
     wxPanel* currentpanel = NULL;
-    void updateCurrentPanel(); // update the current pannel
+    void updateCurrentPanel();
 private:
     Modele* m_modele;
     std::string currentpanelName;

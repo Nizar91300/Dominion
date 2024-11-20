@@ -8,29 +8,20 @@
 
 
 
-std::vector<std::string>  wxCard::ActionCards = {"artisan", "bandit", "bureaucrat", "cellar", "chapel",  "councilRoom",
- "feast", "festival", "gardens", "harbinger", "laboratory", "library", "market", "merchant", "militia",
-"mine", "moat", "moneylender", "poacher","remodel", "sentry",  "smithy", "throneRoom",
-"vassal", "village", "witch", "woodcutter","workshop"
-};
+std::vector<std::string>  wxCard::ActionCards = {"artisan", "bandit", "bureaucrat", "cellar", "chapel",  "councilRoom","feast", "festival", "gardens", "harbinger", "laboratory", "library", "market", "merchant", "militia","mine", "moat", "moneylender", "poacher","remodel", "sentry",  "smithy", "throneRoom","vassal", "village", "witch", "woodcutter","workshop"};
 std::vector<std::string>  wxCard::OtherCards = {"copper", "curse", "duchy", "estate", "province", "silver", "smithy", "gold"};
 
 
-wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, Carte* card, int occurrences, int paneWidth, int paneHeight, int imageWidth, int imageHeight, wxColour backgroundColor)
-    : wxCard(parent, parentPan, card->getNom(), occurrences, paneWidth, paneHeight, imageWidth, imageHeight, backgroundColor) {
-    m_carte = card;
-
+wxCard::wxCard(wxWindow* parent, Carte* card, int occurrences, int paneWidth, int paneHeight, int imageWidth, int imageHeight, wxColour backgroundColor) : wxCard(parent, card->getNom(), occurrences, paneWidth, paneHeight, imageWidth, imageHeight, backgroundColor) {
+  m_carte=card;
 }
 
 
-
-wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor)
+wxCard::wxCard(wxWindow* parent, const std::string& imageName, int occurrences,int paneWidth,int paneHeight,int imageWidth, int imageHeight,wxColour backgroundColor)
  : wxPanel(parent), m_name(imageName){
-  this->SetSize(paneWidth,paneHeight);
-  
-  m_parentPan = parentPan;
-  m_parent = parent;
 
+
+  this->SetSize(paneWidth,paneHeight);
   this->SetBackgroundColour(backgroundColor);
   wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
@@ -64,14 +55,9 @@ wxCard::wxCard(wxWindow* parent, wxPanel* parentPan, const std::string& imageNam
   //--------------------events--------------------
   Bind(wxEVT_ENTER_WINDOW, &wxCard::OnMouseEnter, this);
   Bind(wxEVT_LEAVE_WINDOW, &wxCard::OnMouseLeave, this);
-
-
-  imageCtrl->Bind(wxEVT_LEFT_DOWN, &wxCard::OnMouseClick, this);
-  //imageCtrl->Bind(wxEVT_RIGHT_DOWN, &wxCard::OnRightClick, this);
+  Bind(wxEVT_LEFT_DOWN, &wxCard::OnLeftClick, this);
+  Bind(wxEVT_RIGHT_DOWN, &wxCard::OnRightClick, this);
 }
-
-
-wxCard::wxCard(wxWindow* parent,wxPanel* parentPanel, const std::string& imageName, int occurrences) : wxCard::wxCard(parent, parentPanel,imageName,occurrences,250,400,250,400,wxColour(177, 168, 189)){}
 
 
 
@@ -89,25 +75,9 @@ void wxCard::UpdateOccurrences(int occurrences) {
 
 
 
-void wxCard::OnMouseClick(wxMouseEvent& event) {
-    wxCommandEvent notifyEvent(wxEVT_COMMAND_LEFT_CLICK, GetId());
-    std::pair <Carte*, wxWindow*>* data = new std::pair<Carte*, wxWindow*>(m_carte, m_parent);
 
-    notifyEvent.SetClientData(static_cast<void*>(data));
-    wxPostEvent(m_parentPan, notifyEvent);  // Notify the parent
-    std::cout << "/* MOUSE CLICKED : event propage au parent */" << '\n';
-    event.Skip();
-}
-
-void wxCard::OnRightClick(wxMouseEvent& event) {
-    wxCommandEvent notifyEvent(wxEVT_RIGHT_DOWN, GetId());
-    notifyEvent.SetString("Right Click");  // Include information about the event type
-    wxPostEvent(m_parentPan, notifyEvent);  // Notify the parent
-    event.Skip();
-}
 
 void wxCard::OnMouseEnter(wxMouseEvent& event) {
-  std::cout << "/* MOUSE ENTERED */" << '\n';
     wxCommandEvent notifyEvent(wxEVT_BUTTON, 1);
     notifyEvent.SetString(m_name);  // Include button name in the event
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
@@ -115,9 +85,25 @@ void wxCard::OnMouseEnter(wxMouseEvent& event) {
 }
 
 void wxCard::OnMouseLeave(wxMouseEvent& event) {
-  std::cout << "/* MOUSE LEFT */" << '\n';
     wxCommandEvent notifyEvent(wxEVT_BUTTON, 2);
-    notifyEvent.SetString(m_name);  // Include button name in the event
-    wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
+    notifyEvent.SetString(m_name);
+    wxPostEvent(this->GetParent(), notifyEvent);
+    event.Skip();
+}
+
+void wxCard::OnLeftClick(wxMouseEvent& event) {
+    wxCommandEvent notifyEvent(wxEVT_COMMAND_LEFT_CLICK, event.GetId());
+    notifyEvent.SetString(m_name);
+    std::pair <Carte*, wxWindow*>* data = new std::pair<Carte*, wxWindow*>(m_carte, m_parent);
+    notifyEvent.SetClientData(static_cast<void*>(data));
+    wxPostEvent(this->GetParent(), notifyEvent);
+    event.Skip();
+}
+
+
+void wxCard::OnRightClick(wxMouseEvent& event) {
+    wxCommandEvent notifyEvent(wxEVT_COMMAND_RIGHT_CLICK,  event.GetId());
+    notifyEvent.SetString(m_name);
+    wxPostEvent(this->GetParent(), notifyEvent);
     event.Skip();
 }

@@ -3,16 +3,14 @@
 #include <set>
 #include"wxcard.hpp"
 
-class Modele;
 
 class SettingsPanel : public wxScrolledWindow {
   public:
 
-    SettingsPanel(wxWindow* parent, Modele* model);
+    SettingsPanel(wxWindow* parent);
     ~SettingsPanel();
 
   private:
-    Modele* m_modele;
     wxSlider* m_totalPlayersSlider;
     wxSlider* m_humanPlayersSlider;
     wxSlider* m_soundSlider;
@@ -32,4 +30,5 @@ class SettingsPanel : public wxScrolledWindow {
     void OnBackButtonClicked(wxCommandEvent& event);
     void OnResetButtonClicked(wxCommandEvent& event);
     void OnCardEvent(wxCommandEvent& event);
+    void OnCardClick(wxCommandEvent& event);
 };

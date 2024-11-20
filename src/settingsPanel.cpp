@@ -12,10 +12,11 @@
 
 
 
-SettingsPanel::SettingsPanel(wxWindow* parent, Modele* model): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL),m_modele(model),m_cardsSelected(10){
+SettingsPanel::SettingsPanel(wxWindow* parent): wxScrolledWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxVSCROLL){
 
 
   Resources::getInstance()->getSettings(this->m_totalPlayers,this->m_humanPlayers,this->m_sound,this->m_chosenCards);
+  this->m_cardsSelected = this->m_chosenCards.size();
 
   this->SetBackgroundColour(wxColour(86, 118, 153));//background color
   wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);//sizer
@@ -94,13 +95,14 @@ SettingsPanel::SettingsPanel(wxWindow* parent, Modele* model): wxScrolledWindow(
       colour = SELECTED_COLOUR;
     }
 
-    wxCard* card = new wxCard(gridContainer,nullptr, c, 0,200,320,180,288,colour);
+    wxCard* card = new wxCard(gridContainer,c, 0,200,320,180,288,colour);
     this->m_gridCards.push_back(card);
     gridSizer->Add(card, 0, wxALIGN_CENTER, 2);
   }
 
   gridContainer->SetSizer(gridSizer);
   gridContainer->Bind(wxEVT_BUTTON, &SettingsPanel::OnCardEvent, this);
+  gridContainer->Bind(wxEVT_COMMAND_LEFT_CLICK, &SettingsPanel::OnCardClick, this);
   secondPanelSizer->Add(gridContainer, 1, wxEXPAND | wxALL, 2);
 
   secondPanel->SetSizer(secondPanelSizer);
@@ -218,3 +220,30 @@ void SettingsPanel::OnCardEvent(wxCommandEvent& event){
   }
   this->Refresh();
 }
+
+
+void SettingsPanel::OnCardClick(wxCommandEvent& event){
+  wxString cardName = event.GetString();
+  for(const auto c : m_gridCards){
+    if (c->m_name == cardName){
+      wxColour newColour;
+
+          if(m_chosenCards.find(c->m_name) != m_chosenCards.end()){
+            m_chosenCards.erase(c->m_name);
+            this->m_cardsSelected-=1;
+          }else{
+            if(this->m_cardsSelected==10){
+              wxLogMessage("you can only choose 10 cards");
+            }else{
+              m_chosenCards.insert(c->m_name);
+              newColour = SELECTED_COLOUR;
+              this->m_cardsSelected+=1;
+            }
+          }
+          c->SetBackgroundColour(newColour);
+          this->m_cardsLabel->SetLabel(wxString::Format("Initial Cards: %d", this->m_cardsSelected));
+          break;
+      }
+    }
+    this->Refresh();
+  }

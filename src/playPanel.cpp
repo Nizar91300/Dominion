@@ -64,7 +64,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
     wxPanel* rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     rightPanel->SetBackgroundColour(wxColour(122, 148, 163));//red
-    
+
 
 
 
@@ -115,7 +115,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     centerPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
     handPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
-    
+
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
     Bind(wxEVT_CHAR_HOOK, &PlayPanel::onKeyPress, this);
 
@@ -129,7 +129,7 @@ PlayPanel::~PlayPanel(){}
 
 
 void PlayPanel::onKeyPress(wxKeyEvent& event) {
-        if (event.GetKeyCode() == 27) {//press ESC
+      /*  if (event.GetKeyCode() == 27) {//press ESC
             if (mainPanel->IsShown()) {
                 mainPanel->Hide();
                 informationPanel->Show();
@@ -144,7 +144,7 @@ void PlayPanel::onKeyPress(wxKeyEvent& event) {
         } else {
             // Pass unhandled key events to the default handler
             event.Skip();
-        }
+        }*/
     }
 
 
@@ -180,13 +180,13 @@ void PlayPanel::OnResign(wxCommandEvent& event) {
 }
 
 void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
-    m_modele->endPhase();
+    /*m_modele->endPhase();
     int tourAction = m_modele->getTourAction();
     if(tourAction){
         tourBtn->SetLabel("END ACTION PHASE");
     }else{
         tourBtn->SetLabel("END BUY PHASE");
-    }
+    }*/
 }
 
 void PlayPanel::OnEndButtonClicked(wxCommandEvent& event) {
@@ -195,7 +195,7 @@ void PlayPanel::OnEndButtonClicked(wxCommandEvent& event) {
 
 void PlayPanel::onLeftClicked(wxCommandEvent& event) {
 
-    std::cout << "/* event recue du fils */" << '\n';
+
     std::pair <Carte*, wxWindow*>* data = static_cast< std::pair <Carte*, wxWindow*>* >(event.GetClientData());
     if (data) {
         Carte* clickedCard = data->first;
@@ -210,7 +210,7 @@ void PlayPanel::onLeftClicked(wxCommandEvent& event) {
             m_modele->jouerCarte(clickedCard);
         }
     }
-    
+
     delete data;
 }
 
@@ -239,8 +239,8 @@ void PlayPanel::updateReserve() {
         Carte* carte = it->first;
         int quantite = it->second;
 
-        // cree une carte graphique pour chaque carte 
-        wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+        // cree une carte graphique pour chaque carte
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
         reserveSizer1->Add(card, 0, wxALL, 5);
     }
 
@@ -250,7 +250,7 @@ void PlayPanel::updateReserve() {
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, this, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 140, 224, 140, 224, wxColour(0, 0, 0));
         reserveSizer2->Add(card, 0, wxALL, 5);
     }
 
@@ -281,7 +281,7 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
         int quantite = carte.second;
 
         // Ccarte graphique pour chaque carte
-        wxCard* card = new wxCard(pan, this, c, quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(pan, c, quantite, 120, 180, 120, 180, wxColour(0, 0, 0));
 
         // Ajouter la carte au sizer
         panSizer->Add(card, 0, wxALL, 5);
