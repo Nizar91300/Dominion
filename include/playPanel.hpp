@@ -19,6 +19,9 @@ class PlayPanel : public wxPanel {
     wxButton* tourBtn; // bouton pour passer au tour suivant
     wxPanel* defaussePanel; // panel de la defausse
     wxStaticText* topText; // text en haut de la fenetre
+    wxStaticText* actionsText; // text pour le nombre d'actions
+    wxStaticText* piecesText; // text pour le nombre de pieces
+    wxStaticText* achatText; // text pour le nombre d'achats
 
   public:
 
@@ -51,6 +54,7 @@ class PlayPanel : public wxPanel {
     void updatePlayedCards(); // afficher les cartes jouees
     void updateDefausse(); // afficher la defausse
     void updateShownText(); // afficher le texte en haut de la fenetre
+    void updateStats(); // afficher les stats
 
 };
 #endif

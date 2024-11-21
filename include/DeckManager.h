@@ -47,6 +47,7 @@ class DeckManager {
         void ecarterCarteMain(Carte* carte);      // ecarter une carte de la main
 
         void ajusterDeck(); // ajuster le deck du joueur apres son tour
+        int pointsVictoire(); // calculer les points de victoire du joueur
 };
 
 #endif

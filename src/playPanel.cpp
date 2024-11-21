@@ -39,12 +39,34 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
     leftTopPanel->SetSizer(buttonTopSizer);
 
-
-
-
-
+    //---------Left mid panel-------//
     wxPanel* leftMidPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+
+    //---------Left stats panel-------//
     wxPanel* statsPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    wxBoxSizer* statsSizer = new wxBoxSizer(wxVERTICAL);
+
+    this->actionsText = new wxStaticText(statsPanel, wxID_ANY, "Remaining actions: 1" , wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
+    this->achatText = new wxStaticText(statsPanel, wxID_ANY, "Remaining purchases: 0" , wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
+    this->piecesText = new wxStaticText(statsPanel, wxID_ANY, "Remaining coins: 0" , wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
+
+
+    wxFont font = wxFont(15, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Arial");
+
+    actionsText->SetFont(font);
+    achatText->SetFont(font);
+    piecesText->SetFont(font);
+
+
+    statsSizer->Add(actionsText, 1, wxALIGN_CENTER | wxALL, 5);
+    statsSizer->Add(achatText, 1, wxALIGN_CENTER | wxALL, 5);
+    statsSizer->Add(piecesText, 1, wxALIGN_CENTER | wxALL, 5);
+
+
+    statsPanel->SetSizer(statsSizer);
+
+
+    //---------Left defausse panel-------//
     this->defaussePanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
 
 
@@ -62,8 +84,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
     wxBoxSizer* topSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    topText = new wxStaticText(topPanel, wxID_ANY, "Dominion", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
-    wxFont font = wxFont(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Arial");
+    this->topText = new wxStaticText(topPanel, wxID_ANY, "Dominion", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
     topText->SetFont(font);
 
     // Ajouter le texte avec un espace flexible pour le centrer verticalement
@@ -212,7 +233,7 @@ void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
 }
 
 void PlayPanel::OnEndButtonClicked(wxCommandEvent& event) {
-    //m_modele->endGame();
+    m_modele->endGame();
 }
 
 void PlayPanel::onLeftClicked(wxCommandEvent& event) {
@@ -259,6 +280,9 @@ void PlayPanel::update() {
 
     // update la defausse
     updateDefausse();
+
+    // update les stats
+    updateStats();
 }
 
 
@@ -390,7 +414,31 @@ void PlayPanel::updateShownText() {
     if(m_modele->getAchatSuiteAction()){
         topText->SetLabel("You can buy a card of a cost up to " + std::to_string(m_modele->getCoutMax()) );
     }
-    else if(m_modele->getIsTrashAction()){
-        topText->SetLabel("You can trash up to a total of " + std::to_string(m_modele->getNbMaxEcarter()) + " cards");
+    else {
+        if(m_modele->getIsTrashAction()){
+            topText->SetLabel("You can trash up to a total of " + std::to_string(m_modele->getNbMaxEcarter()) + " cards");
+        }
+        else{
+            if (m_modele->getTourAction()){
+                topText->SetLabel("ACTION PHASE");
+            }
+            else{
+                topText->SetLabel("BUY PHASE");
+            }
+        }
     }
+}
+
+void PlayPanel::updateStats(){
+    // Met a jour les labels d'action et de pieces
+    std::string txtActions = "Remaining actions: " + std::to_string(m_modele->getNbActions());
+    this->actionsText->SetLabel(txtActions);
+
+    std::string txtAchat = "Remaining purchases: " + std::to_string(m_modele->getNbAchat());
+    this->achatText->SetLabel(txtAchat);
+
+    std::string txtPieces = "Remaining coins: " + std::to_string(m_modele->getNbPieces());
+    this->piecesText->SetLabel(txtPieces);
+
+    this->Layout();
 }

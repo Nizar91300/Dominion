@@ -2,6 +2,7 @@
 
 #include "Carte.h"
 #include "Tresor.h"
+#include "Victoire.h"
 
 DeckManager::DeckManager(){
     m_pioche = std::vector<Carte*>(); 
@@ -156,4 +157,28 @@ void DeckManager::ajusterDeck() {
 
     // on pioche 5 cartes
     piocher(5);
+}
+
+// calculer les points de victoire du joueur
+int DeckManager::pointsVictoire() {
+    int points = 0;
+    auto piles = {m_pioche, m_defausse, m_main};
+
+    int nbCartes = m_pioche.size() + m_defausse.size() + m_main.size();
+
+    for (auto pile : piles){
+        for (Carte* carte : pile) {
+            if (carte->getNom() == "gardens") {
+                points += nbCartes/10;
+                continue;
+            }
+            // on ajoute les points de victoire des cartes de type victoire, incluant les cartes malediction
+            if(carte->getType() == TypeCarte::VICTOIRE){
+                Victoire* victoire = static_cast<Victoire*>(carte);
+                points += victoire->getPoints();
+            }
+        }
+    }
+
+    return points;
 }

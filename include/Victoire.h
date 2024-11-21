@@ -12,6 +12,8 @@ class Victoire : public Carte{
     public:
         Victoire(Modele* m, int cout, int points, std::string nom) : Carte(m, cout, TypeCarte::VICTOIRE, nom), m_points(points) {}
         virtual ~Victoire(){}
+
+        int getPoints() const { return m_points; }
 };
 
 #endif
