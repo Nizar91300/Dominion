@@ -123,6 +123,15 @@ void DeckManager::ecarterCarteJouee(Carte* carte) {
     delete carte;
 }
 
+// ecarter une carte de la liste des cartes jouees
+void DeckManager::ecarterCarteMain(Carte* carte) {
+    // on supprime la carte des cartes jouees
+    m_main.erase(std::remove(m_main.begin(), m_main.end(), carte), m_main.end());
+
+    // on ecrase la carte en memoire
+    delete carte;
+}
+
 // retirer la carte de sa pile actuelle
 void DeckManager::retirerCartePile(Carte* carte) {
     // on trouve ou est la carte et on la retire dans la bonne pile

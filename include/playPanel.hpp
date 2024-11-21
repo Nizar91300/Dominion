@@ -11,7 +11,6 @@ class PlayPanel : public wxPanel {
     Modele* m_modele;
     wxPanel* mainPanel;
     InfoPanel* informationPanel;
-    wxFrame* parentFrame;
 
 
     wxPanel* centerPanel;

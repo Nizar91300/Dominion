@@ -42,6 +42,7 @@ class DeckManager {
         Carte* prendreCartePioche();    // retourne la carte du haut de la pioche en la retirant de la pioche
         void defausser(Carte* carte);   // defausser une carte
         void ecarterCarteJouee(Carte* carte);     // ecarter une carte de la liste des cartes jouees
+        void ecarterCarteMain(Carte* carte);      // ecarter une carte de la main
         void retirerCartePile(Carte* carte); // retirer la carte de sa pile actuelle
 
         void ajusterDeck(); // ajuster le deck du joueur apres son tour
