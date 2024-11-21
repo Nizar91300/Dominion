@@ -185,6 +185,26 @@ int Modele::getNbJoueurs() const{
     return m_nbJoueurs;
 }
 
+// retourne vrai si le joueur est en phase d'achat suite a une carte action
+bool Modele::getAchatSuiteAction(){
+    return m_achatSuiteAction;
+}
+
+// retourne vrai si le joueur est en train d'utiliser une carte qui permet d'ecarter des cartes
+bool Modele::getIsTrashAction(){
+    return m_isTrashAction;
+}
+
+//retourne le cout maximal de la carte a recevoir suite a une carte action
+int Modele::getCoutMax(){
+    return m_coutMax;
+}
+
+// retourne le nombre maximal de cartes a ecarter
+int Modele::getNbMaxEcarter(){
+    return m_nbMaxEcarter;
+}
+
 // retourne la reserve
 std::vector< std::pair< Carte*, int > > Modele::getReserve(){
     return m_reserve;
@@ -463,7 +483,6 @@ void Modele::donnerMalediction(){
 // recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action
 void Modele::showRecevoirCarte(int coutMax){
     m_coutMax = coutMax;
-    // view.showAchatSuiteAction(coutMax);
     m_achatSuiteAction = true;
 }
 
@@ -471,9 +490,7 @@ void Modele::showRecevoirCarte(int coutMax){
 void Modele::showEcarterCartes(int nbCartesMax){
     m_isTrashAction = true;
     m_nbCartesEcarter = nbCartesMax;
-
-
-    // view.showEcarterCartes(nbCartesMax);
+    m_nbMaxEcarter = nbCartesMax;
 }
 
 

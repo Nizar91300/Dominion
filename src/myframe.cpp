@@ -108,7 +108,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 // update the current panel
 void MyFrame::updateCurrentPanel(){
   if(this->currentpanelName=="Play"){
-    PlayPanel* p = dynamic_cast<PlayPanel*>(this->currentpanel);
+    PlayPanel* p = static_cast<PlayPanel*>(this->currentpanel);
     p->update();
   }
 }

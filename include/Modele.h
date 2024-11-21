@@ -30,6 +30,7 @@ class Modele{
         int m_coutMax;              // cout maximal de la carte a recevoir suite a une carte action
 
         bool m_isTrashAction; // indique si le joueur est en train d'utiliser une carte qui permet d'ecarter des cartes
+        int m_nbMaxEcarter;    // nombre maximal de cartes a ecarter
         int m_nbCartesEcarter;    // nombre de cartes a ecarter
 
         int m_sound;   // indique si le son est active ou non
@@ -47,6 +48,10 @@ class Modele{
         
         bool getTourAction();    // retourne vrai si le joueur est en phase d'action faux sinon
         int getNbJoueurs() const; // retourne le nombre de joueurs
+        bool getAchatSuiteAction(); // retourne vrai si le joueur est en phase d'achat suite a une carte action
+        bool getIsTrashAction();    // retourne vrai si le joueur est en train d'utiliser une carte qui permet d'ecarter des cartes
+        int getCoutMax();   // retourne le cout maximal de la carte a recevoir suite a une carte action
+        int getNbMaxEcarter();  // retourne le nombre maximal de cartes a ecarter
         std::vector< std::pair< Carte*, int > >  getReserve();  // retourne la reserve
         std::vector< std::pair< Carte*, int > > getMain();  // retourne la main du joueur actif
         std::vector<std::pair<Carte*, int >> getPlayedCards();    // retourne les cartes jouees par le joueur actif

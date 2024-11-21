@@ -21,10 +21,33 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     //------------------LEFT---------------------------------//
     wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
+    
+
+
+
+    //---------Left top panel-------//
     wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxButton* resignButton = new wxButton(leftTopPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
+    wxButton* quitButton = new wxButton(leftTopPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
+    wxButton* saveButton = new wxButton(leftTopPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
+    resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnResign, this);
+    quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
+    saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
+    buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+    buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+    buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
+    leftTopPanel->SetSizer(buttonTopSizer);
+
+
+
+
+
     wxPanel* leftMidPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     wxPanel* statsPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     this->defaussePanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+
+
     leftSizer->Add(leftTopPanel, 0, wxEXPAND | wxLEFT | wxBOTTOM, 1);
     leftSizer->Add(leftMidPanel, 5, wxEXPAND | wxLEFT, 1);
     leftSizer->Add(statsPanel, 2, wxEXPAND | wxLEFT, 1);
@@ -35,20 +58,18 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     //------------------CENTER---------------------------------//
     wxBoxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
-
-    //----------------//
+    
     wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
-    wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    wxButton* resignButton = new wxButton(topPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
-    wxButton* quitButton = new wxButton(topPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
-    wxButton* saveButton = new wxButton(topPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
-    resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnResign, this);
-    quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
-    saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
-    buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-    buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-    buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-    topPanel->SetSizer(buttonTopSizer);
+    wxBoxSizer* topSizer = new wxBoxSizer(wxHORIZONTAL);
+
+    topText = new wxStaticText(topPanel, wxID_ANY, "Dominion", wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER);
+    wxFont font = wxFont(20, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, "Arial");
+    topText->SetFont(font);
+
+    // Ajouter le texte avec un espace flexible pour le centrer verticalement
+    topSizer->Add(topText, 1, wxEXPAND | wxALL, 5);
+
+    topPanel->SetSizer(topSizer);
 
 
     //----------------//
@@ -222,6 +243,25 @@ void PlayPanel::onLeftClicked(wxCommandEvent& event) {
 
 // FONCTION DE MISE A JOUR DE L'AFFICHAGE
 
+// Met a jour tout l'affichage
+void PlayPanel::update() {
+    // Met a jour l'affichage de la reserve
+    updateReserve();
+
+    // Met a jour l'affichage des cartes en main
+    updateMain();
+
+    // Met a jour l'affichage des cartes jouees
+    updatePlayedCards();
+
+    // Met a jour le texte en haut de la fenetre
+    updateShownText();
+
+    // update la defausse
+    updateDefausse();
+}
+
+
 
 void PlayPanel::updateReserve() {
     // Efface les enfants existants dans centerPanel pour les mettre à jour
@@ -343,17 +383,14 @@ void PlayPanel::updateDefausse(){
 
 }
 
-// Met a jour tout l'affichage
-void PlayPanel::update() {
-    // Met a jour l'affichage de la reserve
-    updateReserve();
-
-    // Met a jour l'affichage des cartes en main
-    updateMain();
-
-    // Met a jour l'affichage des cartes jouees
-    updatePlayedCards();
-
-    // update la defausse
-    updateDefausse();
+// affiche le texte en haut de la fenetre
+void PlayPanel::updateShownText() {
+    // Met a jour le texte
+    
+    if(m_modele->getAchatSuiteAction()){
+        topText->SetLabel("You can buy a card of a cost up to " + std::to_string(m_modele->getCoutMax()) );
+    }
+    else if(m_modele->getIsTrashAction()){
+        topText->SetLabel("You can trash up to a total of " + std::to_string(m_modele->getNbMaxEcarter()) + " cards");
+    }
 }
