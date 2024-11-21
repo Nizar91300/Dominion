@@ -30,6 +30,8 @@ class DeckManager {
         const std::vector<Carte*> getCartesEnAttente();
         const std::vector<Carte*> getCartesJouees();
 
+        bool mainContientDouve(); // verifie si la main contient une douve
+
         void addCardToPioche(Carte* carte);
         void addCardToMain(Carte* carte);   // ajouter une carte a la main
         void addCardToDefausse(Carte* carte);   // ajouter une carte a la defausse

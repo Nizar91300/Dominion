@@ -81,6 +81,7 @@ class Modele{
 
         void showRecevoirCarte(int coutMax);   // affiche le menu pour recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action
         void showEcarterCartes(int nbCartesMax);  // affiche le menu pour ecarter au maximum nbCartes cartes
+        void actionVoleur();    // action du voleur
 
         bool finPartie();           // verifier si la partie est finie
 };

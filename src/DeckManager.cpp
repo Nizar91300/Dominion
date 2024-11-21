@@ -35,11 +35,6 @@ const std::vector<Carte*> DeckManager::getPioche() {
     return m_pioche;
 }
 const std::vector<Carte*> DeckManager::getDefausse() {
-    // afficher la defausse
-    std::cout << "Affichage defausse : \n" << std::endl;
-    for (Carte* carte : m_defausse) {
-        std::cout << carte->getNom() << std::endl;
-    }
     return m_defausse;
 }
 const std::vector<Carte*> DeckManager::getMain() {
@@ -50,6 +45,15 @@ const std::vector<Carte*> DeckManager::getCartesEnAttente() {
 }
 const std::vector<Carte*> DeckManager::getCartesJouees() {
     return m_cartesjouees;
+}
+
+bool DeckManager::mainContientDouve() {
+    for (Carte* carte : m_main) {
+        if (carte->getNom() == "moat") {
+            return true;
+        }
+    }
+    return false;
 }
 
 // ajouter une carte a la pioche

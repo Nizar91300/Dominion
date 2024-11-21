@@ -467,12 +467,17 @@ void Modele::donnerMalediction(){
     // donner une malediction a chaque joueur sauf au joueur actif
     for(unsigned int i = 0; i < m_joueurs.size(); i++){
         if(m_joueurs[i] != m_joueurActif){
+            // si le joueur a une douve on ne peut pas l'attaquer
+            if( m_joueurs[i]->getDeckManager()->mainContientDouve() ){
+                return;
+            }
+
             if( malediction.second > 0){
                 // decremente le nombre de cartes disponibles
                 malediction.second--;
 
                 // ajoute une copie de la carte a la defausse du joueur
-                m_joueurs[i]->getDeckManager()->addCardToDefausse( new Carte(malediction.first) );
+                m_joueurs[i]->getDeckManager()->addCardToDefausse( malediction.first->clone() );
             }
         }
     }
@@ -491,6 +496,68 @@ void Modele::showEcarterCartes(int nbCartesMax){
     m_isTrashAction = true;
     m_nbCartesEcarter = nbCartesMax;
     m_nbMaxEcarter = nbCartesMax;
+}
+
+void Modele::actionVoleur(){    
+    // rajouter 1 or a la defausse du joueur actif
+    m_joueurActif->getDeckManager()->addCardToDefausse(new Or(this));
+
+
+    // recuperer les cartes de la main des autres joueurs
+    std::vector< std::vector <Carte*> > cartesAutresJoueurs = std::vector< std::vector <Carte*> >();
+
+    for(unsigned int i = 0; i < m_joueurs.size(); i++){
+        if(m_joueurs[i] == m_joueurActif)
+            continue;
+        
+        // si le joueur a une douve on ne peut pas l'attaquer
+        if( m_joueurs[i]->getDeckManager()->mainContientDouve() ){
+            return;
+        }
+
+
+        std::vector<Carte*> cartes = std::vector<Carte*>();
+        
+        auto c1 = m_joueurs[i]->getDeckManager()->prendreCartePioche();
+        auto c2 = m_joueurs[i]->getDeckManager()->prendreCartePioche();
+        
+        // on ecarte une carte de type gold ou silver mais on renvoie une copie de la carte pour l'affichage
+        if(c1->getNom() == "gold" || c1->getNom() == "silver"){
+            auto tmp = c1->clone();
+            delete c1;
+            c1 = tmp;
+
+            m_joueurs[i]->getDeckManager()->addCardToDefausse(c2);
+        }
+        else{
+            if(c2->getNom() == "gold" || c2->getNom() == "silver"){
+                auto tmp = c2->clone();
+                delete c2;
+                c2 = tmp;
+
+                m_joueurs[i]->getDeckManager()->addCardToDefausse(c1);
+            }
+            else{
+                m_joueurs[i]->getDeckManager()->addCardToDefausse(c1);
+                m_joueurs[i]->getDeckManager()->addCardToDefausse(c2);
+            }
+        }
+
+        cartes.push_back(c1);
+        cartes.push_back(c2);
+
+        cartesAutresJoueurs.push_back(cartes);
+    }
+
+    // afficher les cartes
+    for (unsigned int i = 0; i < cartesAutresJoueurs.size(); i++) {
+        for (unsigned int j = 0; j < cartesAutresJoueurs[i].size(); j++) {
+            std::cout << cartesAutresJoueurs[i][j]->getNom() << " ";
+        }
+        std::cout << std::endl;
+    }
+
+    //m_view->showVoleur(cartesAutresJoueurs);
 }
 
 
