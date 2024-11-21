@@ -155,7 +155,7 @@ void PlayPanel::OnResign(wxCommandEvent& event) {
 
 void PlayPanel::onCardInfo(wxCommandEvent& event) {
     std::string stlstring = std::string(event.GetString().mb_str());
-    if(stlstring.empty()) return;
+    if(stlstring.empty() || this->informationPanel->IsShown()) return;
     this->informationPanel->updateImage(stlstring);
     this->mainPanel->Hide();
     this->informationPanel->Show();
