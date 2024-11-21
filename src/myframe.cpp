@@ -58,7 +58,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
     if(event.GetString()=="New Game"){
 
-        m_modele->initNewGame( m_modele->getNbJoueurs() );
+        m_modele->initNewGame();
         this->currentpanelName = "Play";
         this->currentpanel->Destroy();
         // Initialiser une nouvelle partie avec le meme nombre de joueurs

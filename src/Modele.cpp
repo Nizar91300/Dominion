@@ -23,6 +23,7 @@
 #include "Festin.h"
 
 #include "myframe.hpp"
+#include "resources.hpp"
 
 
 // constructeur
@@ -49,13 +50,20 @@ Modele::~Modele(){
 }
 
 //initialiser une nouvelle partie
-void Modele::initNewGame(int nbJoueurs){
+void Modele::initNewGame(){
+    int humanPlayers;
+    Resources::getInstance()->getSettings(m_nbJoueurs, humanPlayers, m_sound, m_chosenCards);
+
     // initialiser les joueurs
-    m_nbJoueurs = nbJoueurs;
     m_tourAction = true;
 
     m_joueurs = std::vector<Joueur*>();
     m_reserve = std::vector< std::pair< Carte*, int > >();
+
+
+    m_achatSuiteAction = false;
+    m_isTrashAction = false;
+    m_nbCartesEcarter = 0;
 
     initJoueurs();
 
@@ -145,7 +153,6 @@ void Modele::initNewTour(){
     // reinitialiser les pieces
     m_nbPieces = 0;
 
-    m_achatSuiteAction = false;
 }
 
 
@@ -221,6 +228,10 @@ void Modele::endPhase(){
     if(m_tourAction){
         // passer a la phase d'achat
         m_tourAction = false;
+
+        m_achatSuiteAction = false;
+        m_isTrashAction = false;
+        m_nbCartesEcarter = 0;
     }
     // si le joueur est en phase d'achat
     else {
@@ -283,6 +294,16 @@ void Modele::recevoirCarteDefausse(Carte* carte){
 void Modele::jouerCarte(Carte* carte){
     // si le joueur est en phase d'action
     if(m_tourAction){
+        // ecarte les cartes si on est en train d'utiliser une carte qui permet d'ecarter des cartes
+        if(m_isTrashAction){
+            m_nbCartesEcarter--;
+            if(m_nbCartesEcarter == 0){
+                m_isTrashAction = false;
+            }
+            m_joueurActif->getDeckManager()->ecarterCarteMain(carte);
+            return;
+        }
+
         // verifier si le joueur a assez d'actions
         if(m_nbActions == 0)
             return;
@@ -423,8 +444,11 @@ void Modele::showRecevoirCarte(int coutMax){
 
 // ecarter au maximum nbCartes cartes
 void Modele::showEcarterCartes(int nbCartesMax){
+    m_isTrashAction = true;
+    m_nbCartesEcarter = nbCartesMax;
+
+
     // view.showEcarterCartes(nbCartesMax);
-    nbCartesMax += 0;
 }
 
 

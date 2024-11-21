@@ -2,6 +2,8 @@
 #define MODELE_H
 
 #include <vector>
+#include <set>
+#include <string>
 
 class Joueur;
 
@@ -26,13 +28,19 @@ class Modele{
 
         bool m_achatSuiteAction;   // indique si le joueur est en phase d'achat suite a une carte action
         int m_coutMax;              // cout maximal de la carte a recevoir suite a une carte action
+
+        bool m_isTrashAction; // indique si le joueur est en train d'utiliser une carte qui permet d'ecarter des cartes
+        int m_nbCartesEcarter;    // nombre de cartes a ecarter
+
+        int m_sound;   // indique si le son est active ou non
+        std::set< std::string > m_chosenCards; // liste des cartes choisies pour la partie
     
 
     public:
         Modele();
         ~Modele();
 
-        void initNewGame(int nbJoueurs); // initialiser une nouvelle partie
+        void initNewGame(); // initialiser une nouvelle partie
         void initJoueurs(); // initialiser les joueurs
         void initReserve(); // initialiser la reserve
         void initNewTour();    // initialise le nouveau tour du joueur
