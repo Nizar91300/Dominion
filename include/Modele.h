@@ -51,6 +51,7 @@ class Modele{
         std::vector< std::pair< Carte*, int > > getMain();  // retourne la main du joueur actif
         std::vector<std::pair<Carte*, int >> getPlayedCards();    // retourne les cartes jouees par le joueur actif
         std::vector<std::pair<Carte*, int >> convertVecCarteToVecPair(std::vector<Carte*> vec); // convertir un vecteur de cartes en vecteur de paires de cartes et de quantites
+        std::vector< Carte* > getDefausse();    // retourne la defausse
 
         void setView(MyFrame* mf);
 

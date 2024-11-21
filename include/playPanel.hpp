@@ -17,6 +17,7 @@ class PlayPanel : public wxPanel {
     wxPanel* playedPanel; // panel des cartes jouees
     wxPanel* handPanel; // panel des cartes en main
     wxButton* tourBtn; // bouton pour passer au tour suivant
+    wxPanel* defaussePanel; // panel de la defausse
 
   public:
 
@@ -47,6 +48,7 @@ class PlayPanel : public wxPanel {
     void updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int>  > cartes); // afficher les cartes jouees dans le panel en parametre
     void updateMain(); // afficher les cartes en main
     void updatePlayedCards(); // afficher les cartes jouees
+    void updateDefausse(); // afficher la defausse
 
 };
 #endif

@@ -82,7 +82,7 @@ void Modele::initJoueurs(){
     }
 
     // joueur actif
-    m_indexJoueurActif = 1;
+    m_indexJoueurActif = m_joueurs.size()-1;
     m_joueurActif = m_joueurs[m_indexJoueurActif];
 }
 
@@ -182,6 +182,11 @@ std::vector< std::pair< Carte*, int > > Modele::getPlayedCards(){
     auto cartesJouees = m_joueurActif->getDeckManager()->getCartesJouees();
 
     return convertVecCarteToVecPair(cartesJouees);
+}
+
+// retourne la defausse
+std::vector< Carte* > Modele::getDefausse(){
+    return m_joueurActif->getDeckManager()->getDefausse();
 }
 
 // convertit un vecteur de cartes en vecteur de paires de cartes et de quantites

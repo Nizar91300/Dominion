@@ -22,9 +22,15 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     //------------------LEFT---------------------------------//
     wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
     wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
-    wxPanel* leftPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
-    leftSizer->Add(leftTopPanel, 1, wxEXPAND | wxLEFT | wxBOTTOM, 1);
-    leftSizer->Add(leftPanel, 4, wxEXPAND | wxLEFT, 1);
+    wxPanel* leftMidPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    wxPanel* statsPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    this->defaussePanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    leftSizer->Add(leftTopPanel, 0, wxEXPAND | wxLEFT | wxBOTTOM, 1);
+    leftSizer->Add(leftMidPanel, 5, wxEXPAND | wxLEFT, 1);
+    leftSizer->Add(statsPanel, 2, wxEXPAND | wxLEFT, 1);
+    leftSizer->Add(defaussePanel, 2, wxEXPAND | wxLEFT, 1);
+
+    
 
 
     //------------------CENTER---------------------------------//
@@ -307,13 +313,34 @@ void PlayPanel::updatePlayedCards() {
     // Recupere les cartes jouees dans le modele
     auto played = m_modele->getPlayedCards();
 
-    // afficher les cartes jouees
-    for (auto& carte : played) {
-        std::cout << "AFFFICHAGE :::: \n" <<carte.first->getNom() << " " << carte.second << std::endl << "\n\n\n\n\n\n";
-    }
-
     // Ajoute les cartes dans le sizer
     updatePanel(playedPanel, played);
+}
+
+// update la carte afficher dans la defausse
+void PlayPanel::updateDefausse(){
+    // Efface les enfants existants dans defaussePanel pour les mettre à jour
+    defaussePanel->DestroyChildren();
+
+    // Recupere la defausse dans le modele
+    auto defausse = m_modele->getDefausse();
+
+    if(defausse.empty()) return;
+    
+
+    // Création d'un sizer horizontal pour afficher la defausse sur une seule ligne
+    wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
+
+    // Carte graphique pour la derniere carte
+    wxCard* card = new wxCard(defaussePanel, defausse.back(), defausse.size(), 100, 160, 100, 160, wxColour(0, 0, 0));
+
+    // Ajouter la carte au sizer
+    mainSizer->Add(card, 0, wxALL, 5);
+
+    // Applique le sizer à defaussePanel pour afficher les cartes
+    defaussePanel->SetSizer(mainSizer);
+    defaussePanel->Layout(); // rafraichit l'affichage
+
 }
 
 // Met a jour tout l'affichage
@@ -326,4 +353,7 @@ void PlayPanel::update() {
 
     // Met a jour l'affichage des cartes jouees
     updatePlayedCards();
+
+    // update la defausse
+    updateDefausse();
 }
