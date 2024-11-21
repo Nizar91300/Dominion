@@ -329,13 +329,13 @@ void PlayPanel::updateDefausse(){
     
 
     // Création d'un sizer horizontal pour afficher la defausse sur une seule ligne
-    wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
     // Carte graphique pour la derniere carte
     wxCard* card = new wxCard(defaussePanel, defausse.back(), defausse.size(), 100, 160, 100, 160, wxColour(0, 0, 0));
 
     // Ajouter la carte au sizer
-    mainSizer->Add(card, 0, wxALL, 5);
+    mainSizer->Add(card, 0, wxALIGN_CENTER | wxALL, 5);
 
     // Applique le sizer à defaussePanel pour afficher les cartes
     defaussePanel->SetSizer(mainSizer);

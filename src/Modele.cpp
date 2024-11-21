@@ -57,8 +57,20 @@ void Modele::initNewGame(){
     // initialiser les joueurs
     m_tourAction = true;
 
-    m_joueurs = std::vector<Joueur*>();
-    m_reserve = std::vector< std::pair< Carte*, int > >();
+    if(m_joueurs.size() > 0){
+        for(size_t i = 0; i < m_joueurs.size(); i++){
+            delete m_joueurs[i];
+        }
+    }
+
+    if (m_reserve.size() > 0) {
+        for(size_t i = 0; i < m_reserve.size(); i++){
+            delete m_reserve[i].first;
+        }
+    }
+
+    m_joueurs.clear();
+    m_reserve.clear();
 
 
     m_achatSuiteAction = false;
@@ -67,8 +79,16 @@ void Modele::initNewGame(){
 
     initJoueurs();
 
-    // initialiser le tour
-    initNewTour();
+    // initialiser les variables
+    m_indexJoueurActif = 0;
+    m_joueurActif = m_joueurs[m_indexJoueurActif];
+
+    // reinitialiser les actions et les achats
+    m_nbActions = 1;
+    m_nbAchats = 1;
+
+    // reinitialiser les pieces
+    m_nbPieces = 0;
 
     // initialiser la reserve
     initReserve();

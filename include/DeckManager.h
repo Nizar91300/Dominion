@@ -43,7 +43,6 @@ class DeckManager {
         void defausser(Carte* carte);   // defausser une carte
         void ecarterCarteJouee(Carte* carte);     // ecarter une carte de la liste des cartes jouees
         void ecarterCarteMain(Carte* carte);      // ecarter une carte de la main
-        void retirerCartePile(Carte* carte); // retirer la carte de sa pile actuelle
 
         void ajusterDeck(); // ajuster le deck du joueur apres son tour
 };

@@ -35,6 +35,11 @@ const std::vector<Carte*> DeckManager::getPioche() {
     return m_pioche;
 }
 const std::vector<Carte*> DeckManager::getDefausse() {
+    // afficher la defausse
+    std::cout << "Affichage defausse : \n" << std::endl;
+    for (Carte* carte : m_defausse) {
+        std::cout << carte->getNom() << std::endl;
+    }
     return m_defausse;
 }
 const std::vector<Carte*> DeckManager::getMain() {
@@ -130,20 +135,6 @@ void DeckManager::ecarterCarteMain(Carte* carte) {
 
     // on ecrase la carte en memoire
     delete carte;
-}
-
-// retirer la carte de sa pile actuelle
-void DeckManager::retirerCartePile(Carte* carte) {
-    // on trouve ou est la carte et on la retire dans la bonne pile
-    std::vector<std::vector<Carte*>*> piles = {&m_main, &m_defausse, &m_pioche, &m_cartesEnAttente};
-
-    for (auto& pile : piles) {
-        auto it = std::find(pile->begin(), pile->end(), carte);
-        if (it != pile->end()) {
-            pile->erase(it);
-            return;
-        }
-    }
 }
 
 // ajuster le deck du joueur apres son tour
