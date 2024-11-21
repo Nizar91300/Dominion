@@ -15,8 +15,8 @@ InfoPanel::InfoPanel(wxWindow* parent) : wxPanel(parent){
   mainSizer->Add(description, 0, wxALIGN_CENTER | wxALL, 5);
 
   Bind(wxEVT_CHAR_HOOK, &InfoPanel::OnQuit, this);
-  Bind(wxEVT_COMMAND_LEFT_CLICK, &InfoPanel::OnQuit, this);
-  Bind(wxEVT_COMMAND_RIGHT_CLICK, &InfoPanel::OnQuit, this);
+  Bind(wxEVT_LEFT_DOWN, &InfoPanel::OnQuit, this);
+  Bind(wxEVT_RIGHT_DOWN, &InfoPanel::OnQuit, this);
 
   SetSizer(mainSizer);
   Layout();

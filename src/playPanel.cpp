@@ -100,13 +100,15 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     this->SetSizer(sizer);
     this->Layout();
 
+    Bind(wxEVT_COMMAND_RIGHT_CLICK, &PlayPanel::onCardInfo, this);
+    Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::onCardInfoReturn, this);
+
 
     //events
-    centerPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
-    handPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
+    //centerPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
+    //handPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
 
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
-    Bind(wxEVT_COMMAND_RIGHT_CLICK, &PlayPanel::onRightClicked, this);
 
     update();
 }
@@ -123,22 +125,6 @@ void PlayPanel::OnQuit(wxCommandEvent& event) {
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
 }
 
-
-
-// FONCTION DE GESTION DES EVENEMENTS
-
-void PlayPanel::OnButtonClicked(wxCommandEvent& event) {
-  //wxLogMessage(name);
-  wxButton* button = dynamic_cast<wxButton*>(event.GetEventObject());
-  if (button) {
-        wxString buttonName = button->GetLabel();
-        //notify parent
-        wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
-        notifyEvent.SetString(buttonName);  // Include button name in the event
-        wxPostEvent(this->parentFrame, notifyEvent); // Send event to parent frame
-  }
-}
-
 void PlayPanel::OnSave(wxCommandEvent& event) {
     //todo
 }
@@ -146,6 +132,27 @@ void PlayPanel::OnSave(wxCommandEvent& event) {
 void PlayPanel::OnResign(wxCommandEvent& event) {
   //todo
 }
+
+void PlayPanel::onCardInfo(wxCommandEvent& event) {
+    std::string stlstring = std::string(event.GetString().mb_str());
+    if(stlstring.empty()) return;
+    this->informationPanel->updateImage(stlstring);
+    this->mainPanel->Hide();
+    this->informationPanel->Show();
+    this->informationPanel->SetFocus();
+    Layout();
+}
+
+void PlayPanel::onCardInfoReturn(wxCommandEvent& event) {
+    if(event.GetString()=="Switch"){
+      this->informationPanel->Hide();
+      this->mainPanel->Show();
+      this->mainPanel->SetFocus();
+      Layout();
+    }
+}
+
+
 
 void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
     m_modele->endPhase();
@@ -182,17 +189,10 @@ void PlayPanel::onLeftClicked(wxCommandEvent& event) {
     delete data;
 }
 
-void PlayPanel::onRightClicked(wxCommandEvent& event) {
-    if(event.GetString().empty()) return;
 
-    std::string stlstring = std::string(event.GetString().mb_str());
 
-    this->informationPanel->updateImage(stlstring);
-    this->mainPanel->Hide();
-    this->informationPanel->Show();
-    this->informationPanel->SetFocus();
-    Layout();
-}
+
+
 
 // FONCTION DE MISE A JOUR DE L'AFFICHAGE
 

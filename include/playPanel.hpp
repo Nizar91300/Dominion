@@ -24,20 +24,25 @@ class PlayPanel : public wxPanel {
     PlayPanel(wxFrame* parent, Modele* model);
     ~PlayPanel();
 
+    //quit, save, resign
+    void OnQuit(wxCommandEvent& event);
+    void OnSave(wxCommandEvent& event);
+    void OnResign(wxCommandEvent& event);
 
-    void OnButtonClicked(wxCommandEvent& event);
+    //card info functions
+    void onCardInfo(wxCommandEvent& event);
+    void onCardInfoReturn(wxCommandEvent& event);
+
+    //tpours
     void OnTourButtonClicked(wxCommandEvent& event);
     void OnEndButtonClicked(wxCommandEvent& event);
     void onLeftClicked(wxCommandEvent& event);
 
-    void onRightClicked(wxCommandEvent& event);
+
 
     void update();    // met a jour tout l'affichage
 
-    void onKeyPress(wxKeyEvent& event);
-    void OnQuit(wxCommandEvent& event);
-    void OnSave(wxCommandEvent& event);
-    void OnResign(wxCommandEvent& event);
+
 
     void updateReserve(); // afficher les cartes de la reserve
     void updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int>  > cartes); // afficher les cartes jouees dans le panel en parametre
