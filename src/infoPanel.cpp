@@ -7,12 +7,16 @@
 InfoPanel::InfoPanel(wxWindow* parent) : wxPanel(parent){
 
   SetBackgroundColour(wxColour(204, 219, 149));
-  wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
-  this->informationCard = new wxCard(this, "gold", 1, 250, 400, 250, 400, wxColour(0, 0, 0));
-  mainSizer->AddSpacer(400);
-  mainSizer->Add(informationCard, 0, wxALIGN_CENTER | wxALL, 5);
-  this->description = new wxStaticText(this, wxID_ANY, "Title:");
-  mainSizer->Add(description, 0, wxALIGN_CENTER | wxALL, 5);
+  wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
+
+
+  wxFont comicFont(30, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Comic Sans MS");
+  wxStaticText* text = new wxStaticText(this, wxID_ANY, "Click on the mouse or in the keyboard to exit");
+  text->SetFont(comicFont);
+  mainSizer->Add(text, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 50);
+
+  this->informationCard = new wxCard(this, "gold", 1, 300, 480, 300, 480, wxColour(0, 0, 0));
+  mainSizer->Add(informationCard, 0, wxALIGN_CENTER | wxALL, 0);
 
   Bind(wxEVT_CHAR_HOOK, &InfoPanel::OnQuit, this);
   Bind(wxEVT_LEFT_DOWN, &InfoPanel::OnQuit, this);
@@ -37,5 +41,4 @@ void InfoPanel::OnQuit(wxEvent& event) {
 
 void InfoPanel::updateImage(std::string imageName){
   this->informationCard->updateImage(imageName,250,400);
-  this->description->SetLabel(wxString::Format("Title: %s", imageName));
 }

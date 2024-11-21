@@ -66,6 +66,26 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
     wxPanel* rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     rightPanel->SetBackgroundColour(wxColour(122, 148, 163));//red
+
+    wxBoxSizer* rightPanelSizer = new wxBoxSizer(wxVERTICAL);
+    wxFont comicFont(14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Comic Sans MS");
+    for (size_t i = 0; i < 6; i++) {
+
+      wxPanel* rectanglePanel = new wxPanel(rightPanel, wxID_ANY);
+      rectanglePanel->SetBackgroundColour(wxColour(235, 193, 162));
+      rectanglePanel->SetOwnBackgroundColour(wxColour(235, 193, 162));
+      rectanglePanel->SetOwnForegroundColour(wxColour(202, 227, 215));
+      rectanglePanel->SetWindowStyle(wxBORDER_SIMPLE);
+      wxStaticText* text = new wxStaticText(rectanglePanel, wxID_ANY, "Player");
+      text->SetFont(comicFont);
+      wxBoxSizer* rectangleSizer = new wxBoxSizer(wxVERTICAL);
+      rectangleSizer->Add(text, 0, wxALIGN_CENTER | wxALL, 5); // Padding around the text
+      rectanglePanel->SetSizer(rectangleSizer);
+      rightPanelSizer->Add(rectanglePanel, 0, wxALIGN_CENTER | wxTOP, 40);
+    }
+    rightPanel->SetSizer(rightPanelSizer);
+
+
     wxPanel* rightBottomPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(100, -1));
     wxSizer* rightBottomSizer = new wxBoxSizer(wxVERTICAL);
 

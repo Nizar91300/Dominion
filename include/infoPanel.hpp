@@ -10,8 +10,6 @@ class InfoPanel : public wxPanel {
 
   public:
     wxCard* informationCard;
-    wxStaticText* description;
-
     InfoPanel(wxWindow* parent);
     ~InfoPanel();
     void OnQuit(wxEvent& event);
