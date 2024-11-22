@@ -7,9 +7,10 @@
 
 
 class EndGame : public wxPanel {
+  private:
+    wxBoxSizer* sizer;
 
   public:
-    wxBoxSizer* sizer;
     EndGame(wxWindow* parent);
     ~EndGame();
     void OnQuit(wxEvent& event);
