@@ -4,6 +4,7 @@
 #include <string>
 
 class Modele;
+class Carte;
 
 class MyFrame : public wxFrame{
 public:
@@ -12,6 +13,8 @@ public:
     wxPanel* currentpanel = NULL;
     void updateCurrentPanel();
     void updateAndPause(int ms);
+    void showEndGame(std::vector<int> points);
+    void showVoleur(std::vector<std::vector<Carte*>>& cartes, std::vector<int>& players);
 private:
     Modele* m_modele;
     std::string currentpanelName;

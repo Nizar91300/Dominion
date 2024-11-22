@@ -119,3 +119,19 @@ void MyFrame::updateAndPause(int ms){
     p->updateAndPause(ms);
   }
 }
+
+// show the end game panel
+void MyFrame::showEndGame(std::vector<int> points){
+  if(this->currentpanelName=="Play"){
+    PlayPanel* p = static_cast<PlayPanel*>(this->currentpanel);
+    p->showEndGame(points);
+  }
+}
+
+// show the voleur panel
+void MyFrame::showVoleur(std::vector<std::vector<Carte*>>& cartes, std::vector<int>& players){
+  if(this->currentpanelName=="Play"){
+    PlayPanel* p = static_cast<PlayPanel*>(this->currentpanel);
+    p->showVoleur(cartes,players);
+  }
+}

@@ -605,7 +605,7 @@ void Modele::actionVoleur(){
         cartesAutresJoueurs.push_back(cartes);
         indJoueurs.push_back(i);
     }
-    //m_view->showVoleur(cartesAutresJoueurs, indJoueurs);
+    m_view->showVoleur(cartesAutresJoueurs, indJoueurs);
 }
 
 // true si le joueur actif est un bot, false sinon
@@ -639,10 +639,7 @@ void Modele::endGame(){
     }
 
     // afficher le gagnant
-    //m_view->showEndGame(points);
-    for(unsigned int i = 0; i < m_joueurs.size(); i++){
-        std::cout << "Joueur " << i+1 << " : " << points[i] << " points de victoire" << std::endl;
-    }
+    m_view->showEndGame(points);
 }
 
 int Modele::getJoueurActif(){
