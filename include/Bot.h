@@ -2,6 +2,9 @@
 #define BOT_H
 
 #include "Joueur.h"
+#include "Village.h"
+#include "Festin.h"
+#include "DeckManager.h"
 
 class Modele;
 class Carte;
@@ -9,7 +12,11 @@ class Carte;
 class Bot : public Joueur {
 
 public:
-    Bot(Modele* modele) : Joueur(modele){}
+    Bot(Modele* modele) : Joueur(modele){
+        m_deckManager->addCardToMain(new Village(modele));
+        m_deckManager->addCardToMain(new Festin(modele));
+
+    }
 
     void playActionPhase(); // Gere la phase d'action
     void playBuyPhase(); // Gere la phase d'achat

@@ -10,7 +10,7 @@ class Tresor : public Carte{
         int m_valeur;       // valeur que la carte rapporte
 
     public:
-        Tresor(Modele* m, int cout, int valeur, std::string nom) : Carte(m, cout, TypeCarte::TRESOR, nom), m_valeur(valeur) {}
+        Tresor(Modele* m, int cout, int valeur, std::string nom, int priorite) : Carte(m, cout, TypeCarte::TRESOR, nom, priorite), m_valeur(valeur) {}
         virtual ~Tresor(){}
         int getValeur() const { return m_valeur; }
 };

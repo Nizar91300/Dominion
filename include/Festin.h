@@ -10,7 +10,7 @@ class Festin : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Festin(Modele* m) : Action(m, COUT_ACHAT, "feast") {}
+        Festin(Modele* m) : Action(m, COUT_ACHAT, "feast", 7) {}
         ~Festin(){}
 
         // Implementation de la methode clone

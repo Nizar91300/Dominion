@@ -27,7 +27,6 @@ class DeckManager {
         const std::vector<Carte*> getPioche();
         const std::vector<Carte*> getDefausse();
         const std::vector<Carte*> getMain();
-        const std::vector<Carte*> getCartesEnAttente();
         const std::vector<Carte*> getCartesJouees();
         
         bool mainContientDouve(); // verifie si la main contient une douve
@@ -37,6 +36,7 @@ class DeckManager {
         void addCardToDefausse(Carte* carte);   // ajouter une carte a la defausse
         void addCardPiocheToEnAttente();   // pioche une carte et la met dans les cartes en attente
         void addCardMainToJouees(Carte* carte);   // met la carte de la main en parametre dans les cartes jouees
+        std::vector<Carte*> getAllCards();   // retourne toutes les cartes du deck
 
         
         void melangerPioche();          // melanger la pioche

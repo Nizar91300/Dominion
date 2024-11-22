@@ -11,7 +11,7 @@ class Jardin : public Victoire{
         static const int POINTS;
 
     public:
-        Jardin(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "gardens") {}
+        Jardin(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "gardens", 4) {}
         ~Jardin(){}
 
         // Implementation de la methode clone

@@ -396,14 +396,18 @@ void Modele::jouerCarte(Carte* carte){
         if( carte->getType() == TypeCarte::ACTION ){
             Action* action = static_cast<Action*>(carte);
 
+            // ajouter la carte a la liste des cartes jouees
+            m_joueurActif->getDeckManager()->addCardMainToJouees(carte);
+
             // jouer la carte
             action->faireAction();
 
             // decrementer le nombre d'actions
             m_nbActions--;
 
-            // ajouter la carte a la liste des cartes jouees
-            m_joueurActif->getDeckManager()->addCardMainToJouees(carte);
+            // si la carte est feast on n'update pas la vue
+            if(carte->getNom() == "feast")
+                return;
 
             m_view->updateCurrentPanel();        // refresh l'affichage
         }
@@ -528,13 +532,22 @@ void Modele::donnerMalediction(){
 
 
 // recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action
-void Modele::showRecevoirCarte(int coutMax){
+void Modele::recevoirCarte(Carte* carte, int coutMax){
     m_coutMax = coutMax;
     m_achatSuiteAction = true;
+
+    m_view->updateCurrentPanel();  
+    
+    if( carte->getNom() == "feast"){
+        if(isBotPlaying()){
+            refreshAndPauseView(400);
+        }
+        m_joueurActif->getDeckManager()->ecarterCarteJouee(carte);  // ecarter la carte feast
+    }
 }
 
 // ecarter au maximum nbCartes cartes
-void Modele::showEcarterCartes(int nbCartesMax){
+void Modele::ecarterCartes(int nbCartesMax){
     m_isTrashAction = true;
     m_nbCartesEcarter = nbCartesMax;
     m_nbMaxEcarter = nbCartesMax;

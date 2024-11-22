@@ -11,7 +11,7 @@ class Argent : public Tresor{
         static const int VALEUR;
 
     public:
-        Argent(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "silver") {}
+        Argent(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "silver", 3) {}
         ~Argent(){}
         // Implementation de la methode clone
         Carte* clone() const override {

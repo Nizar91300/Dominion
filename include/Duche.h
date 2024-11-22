@@ -11,7 +11,7 @@ class Duche : public Victoire{
         static const int POINTS;
 
     public:
-        Duche(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "duchy") {}
+        Duche(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "duchy", 15) {}
         ~Duche(){}
 
         // Implementation de la methode clone

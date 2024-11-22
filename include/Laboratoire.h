@@ -10,7 +10,10 @@ class Laboratoire : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Laboratoire(Modele* m) : Action(m, COUT_ACHAT, "laboratory") {}
+        Laboratoire(Modele* m) : Action(m, COUT_ACHAT, "laboratory", 8) {
+            setNbPioche(2);
+            setNbActions(1);
+        }
         ~Laboratoire(){}
 
         // Implementation de la methode clone

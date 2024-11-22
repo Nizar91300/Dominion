@@ -86,8 +86,8 @@ class Modele{
 
         void donnerMalediction();   // donner une malediction a chaque joueur sauf au joueur actif
 
-        void showRecevoirCarte(int coutMax);   // affiche le menu pour recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action
-        void showEcarterCartes(int nbCartesMax);  // affiche le menu pour ecarter au maximum nbCartes cartes
+        void recevoirCarte(Carte* carte, int coutMax);   // permet de recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action
+        void ecarterCartes(int nbCartesMax);  // permet au joueur d'ecarter au maximum nbCartes cartes
         void actionVoleur();    // action du voleur
 
         bool isBotPlaying();    // verifier si le joueur actif est un bot

@@ -10,7 +10,7 @@ class Atelier : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Atelier(Modele* m) : Action(m, COUT_ACHAT, "workshop") {}
+        Atelier(Modele* m) : Action(m, COUT_ACHAT, "workshop", 4) {}
         ~Atelier(){}
 
         // Implementation de la methode clone

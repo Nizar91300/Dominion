@@ -10,7 +10,7 @@ class Bucheron : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Bucheron(Modele* m) : Action(m, COUT_ACHAT, "woodcutter") {}
+        Bucheron(Modele* m) : Action(m, COUT_ACHAT, "woodcutter", 6) {}
         ~Bucheron(){}
 
         // Implementation de la methode clone

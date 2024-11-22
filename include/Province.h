@@ -11,7 +11,7 @@ class Province : public Victoire{
         static const int POINTS;
 
     public:
-        Province(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "province") {}
+        Province(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "province", 20) {}
         ~Province(){}
 
         // Implementation de la methode clone

@@ -11,7 +11,7 @@ class Cuivre : public Tresor{
         static const int VALEUR;
 
     public:
-        Cuivre(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "copper") {}
+        Cuivre(Modele* m) : Tresor(m, COUT_ACHAT, VALEUR, "copper", 1) {}
         ~Cuivre(){}
 
         // Implementation de la methode clone

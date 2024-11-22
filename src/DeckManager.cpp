@@ -23,9 +23,6 @@ DeckManager::~DeckManager(){
     for (Carte* carte : m_main) {
         delete carte;
     }
-    for (Carte* carte : m_cartesEnAttente) {
-        delete carte;
-    }
     for (Carte* carte : m_cartesjouees) {
         delete carte;
     }
@@ -41,11 +38,19 @@ const std::vector<Carte*> DeckManager::getDefausse() {
 const std::vector<Carte*> DeckManager::getMain() {
     return m_main;
 }
-const std::vector<Carte*> DeckManager::getCartesEnAttente() {
-    return m_cartesEnAttente;
-}
 const std::vector<Carte*> DeckManager::getCartesJouees() {
     return m_cartesjouees;
+}
+
+// retourne toutes les cartes du deck
+std::vector<Carte*> DeckManager::getAllCards() {
+    std::vector<Carte*> allCards;
+    allCards.insert(allCards.end(), m_pioche.begin(), m_pioche.end());
+    allCards.insert(allCards.end(), m_defausse.begin(), m_defausse.end());
+    allCards.insert(allCards.end(), m_main.begin(), m_main.end());
+    allCards.insert(allCards.end(), m_cartesEnAttente.begin(), m_cartesEnAttente.end());
+    allCards.insert(allCards.end(), m_cartesjouees.begin(), m_cartesjouees.end());
+    return allCards;
 }
 
 bool DeckManager::mainContientDouve() {

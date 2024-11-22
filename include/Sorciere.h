@@ -10,7 +10,9 @@ class Sorciere : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Sorciere(Modele* m) : Action(m, COUT_ACHAT, "witch") {}
+        Sorciere(Modele* m) : Action(m, COUT_ACHAT, "witch", 12) {
+            setNbPioche(2);
+        }
         ~Sorciere(){}
 
         // Implementation de la methode clone

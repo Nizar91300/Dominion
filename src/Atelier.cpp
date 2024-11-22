@@ -4,5 +4,5 @@
 const int Atelier::COUT_ACHAT = 3;
 
 void Atelier::faireAction(){
-    m_modele->showRecevoirCarte(4);
+    m_modele->recevoirCarte(this, 4);
 }

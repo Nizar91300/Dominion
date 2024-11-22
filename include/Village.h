@@ -10,7 +10,10 @@ class Village : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Village(Modele* m) : Action(m, COUT_ACHAT, "village") {}
+        Village(Modele* m) : Action(m, COUT_ACHAT, "village", 10) {
+            setNbPioche(1);
+            setNbActions(2);
+        }
         ~Village(){}
 
         // Implementation de la methode clone

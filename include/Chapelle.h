@@ -10,7 +10,7 @@ class Chapelle : public Action{
         static const int COUT_ACHAT;
 
     public:
-        Chapelle(Modele* m) : Action(m, COUT_ACHAT, "chapel") {}
+        Chapelle(Modele* m) : Action(m, COUT_ACHAT, "chapel", 3) {}
         ~Chapelle(){}
 
         // Implementation de la methode clone

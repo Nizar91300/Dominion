@@ -11,7 +11,7 @@ class Domaine : public Victoire{
         static const int POINTS;
 
     public:
-        Domaine(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "estate") {}
+        Domaine(Modele* m) : Victoire(m, COUT_ACHAT, POINTS, "estate", 5) {}
         ~Domaine(){}
 
         // Implementation de la methode clone
