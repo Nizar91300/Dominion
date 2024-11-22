@@ -2,6 +2,7 @@
 #define PLAY_PANEL_HPP
 #include"infoPanel.hpp"
 #include"voleurPanel.hpp"
+#include"endGame.hpp"
 
 class Modele;
 
@@ -13,6 +14,7 @@ class PlayPanel : public wxPanel {
     wxPanel* mainPanel;
     InfoPanel* informationPanel;
     VoleurPanel* voleurPanel;
+    EndGame* endGamePanel;
 
 
     wxPanel* centerPanel;
@@ -51,6 +53,8 @@ class PlayPanel : public wxPanel {
     void update();    // met a jour tout l'affichage
 
     void refreshPlayer();
+    void showVoleur(std::vector<std::vector<Carte*>>& cartes, std::vector<int>& players);
+    void showEndGame(std::vector<int> points);
 
     void updateReserve(); // afficher les cartes de la reserve
     void updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int>  > cartes); // afficher les cartes jouees dans le panel en parametre

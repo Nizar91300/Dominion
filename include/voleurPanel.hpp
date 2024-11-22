@@ -13,8 +13,9 @@ class VoleurPanel : public wxPanel {
     std::vector<wxStaticText*> texts;
 
 
-    VoleurPanel(wxWindow* parent, int N2);
+    VoleurPanel(wxWindow* parent);
     void setUpPanel(std::vector<std::vector<Carte*>>& cartes, std::vector<int>& players);
+    void OnQuit(wxEvent& event);
 };
 
 

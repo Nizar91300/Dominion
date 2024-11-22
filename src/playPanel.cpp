@@ -6,6 +6,7 @@
 #include "playPanel.hpp"
 #include"wxcard.hpp"
 #include"infoPanel.hpp"
+#include"endGame.hpp"
 
 #include "Modele.h"
 #include "Carte.h"
@@ -166,12 +167,17 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     //info panel
     this->informationPanel = new InfoPanel(this);
     //voleur panel
-    //this->voleurPanel = new VoleurPanel(this,this->m_modele->getNbJoueurs()*2-2);
+    this->voleurPanel = new VoleurPanel(this);
+
+    this->endGamePanel=new EndGame(this);
 
     sizer->Add(mainPanel, 1, wxEXPAND | wxALL, 0);
     sizer->Add(informationPanel, 1, wxEXPAND | wxALL, 0);
-    //sizer->Add(voleurPanel, 1, wxEXPAND | wxALL, 0);
+    sizer->Add(voleurPanel, 1, wxEXPAND | wxALL, 0);
+    sizer->Add(endGamePanel, 1, wxEXPAND | wxALL, 0);
+    endGamePanel->Hide();
     informationPanel->Hide();
+    voleurPanel->Hide();
     mainPanel->SetFocus();
     this->SetSizer(sizer);
     this->Layout();
@@ -208,7 +214,7 @@ void PlayPanel::OnResign(wxCommandEvent& event) {
 
 void PlayPanel::onCardInfo(wxCommandEvent& event) {
     std::string stlstring = std::string(event.GetString().mb_str());
-    if(stlstring.empty() || this->informationPanel->IsShown()) return;
+    if(stlstring.empty() || !this->mainPanel->IsShown()) return;
     this->informationPanel->updateImage(stlstring);
     this->mainPanel->Hide();
     this->informationPanel->Show();
@@ -219,6 +225,7 @@ void PlayPanel::onCardInfo(wxCommandEvent& event) {
 void PlayPanel::onCardInfoReturn(wxCommandEvent& event) {
     if(event.GetString()=="Switch"){
       this->informationPanel->Hide();
+      this->voleurPanel->Hide();
       this->mainPanel->Show();
       this->mainPanel->SetFocus();
       Layout();
@@ -230,6 +237,7 @@ void PlayPanel::refreshPlayer(){
   int i =  m_modele->getJoueurActif();
   this->handPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
   this->rightPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
+  this->voleurPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
   Layout();
   Refresh();
 }
@@ -453,4 +461,30 @@ void PlayPanel::updateStats(){
     this->piecesText->SetLabel(txtPieces);
 
     this->Layout();
+}
+
+
+
+void PlayPanel::showVoleur(std::vector<std::vector<Carte*>>& cartes, std::vector<int>& players){
+  mainPanel->Hide();
+  informationPanel->Hide();
+  voleurPanel->setUpPanel(cartes,players);
+  voleurPanel->Show();
+  voleurPanel->SetFocus();
+  this->Layout();
+  this->Refresh();
+}
+
+
+
+
+void PlayPanel::showEndGame(std::vector<int> points){
+  this->endGamePanel->setUpPanel(points);
+  mainPanel->Hide();
+  informationPanel->Hide();
+  voleurPanel->Hide();
+  this->endGamePanel->Show();
+  this->endGamePanel->SetFocus();
+  Layout();
+  Refresh();
 }
