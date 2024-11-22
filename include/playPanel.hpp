@@ -1,6 +1,7 @@
 #ifndef PLAY_PANEL_HPP
 #define PLAY_PANEL_HPP
 #include"infoPanel.hpp"
+#include"voleurPanel.hpp"
 
 class Modele;
 
@@ -11,6 +12,7 @@ class PlayPanel : public wxPanel {
     Modele* m_modele;
     wxPanel* mainPanel;
     InfoPanel* informationPanel;
+    VoleurPanel* voleurPanel;
 
 
     wxPanel* centerPanel;

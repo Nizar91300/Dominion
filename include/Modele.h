@@ -35,7 +35,7 @@ class Modele{
 
         int m_sound;   // indique si le son est active ou non
         std::set< std::string > m_chosenCards; // liste des cartes choisies pour la partie
-    
+
 
     public:
         Modele();
@@ -45,7 +45,7 @@ class Modele{
         void initJoueurs(); // initialiser les joueurs
         void initReserve(); // initialiser la reserve
         void initNewTour();    // initialise le nouveau tour du joueur
-        
+
         bool getTourAction();    // retourne vrai si le joueur est en phase d'action faux sinon
         int getNbJoueurs() const; // retourne le nombre de joueurs
         bool getAchatSuiteAction(); // retourne vrai si le joueur est en phase d'achat suite a une carte action
@@ -71,12 +71,12 @@ class Modele{
         void defausser(Carte* carte);   // defausser une carte
         void ecarterCarteJouee(Carte* carte);     // ecarter une carte de la liste des cartes jouees
         void recevoirCarteMain(Carte* carte); // recevoir une carte dans la main
-        void recevoirCarteDefausse(Carte* carte); // recevoir une carte dans la defausse        
+        void recevoirCarteDefausse(Carte* carte); // recevoir une carte dans la defausse
 
         void jouerCarte(Carte* carte);   // jouer une carte action ou tresor
         void acheterCarteAvecVerif(Carte* carte);    // acheter une carte en verifiant les conditions pour l'achat
         bool acheterCarte(Carte* carte);    // acheter une carte sans verification
-        
+
         void donnerMalediction();   // donner une malediction a chaque joueur sauf au joueur actif
 
         void showRecevoirCarte(int coutMax);   // affiche le menu pour recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action

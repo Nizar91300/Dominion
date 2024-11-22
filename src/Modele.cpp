@@ -235,7 +235,7 @@ std::vector<std::pair<Carte*, int >> Modele::convertVecCarteToVecPair(std::vecto
 
     // compter les cartes
     for(Carte* carte : vec){
-        auto it = std::find_if(res.begin(), res.end(), 
+        auto it = std::find_if(res.begin(), res.end(),
             [&carte](const std::pair<Carte*, int>& element) {
                 return element.first->getNom() == carte->getNom();
             });
@@ -358,8 +358,8 @@ void Modele::jouerCarte(Carte* carte){
             Action* action = static_cast<Action*>(carte);
 
             // jouer la carte
-            action->faireAction();  
-            
+            action->faireAction();
+
             // decrementer le nombre d'actions
             m_nbActions--;
 
@@ -425,7 +425,7 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
         // decremente le nombre de pieces
         m_nbPieces -= carte->getCout();
     }
-    
+
 }
 
 // acheter une carte sans verification, return vrai si la carte a ete achetee, faux sinon

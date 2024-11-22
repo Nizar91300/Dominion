@@ -21,7 +21,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     //------------------LEFT---------------------------------//
     wxBoxSizer* leftSizer = new wxBoxSizer(wxVERTICAL);
-    
+
 
 
 
@@ -53,12 +53,12 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     leftSizer->Add(statsPanel, 2, wxEXPAND | wxLEFT, 1);
     leftSizer->Add(defaussePanel, 2, wxEXPAND | wxLEFT, 1);
 
-    
+
 
 
     //------------------CENTER---------------------------------//
     wxBoxSizer* verticalSizer = new wxBoxSizer(wxVERTICAL);
-    
+
     wxPanel* topPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxSize(-1, 40));
     wxBoxSizer* topSizer = new wxBoxSizer(wxHORIZONTAL);
 
@@ -96,14 +96,16 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     wxBoxSizer* rightPanelSizer = new wxBoxSizer(wxVERTICAL);
     wxFont comicFont(14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Comic Sans MS");
-    for (size_t i = 0; i < 6; i++) {
+
+
+    for (int i = 0; i < this->m_modele->getNbJoueurs(); i++) {
 
       wxPanel* rectanglePanel = new wxPanel(rightPanel, wxID_ANY);
       rectanglePanel->SetBackgroundColour(wxColour(235, 193, 162));
       rectanglePanel->SetOwnBackgroundColour(wxColour(235, 193, 162));
       rectanglePanel->SetOwnForegroundColour(wxColour(202, 227, 215));
       rectanglePanel->SetWindowStyle(wxBORDER_SIMPLE);
-      wxStaticText* text = new wxStaticText(rectanglePanel, wxID_ANY, "Player");
+      wxStaticText* text = new wxStaticText(rectanglePanel, wxID_ANY, "Player "+std::to_string(i+1));
       text->SetFont(comicFont);
       wxBoxSizer* rectangleSizer = new wxBoxSizer(wxVERTICAL);
       rectangleSizer->Add(text, 0, wxALIGN_CENTER | wxALL, 5); // Padding around the text
@@ -138,14 +140,19 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     mainSizer->Add(rightSizer, 1, wxEXPAND | wxALL, 2);
     mainPanel->SetSizer(mainSizer);
 
-
+    //info panel
     this->informationPanel = new InfoPanel(this);
+    //voleur panel
+    //this->voleurPanel = new VoleurPanel(this,this->m_modele->getNbJoueurs()*2-2);
+
     sizer->Add(mainPanel, 1, wxEXPAND | wxALL, 0);
     sizer->Add(informationPanel, 1, wxEXPAND | wxALL, 0);
+    //sizer->Add(voleurPanel, 1, wxEXPAND | wxALL, 0);
     informationPanel->Hide();
     mainPanel->SetFocus();
     this->SetSizer(sizer);
     this->Layout();
+
 
     Bind(wxEVT_COMMAND_RIGHT_CLICK, &PlayPanel::onCardInfo, this);
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::onCardInfoReturn, this);
@@ -366,7 +373,7 @@ void PlayPanel::updateDefausse(){
     auto defausse = m_modele->getDefausse();
 
     if(defausse.empty()) return;
-    
+
 
     // Création d'un sizer horizontal pour afficher la defausse sur une seule ligne
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
@@ -386,7 +393,7 @@ void PlayPanel::updateDefausse(){
 // affiche le texte en haut de la fenetre
 void PlayPanel::updateShownText() {
     // Met a jour le texte
-    
+
     if(m_modele->getAchatSuiteAction()){
         topText->SetLabel("You can buy a card of a cost up to " + std::to_string(m_modele->getCoutMax()) );
     }
