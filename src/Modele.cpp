@@ -601,3 +601,7 @@ void Modele::endGame(){
         std::cout << "Joueur " << i+1 << " : " << points[i] << " points de victoire" << std::endl;
     }
 }
+
+int Modele::getJoueurActif(){
+  return m_indexJoueurActif;
+}

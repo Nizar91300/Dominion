@@ -11,6 +11,8 @@
 #include "Carte.h"
 
 
+std::vector<wxColour> PlayPanel::PLAYER_COLOURS={wxColour(250, 112, 124),wxColour(252, 114, 218),wxColour(59, 59, 245),wxColour(129, 232, 252),wxColour(241, 245, 184),wxColour(245, 198, 176)};
+
 
 
 PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
@@ -112,7 +114,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     //------------------Right---------------------------------//
     wxBoxSizer* rightSizer = new wxBoxSizer(wxVERTICAL);
-    wxPanel* rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
+    this->rightPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     rightPanel->SetBackgroundColour(wxColour(122, 148, 163));//red
 
     wxBoxSizer* rightPanelSizer = new wxBoxSizer(wxVERTICAL);
@@ -122,8 +124,8 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     for (int i = 0; i < this->m_modele->getNbJoueurs(); i++) {
 
       wxPanel* rectanglePanel = new wxPanel(rightPanel, wxID_ANY);
-      rectanglePanel->SetBackgroundColour(wxColour(235, 193, 162));
-      rectanglePanel->SetOwnBackgroundColour(wxColour(235, 193, 162));
+      rectanglePanel->SetBackgroundColour(PLAYER_COLOURS[i]);
+      rectanglePanel->SetOwnBackgroundColour(PLAYER_COLOURS[i]);
       rectanglePanel->SetOwnForegroundColour(wxColour(202, 227, 215));
       rectanglePanel->SetWindowStyle(wxBORDER_SIMPLE);
       wxStaticText* text = new wxStaticText(rectanglePanel, wxID_ANY, "Player "+std::to_string(i+1));
@@ -177,15 +179,11 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
     Bind(wxEVT_COMMAND_RIGHT_CLICK, &PlayPanel::onCardInfo, this);
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::onCardInfoReturn, this);
-
-
-    //events
-    //centerPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
-    //handPanel->Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::OnButtonClicked, this);
-
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
 
+
     update();
+    refreshPlayer();
 }
 
 
@@ -228,12 +226,20 @@ void PlayPanel::onCardInfoReturn(wxCommandEvent& event) {
 }
 
 
+void PlayPanel::refreshPlayer(){
+  int i =  m_modele->getJoueurActif();
+  this->handPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
+  this->rightPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
+  Layout();
+  Refresh();
+}
 
 void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
     m_modele->endPhase();
     int tourAction = m_modele->getTourAction();
     if(tourAction){
         tourBtn->SetLabel("END ACTION PHASE");
+        refreshPlayer();
     }else{
         tourBtn->SetLabel("END BUY PHASE");
     }
@@ -244,7 +250,6 @@ void PlayPanel::OnEndButtonClicked(wxCommandEvent& event) {
 }
 
 void PlayPanel::onLeftClicked(wxCommandEvent& event) {
-
 
     std::pair <Carte*, wxWindow*>* data = static_cast< std::pair <Carte*, wxWindow*>* >(event.GetClientData());
     if (data) {

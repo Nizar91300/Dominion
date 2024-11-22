@@ -46,6 +46,7 @@ class Modele{
         void initReserve(); // initialiser la reserve
         void initNewTour();    // initialise le nouveau tour du joueur
 
+        int getJoueurActif();
         bool getTourAction();    // retourne vrai si le joueur est en phase d'action faux sinon
         int getNbJoueurs() const; // retourne le nombre de joueurs
         int getNbActions(); // retourne le nombre d'actions restantes

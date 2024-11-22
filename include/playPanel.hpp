@@ -16,6 +16,7 @@ class PlayPanel : public wxPanel {
 
 
     wxPanel* centerPanel;
+    wxPanel* rightPanel;
     wxPanel* playedPanel; // panel des cartes jouees
     wxPanel* handPanel; // panel des cartes en main
     wxButton* tourBtn; // bouton pour passer au tour suivant
@@ -26,6 +27,7 @@ class PlayPanel : public wxPanel {
     wxStaticText* achatText; // text pour le nombre d'achats
 
   public:
+    static std::vector<wxColour> PLAYER_COLOURS;
 
     PlayPanel(wxFrame* parent, Modele* model);
     ~PlayPanel();
@@ -48,7 +50,7 @@ class PlayPanel : public wxPanel {
 
     void update();    // met a jour tout l'affichage
 
-
+    void refreshPlayer();
 
     void updateReserve(); // afficher les cartes de la reserve
     void updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int>  > cartes); // afficher les cartes jouees dans le panel en parametre
