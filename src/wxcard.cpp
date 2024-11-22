@@ -27,7 +27,7 @@ wxCard::wxCard(wxWindow* parent, const std::string& imageName, int occurrences,i
 
   //--------------------image--------------------
   wxImage image = *(Resources::getInstance()->getImage(imageName));
-  wxBitmap resized = wxBitmap( image.Scale( imageWidth, imageHeight) );;
+  wxBitmap resized = wxBitmap( image.Scale( imageWidth, imageHeight, wxIMAGE_QUALITY_HIGH) );;
   this->imageCtrl = new wxStaticBitmap(this, wxID_ANY, resized);
   mainSizer->Add(imageCtrl, 1, wxEXPAND | wxALL, 5);
 
@@ -66,11 +66,22 @@ wxCard::~wxCard(){}
 
 void wxCard::UpdateOccurrences(int occurrences) {
   this->m_occurrences = occurrences;
-  this->countText->SetLabel(wxString::Format("%d", occurrences));
-  if(occurrences<2){
-    this->countPanel->Hide();
-  }
-  Layout();
+
+    // Mettre à jour le texte des occurrences
+    this->countText->SetLabel(wxString::Format("%d", occurrences));
+
+    // Montrer ou cacher le panneau selon la valeur d'occurrences
+    if (occurrences<2) {
+        this->countPanel->Hide();
+    } else {
+        this->countPanel->Show();
+    }
+
+    // S'assurer que le texte est bien centré dans countPanel
+    this->countPanel->Layout();
+
+    // Forcer le recalcul global
+    Layout();
 }
 
 
@@ -111,7 +122,7 @@ void wxCard::OnRightClick(wxMouseEvent& event) {
 
 void wxCard::updateImage(std::string imageName,int w, int h){
   wxImage newImage = *(Resources::getInstance()->getImage(imageName));
-  wxBitmap newBitmap = wxBitmap(newImage.Scale(w, h));
+  wxBitmap newBitmap = wxBitmap(newImage.Scale(w, h, wxIMAGE_QUALITY_HIGH));
   imageCtrl->SetBitmap(newBitmap);
   imageCtrl->Refresh();
 }

@@ -22,7 +22,7 @@ void Bot::playActionPhase() {
                 
                 if(bestBuyCard){
                     m_modele->acheterCarteAvecVerif(bestBuyCard);
-                    m_modele->refreshAndPauseView(1000);             // refresh et pauser pour voir les actions du bot
+                    m_modele->refreshAndPauseView(1100);             // refresh et pauser pour voir les actions du bot
                 }
 
             }else{
@@ -36,7 +36,7 @@ void Bot::playActionPhase() {
                         }
                         if (carte->getNom() == "copper") {
                             m_modele->jouerCarte(carte);
-                            m_modele->refreshAndPauseView(700);         // refresh et pauser pour voir les actions du bot
+                            m_modele->refreshAndPauseView(800);         // refresh et pauser pour voir les actions du bot
                             i++;
                         }
                         
@@ -59,7 +59,7 @@ void Bot::playBuyPhase() {
         Carte* bestBuyCard = findBestBuyCard(m_modele->getNbPieces());
         if (bestBuyCard) {
             m_modele->acheterCarteAvecVerif(bestBuyCard);
-            m_modele->refreshAndPauseView(1400);         // refresh et pauser pour voir les actions du bot
+            m_modele->refreshAndPauseView(1500);         // refresh et pauser pour voir les actions du bot
         } else {
             break; // Plus d'achats possibles
         }
@@ -138,7 +138,7 @@ void Bot::playAllTreasures() {
     for (auto& carte : main) {
         if (carte->getType() == TypeCarte::TRESOR) {
             m_modele->jouerCarte(carte);
-            m_modele->refreshAndPauseView(250);        // refresh et pauser pour voir les actions du bot
+            m_modele->refreshAndPauseView(500);        // refresh et pauser pour voir les actions du bot
         }
     }
 }

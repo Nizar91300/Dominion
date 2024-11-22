@@ -545,7 +545,7 @@ void Modele::recevoirCarte(Carte* carte, int coutMax){
     
     if( carte->getNom() == "feast"){
         if(isBotPlaying()){
-            refreshAndPauseView(400);
+            refreshAndPauseView(600);
         }
         m_joueurActif->getDeckManager()->ecarterCarteJouee(carte);  // ecarter la carte feast
     }

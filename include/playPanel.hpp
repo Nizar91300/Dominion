@@ -18,6 +18,7 @@ class PlayPanel : public wxPanel {
 
 
     wxPanel* centerPanel;
+    std::vector<wxCard*> reserveCards; // cartes de la reserve
     wxPanel* rightPanel;
     wxPanel* playedPanel; // panel des cartes jouees
     wxPanel* handPanel; // panel des cartes en main
@@ -33,6 +34,8 @@ class PlayPanel : public wxPanel {
 
     PlayPanel(wxFrame* parent, Modele* model);
     ~PlayPanel();
+
+    void initReservePanel(); // initialiser le panel de la reserve
 
     //quit, save, resign
     void OnQuit(wxCommandEvent& event);

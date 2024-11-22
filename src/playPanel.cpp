@@ -100,6 +100,8 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     this->centerPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     centerPanel->SetBackgroundColour(wxColour(186, 219, 167));//green
 
+    initReservePanel();     // Initialiser le panel de la reserve avec toutes les cartes
+
     //----------------//
     this->playedPanel = new wxPanel(mainPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize);
     playedPanel->SetBackgroundColour(wxColour(137, 163, 122));
@@ -199,7 +201,54 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
 
 PlayPanel::~PlayPanel(){}
 
+void PlayPanel::initReservePanel(){
+    reserveCards = std::vector<wxCard*>();
+    // Cree deux sizers horizontaux
+    wxBoxSizer* reserveSizer1 = new wxBoxSizer(wxHORIZONTAL);
+    wxBoxSizer* reserveSizer2 = new wxBoxSizer(wxHORIZONTAL);
 
+    // Recupere la reserve dans le modèle
+    auto reserve = m_modele->getReserve();
+
+    // Divise les cartes en deux parties
+    size_t half = reserve.size() / 2;
+    auto it = reserve.begin();
+
+    // Ajoute les cartes dans le 1er sizer
+    for (size_t i = 0; i < half; i++, it++) {
+        Carte* carte = it->first;
+        int quantite = it->second;
+
+        // cree une carte graphique pour chaque carte
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 130, 208, 130, 208, wxColour(0, 0, 0));
+        reserveCards.push_back(card); // Ajoute la carte au vecteur de cartes de la reserve
+        reserveSizer1->Add(card, 0, wxALL, 5);
+    }
+
+    // Ajoute les cartes dans le 2eme sizer
+    for (size_t i = half; i < reserve.size(); i++, it++) {
+        Carte* carte = it->first;
+        int quantite = it->second;
+
+        // cree une carte graphique pour chaque carte
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 130, 208, 130, 208, wxColour(0, 0, 0));
+        reserveCards.push_back(card); // Ajoute la carte au vecteur de cartes de la reserve
+        reserveSizer2->Add(card, 0, wxALL, 5);
+    }
+
+    // cree un sizer vertical pour organiser les deux sizers horizontaux
+    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
+    mainSizer->Add(reserveSizer1, 0, wxALIGN_CENTER);
+    mainSizer->Add(reserveSizer2, 0, wxALIGN_CENTER);
+
+    // Applique le nouveau sizer à centerPanel
+    centerPanel->SetSizer(mainSizer);
+    centerPanel->Layout(); // refresh
+}
+
+
+
+//----------------EVENTS-----------------//
 
 void PlayPanel::OnQuit(wxCommandEvent& event) {
     // empecher le joueur de toucher a l'interface si c'est un bot
@@ -328,48 +377,20 @@ void PlayPanel::update() {
 
 
 void PlayPanel::updateReserve() {
-    // Efface les enfants existants dans centerPanel pour les mettre à jour
-    centerPanel->DestroyChildren();
-
-    // Cree deux sizers horizontaux
-    wxBoxSizer* reserveSizer1 = new wxBoxSizer(wxHORIZONTAL);
-    wxBoxSizer* reserveSizer2 = new wxBoxSizer(wxHORIZONTAL);
-
-    // Recupere la reserve dans le modèle
+    // Recupere la reserve dans le modele
     auto reserve = m_modele->getReserve();
 
-    // Divise les cartes en deux parties
-    size_t half = reserve.size() / 2;
-    auto it = reserve.begin();
+    for (size_t i = 0; i < reserve.size(); i++) {
+        int quantite = reserve[i].second;
 
-    // Ajoute les cartes dans le 1er sizer
-    for (size_t i = 0; i < half; i++, it++) {
-        Carte* carte = it->first;
-        int quantite = it->second;
+        if(quantite == 0){
+            reserveCards[i]->Hide();
+            continue;
+        }
 
-        // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
-        reserveSizer1->Add(card, 0, wxALL, 5);
+        // Met a jour la quantite de chaque carte de la reserve
+        reserveCards[i]->UpdateOccurrences(quantite);
     }
-
-    // Ajoute les cartes dans le 2eme sizer
-    for (size_t i = half; i < reserve.size(); i++, it++) {
-        Carte* carte = it->first;
-        int quantite = it->second;
-
-        // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
-        reserveSizer2->Add(card, 0, wxALL, 5);
-    }
-
-    // cree un sizer vertical pour organiser les deux sizers horizontaux
-    wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
-    mainSizer->Add(reserveSizer1, 0, wxALIGN_CENTER);
-    mainSizer->Add(reserveSizer2, 0, wxALIGN_CENTER);
-
-    // Applique le nouveau sizer à centerPanel
-    centerPanel->SetSizer(mainSizer);
-    centerPanel->Layout(); // refresh
 }
 
 
@@ -389,7 +410,7 @@ void PlayPanel::updatePanel(wxPanel* pan, std::vector< std::pair<Carte*, int> > 
         int quantite = carte.second;
 
         // Ccarte graphique pour chaque carte
-        wxCard* card = new wxCard(pan, c, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(pan, c, quantite, 110, 176, 110, 176, wxColour(0, 0, 0));
 
         // Ajouter la carte au sizer
         panSizer->Add(card, 0, wxALL, 5);
@@ -436,7 +457,7 @@ void PlayPanel::updateDefausse(){
     wxBoxSizer* mainSizer = new wxBoxSizer(wxVERTICAL);
 
     // Carte graphique pour la derniere carte
-    wxCard* card = new wxCard(defaussePanel, defausse.back(), defausse.size(), 100, 160, 100, 160, wxColour(0, 0, 0));
+    wxCard* card = new wxCard(defaussePanel, defausse.back(), defausse.size(), 110, 176, 110, 176, wxColour(0, 0, 0));
 
     // Ajouter la carte au sizer
     mainSizer->Add(card, 0, wxALIGN_CENTER | wxALL, 5);
