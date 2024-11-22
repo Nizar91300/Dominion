@@ -17,6 +17,7 @@ class Modele{
 
         std::vector<Joueur*> m_joueurs;     // liste des joueurs
         int m_nbJoueurs;    // nb joueurs
+        int m_nbHumans;       // nb bots
         std::vector< std::pair< Carte*, int > > m_reserve;  // liste des carte disposees sur la table avec leurs occurences
         int m_nbActions;  // nombre d'actions restantes
         int m_nbAchats;   // nombre d'achats restants
@@ -63,6 +64,7 @@ class Modele{
         std::vector< Carte* > getDefausse();    // retourne la defausse
 
         void setView(MyFrame* mf);
+        void refreshAndPauseView(); // rafraichir l'affichage et mettre en pause le thread
 
         void endPhase();    // passer a la phase suivante
 
@@ -86,6 +88,8 @@ class Modele{
         void showRecevoirCarte(int coutMax);   // affiche le menu pour recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action
         void showEcarterCartes(int nbCartesMax);  // affiche le menu pour ecarter au maximum nbCartes cartes
         void actionVoleur();    // action du voleur
+
+        bool isBotPlaying();    // verifier si le joueur actif est un bot
 
         bool finPartie();           // verifier si la partie est finie
         void endGame();             // affiche fin de la partie

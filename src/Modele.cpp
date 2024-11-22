@@ -21,6 +21,7 @@
 #include "Village.h"
 #include "Voleur.h"
 #include "Festin.h"
+#include "Bot.h"
 
 #include "myframe.hpp"
 #include "resources.hpp"
@@ -51,12 +52,12 @@ Modele::~Modele(){
 
 //initialiser une nouvelle partie
 void Modele::initNewGame(){
-    int humanPlayers;
-    Resources::getInstance()->getSettings(m_nbJoueurs, humanPlayers, m_sound, m_chosenCards);
+    Resources::getInstance()->getSettings(m_nbJoueurs, m_nbHumans, m_sound, m_chosenCards);
 
     // initialiser les joueurs
     m_tourAction = true;
 
+    // effacer les anciens joueurs
     if(m_joueurs.size() > 0){
         for(size_t i = 0; i < m_joueurs.size(); i++){
             delete m_joueurs[i];
@@ -73,21 +74,18 @@ void Modele::initNewGame(){
     m_reserve.clear();
 
 
+
     m_achatSuiteAction = false;
     m_isTrashAction = false;
     m_nbCartesEcarter = 0;
 
     initJoueurs();
 
-    // initialiser les variables
-    m_indexJoueurActif = 0;
-    m_joueurActif = m_joueurs[m_indexJoueurActif];
-
-    // reinitialiser les actions et les achats
+    // initialiser les actions et les achats
     m_nbActions = 1;
     m_nbAchats = 1;
 
-    // reinitialiser les pieces
+    // initialiser les pieces
     m_nbPieces = 0;
 
     // initialiser la reserve
@@ -98,11 +96,16 @@ void Modele::initNewGame(){
 void Modele::initJoueurs(){
     // creer les joueurs
     for(int i = 0; i < m_nbJoueurs; i++){
-        m_joueurs.push_back(new Joueur(this));
+        if(i < m_nbHumans){
+            m_joueurs.push_back(new Joueur(this));
+        }
+        else{
+            m_joueurs.push_back(new Bot(this));
+        }
     }
 
     // joueur actif
-    m_indexJoueurActif = m_joueurs.size()-1;
+    m_indexJoueurActif = 0;
     m_joueurActif = m_joueurs[m_indexJoueurActif];
 }
 
@@ -280,6 +283,10 @@ void Modele::setView(MyFrame* mf){
     m_view = mf;
 }
 
+// rafrachir l'affichage et mettre en pause le thread
+void Modele::refreshAndPauseView(){
+    m_view->updateAndPause();
+}
 
 // passer a la phase suivante
 void Modele::endPhase(){
@@ -298,8 +305,18 @@ void Modele::endPhase(){
         initNewTour();
 
         m_tourAction = true;
+
+        // si c'est un bot on joue son tour
+        if(m_joueurActif->isBot()){
+            // jouer le tour du bot
+            Bot* bot = static_cast<Bot*>(m_joueurActif);
+            bot->playActionPhase();
+            endPhase();
+            bot->playBuyPhase();
+            endPhase();
+        }
     }
-        m_view->updateCurrentPanel();        // refresh l'affichage
+    m_view->updateCurrentPanel();        // refresh l'affichage
 }
 
 
@@ -347,6 +364,9 @@ void Modele::recevoirCarteMain(Carte* carte){
 void Modele::recevoirCarteDefausse(Carte* carte){
     m_joueurActif->getDeckManager()->addCardToDefausse(carte);
 }
+
+
+
 
 // jouer une carte action ou tresor
 void Modele::jouerCarte(Carte* carte){
@@ -440,6 +460,7 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
 
         // decremente le nombre de pieces
         m_nbPieces -= carte->getCout();
+
     }
 
     m_view->updateCurrentPanel();   // mettre a jour l'affichage
@@ -462,6 +483,7 @@ bool Modele::acheterCarte(Carte* carte){
     }
     return false;
 }
+
 
 // donner une malediction a chaque joueur sauf au joueur actif
 void Modele::donnerMalediction(){
@@ -568,7 +590,10 @@ void Modele::actionVoleur(){
     //m_view->showVoleur(cartesAutresJoueurs, indJoueurs);
 }
 
-
+// true si le joueur actif est un bot, false sinon
+bool Modele::isBotPlaying(){
+    return m_joueurActif->isBot();
+}
 
 // verifier la fin de la partie, vrai si la partie est finie, faux sinon
 bool Modele::finPartie(){

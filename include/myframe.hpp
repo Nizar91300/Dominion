@@ -11,6 +11,7 @@ public:
     virtual ~MyFrame ();
     wxPanel* currentpanel = NULL;
     void updateCurrentPanel();
+    void updateAndPause();
 private:
     Modele* m_modele;
     std::string currentpanelName;

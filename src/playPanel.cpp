@@ -454,3 +454,16 @@ void PlayPanel::updateStats(){
 
     this->Layout();
 }
+
+void PlayPanel::updateAndPause() {
+
+    refreshPlayer();
+    
+    update();
+
+    // Force le rafraîchissement de l'interface
+    wxYield();
+
+    // Attends pendant 1 seconde
+    wxMilliSleep(1000);
+}

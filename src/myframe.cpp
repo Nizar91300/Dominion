@@ -112,3 +112,10 @@ void MyFrame::updateCurrentPanel(){
     p->update();
   }
 }
+// update and pause the thread
+void MyFrame::updateAndPause(){
+  if(this->currentpanelName=="Play"){
+    PlayPanel* p = static_cast<PlayPanel*>(this->currentpanel);
+    p->updateAndPause();
+  }
+}

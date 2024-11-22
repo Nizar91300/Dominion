@@ -7,16 +7,17 @@ class Modele;
 class DeckManager;
 
 class Joueur{
-    private:
+    protected:
         Modele* m_modele;
         DeckManager* m_deckManager;
 
     public:
         Joueur(Modele*);
-        ~Joueur();
+        virtual ~Joueur();
 
         void initDeck();    // initialiser le deck du joueur
         DeckManager* getDeckManager() { return m_deckManager; }
+        virtual bool isBot() { return false; }
 
 };
 
