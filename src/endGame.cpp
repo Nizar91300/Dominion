@@ -34,7 +34,7 @@ EndGame::~EndGame(){}
 void EndGame::OnQuit(wxEvent& event) {
   wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
   notifyEvent.SetString("Quit");  // Include button name in the event
-  wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
+  wxPostEvent(this->GetParent()->GetParent(), notifyEvent); // Send event to parent frame
 }
 
 
