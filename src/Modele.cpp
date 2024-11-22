@@ -151,13 +151,12 @@ void Modele::initNewTour(){
     // ajuste le deck de l'ancien joueur actif
     m_joueurActif->getDeckManager()->ajusterDeck();
 
-    // si chaque joueur a joue son tour
+    // si chaque joueur a jouer son tour
     if( !m_tourAction && m_indexJoueurActif == m_joueurs.size() - 1){
         // on peut maintenant verifier la fin de la partie
         if(finPartie()){
-            // fin de la partie
-            std::cout << "FIN DE LA PARTIE" << std::endl;
-            // endGame();
+            // afficher la fin de la partie
+            endGame();
             return;
         }
     }
@@ -180,9 +179,24 @@ bool Modele::getTourAction(){
     return m_tourAction;
 }
 
+// retourne le nombre d'actions restantes
+int Modele::getNbActions(){
+    return m_nbActions;
+}
+
 // get le nombres de joueurs
 int Modele::getNbJoueurs() const{
     return m_nbJoueurs;
+}
+
+// retourne le nombre de pieces restantes
+int Modele::getNbPieces(){
+    return m_nbPieces;
+}
+
+// retourne le nombre d'achats restants
+int Modele::getNbAchat(){
+    return m_nbAchats;
 }
 
 // retourne vrai si le joueur est en phase d'achat suite a une carte action
@@ -284,9 +298,8 @@ void Modele::endPhase(){
         initNewTour();
 
         m_tourAction = true;
-
-        m_view->updateCurrentPanel();        // refresh l'affichage
     }
+        m_view->updateCurrentPanel();        // refresh l'affichage
 }
 
 
@@ -346,6 +359,7 @@ void Modele::jouerCarte(Carte* carte){
                 m_isTrashAction = false;
             }
             m_joueurActif->getDeckManager()->ecarterCarteMain(carte);
+            m_view->updateCurrentPanel();        // refresh l'affichage
             return;
         }
 
@@ -398,6 +412,8 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
         }
         m_achatSuiteAction = false;     // sinon on peut acheter la carte
         acheterCarte(carte);            // achat
+
+        m_view->updateCurrentPanel(); // mettre a jour l'affichage
         return;
     }
 
@@ -426,6 +442,8 @@ void Modele::acheterCarteAvecVerif(Carte* carte){
         m_nbPieces -= carte->getCout();
     }
 
+    m_view->updateCurrentPanel();   // mettre a jour l'affichage
+
 }
 
 // acheter une carte sans verification, return vrai si la carte a ete achetee, faux sinon
@@ -438,9 +456,6 @@ bool Modele::acheterCarte(Carte* carte){
 
             // ajoute une copie de la carte a la defausse du joueur
             m_joueurActif->getDeckManager()->addCardToDefausse( carte->clone() );
-
-            // mettre a jour l'affichage
-            m_view->updateCurrentPanel();
 
             return true;
         }
@@ -467,12 +482,17 @@ void Modele::donnerMalediction(){
     // donner une malediction a chaque joueur sauf au joueur actif
     for(unsigned int i = 0; i < m_joueurs.size(); i++){
         if(m_joueurs[i] != m_joueurActif){
+            // si le joueur a une douve on ne peut pas l'attaquer
+            if( m_joueurs[i]->getDeckManager()->mainContientDouve() ){
+                return;
+            }
+
             if( malediction.second > 0){
                 // decremente le nombre de cartes disponibles
                 malediction.second--;
 
                 // ajoute une copie de la carte a la defausse du joueur
-                m_joueurs[i]->getDeckManager()->addCardToDefausse( new Carte(malediction.first) );
+                m_joueurs[i]->getDeckManager()->addCardToDefausse( malediction.first->clone() );
             }
         }
     }
@@ -493,6 +513,61 @@ void Modele::showEcarterCartes(int nbCartesMax){
     m_nbMaxEcarter = nbCartesMax;
 }
 
+void Modele::actionVoleur(){
+    // rajouter 1 or a la defausse du joueur actif
+    m_joueurActif->getDeckManager()->addCardToDefausse(new Or(this));
+
+
+    // recuperer les cartes de la main des autres joueurs
+    std::vector< std::vector <Carte*>  > cartesAutresJoueurs = std::vector< std::vector <Carte*> >();
+    std::vector<int> indJoueurs = std::vector<int>();
+
+    for(unsigned int i = 0; i < m_joueurs.size(); i++){
+        if(m_joueurs[i] == m_joueurActif)
+            continue;
+
+        // si le joueur a une douve on ne peut pas l'attaquer
+        if( m_joueurs[i]->getDeckManager()->mainContientDouve() ){
+            return;
+        }
+
+
+        std::vector<Carte*> cartes = std::vector<Carte*>();
+
+        auto c1 = m_joueurs[i]->getDeckManager()->prendreCartePioche();
+        auto c2 = m_joueurs[i]->getDeckManager()->prendreCartePioche();
+
+        // on ecarte une carte de type gold ou silver mais on renvoie une copie de la carte pour l'affichage
+        if(c1->getNom() == "gold" || c1->getNom() == "silver"){
+            auto tmp = c1->clone();
+            delete c1;
+            c1 = tmp;
+
+            m_joueurs[i]->getDeckManager()->addCardToDefausse(c2);
+        }
+        else{
+            if(c2->getNom() == "gold" || c2->getNom() == "silver"){
+                auto tmp = c2->clone();
+                delete c2;
+                c2 = tmp;
+
+                m_joueurs[i]->getDeckManager()->addCardToDefausse(c1);
+            }
+            else{
+                m_joueurs[i]->getDeckManager()->addCardToDefausse(c1);
+                m_joueurs[i]->getDeckManager()->addCardToDefausse(c2);
+            }
+        }
+
+        cartes.push_back(c1);
+        cartes.push_back(c2);
+
+        cartesAutresJoueurs.push_back(cartes);
+        indJoueurs.push_back(i);
+    }
+    //m_view->showVoleur(cartesAutresJoueurs, indJoueurs);
+}
+
 
 
 // verifier la fin de la partie, vrai si la partie est finie, faux sinon
@@ -509,4 +584,20 @@ bool Modele::finPartie(){
     }
 
     return nbPilesVides >= 3;
+}
+
+
+// afficher la fin de la partie
+void Modele::endGame(){
+    // calculer les points de victoire de chaque joueur
+    std::vector<int> points = std::vector<int>();
+    for(unsigned int i = 0; i < m_joueurs.size(); i++){
+        points.push_back( m_joueurs[i]->getDeckManager()->pointsVictoire() );
+    }
+
+    // afficher le gagnant
+    //m_view->showEndGame(points);
+    for(unsigned int i = 0; i < m_joueurs.size(); i++){
+        std::cout << "Joueur " << i+1 << " : " << points[i] << " points de victoire" << std::endl;
+    }
 }

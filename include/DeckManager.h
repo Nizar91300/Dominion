@@ -30,6 +30,8 @@ class DeckManager {
         const std::vector<Carte*> getCartesEnAttente();
         const std::vector<Carte*> getCartesJouees();
 
+        bool mainContientDouve(); // verifie si la main contient une douve
+
         void addCardToPioche(Carte* carte);
         void addCardToMain(Carte* carte);   // ajouter une carte a la main
         void addCardToDefausse(Carte* carte);   // ajouter une carte a la defausse
@@ -45,6 +47,7 @@ class DeckManager {
         void ecarterCarteMain(Carte* carte);      // ecarter une carte de la main
 
         void ajusterDeck(); // ajuster le deck du joueur apres son tour
+        int pointsVictoire(); // calculer les points de victoire du joueur
 };
 
 #endif

@@ -1,7 +1,8 @@
 #include "Voleur.h"
+#include "Modele.h"
 
-const int Voleur::COUT_ACHAT = 4;
+const int Voleur::COUT_ACHAT = 5;
 
 void Voleur::faireAction(){
-    // TODO
+    m_modele->actionVoleur();
 }

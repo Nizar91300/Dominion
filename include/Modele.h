@@ -48,6 +48,9 @@ class Modele{
 
         bool getTourAction();    // retourne vrai si le joueur est en phase d'action faux sinon
         int getNbJoueurs() const; // retourne le nombre de joueurs
+        int getNbActions(); // retourne le nombre d'actions restantes
+        int getNbAchat();   // retourne le nombre d'achats restants
+        int getNbPieces();  // retourne le nombre de pieces restantes
         bool getAchatSuiteAction(); // retourne vrai si le joueur est en phase d'achat suite a une carte action
         bool getIsTrashAction();    // retourne vrai si le joueur est en train d'utiliser une carte qui permet d'ecarter des cartes
         int getCoutMax();   // retourne le cout maximal de la carte a recevoir suite a une carte action
@@ -81,8 +84,10 @@ class Modele{
 
         void showRecevoirCarte(int coutMax);   // affiche le menu pour recevoir une carte avec un cout inferieur ou egal a coutMax suite a une carte action
         void showEcarterCartes(int nbCartesMax);  // affiche le menu pour ecarter au maximum nbCartes cartes
+        void actionVoleur();    // action du voleur
 
         bool finPartie();           // verifier si la partie est finie
+        void endGame();             // affiche fin de la partie
 };
 
 #endif
