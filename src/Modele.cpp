@@ -222,6 +222,11 @@ int Modele::getNbMaxEcarter(){
     return m_nbMaxEcarter;
 }
 
+// retourne le nombre d'humains
+int Modele::getNbHumans(){
+    return m_nbHumans;
+}
+
 // retourne la reserve
 std::vector< std::pair< Carte*, int > > Modele::getReserve(){
     return m_reserve;
@@ -284,8 +289,8 @@ void Modele::setView(MyFrame* mf){
 }
 
 // rafrachir l'affichage et mettre en pause le thread
-void Modele::refreshAndPauseView(){
-    m_view->updateAndPause();
+void Modele::refreshAndPauseView(int ms){
+    m_view->updateAndPause(ms);
 }
 
 // passer a la phase suivante

@@ -63,7 +63,7 @@ class PlayPanel : public wxPanel {
     void updateDefausse(); // afficher la defausse
     void updateShownText(); // afficher le texte en haut de la fenetre
     void updateStats(); // afficher les stats
-    void updateAndPause(); // met a jour l'affichage et pause le thread
+    void updateAndPause(int ms); // met a jour l'affichage et pause le thread
 
 };
 #endif

@@ -121,7 +121,7 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     wxBoxSizer* rightPanelSizer = new wxBoxSizer(wxVERTICAL);
     wxFont comicFont(14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Comic Sans MS");
 
-
+    int nbHumans = m_modele->getNbHumans();
     for (int i = 0; i < this->m_modele->getNbJoueurs(); i++) {
 
       wxPanel* rectanglePanel = new wxPanel(rightPanel, wxID_ANY);
@@ -130,6 +130,9 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
       rectanglePanel->SetOwnForegroundColour(wxColour(202, 227, 215));
       rectanglePanel->SetWindowStyle(wxBORDER_SIMPLE);
       wxStaticText* text = new wxStaticText(rectanglePanel, wxID_ANY, "Player "+std::to_string(i+1));
+      if(i >= nbHumans){
+        text->SetLabel("Bot "+std::to_string(i+1-nbHumans));
+      }
       text->SetFont(comicFont);
       wxBoxSizer* rectangleSizer = new wxBoxSizer(wxVERTICAL);
       rectangleSizer->Add(text, 0, wxALIGN_CENTER | wxALL, 5); // Padding around the text
@@ -199,16 +202,28 @@ PlayPanel::~PlayPanel(){}
 
 
 void PlayPanel::OnQuit(wxCommandEvent& event) {
+    // empecher le joueur de toucher a l'interface si c'est un bot
+    if(m_modele->isBotPlaying()){
+        return;
+    }
     wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
     notifyEvent.SetString("Quit");  // Include button name in the event
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
 }
 
 void PlayPanel::OnSave(wxCommandEvent& event) {
+    // empecher le joueur de toucher a l'interface si c'est un bot
+    if(m_modele->isBotPlaying()){
+        return;
+    }
     //todo
 }
 
 void PlayPanel::OnResign(wxCommandEvent& event) {
+    // empecher le joueur de toucher a l'interface si c'est un bot
+    if(m_modele->isBotPlaying()){
+        return;
+    }
   //todo
 }
 
@@ -243,6 +258,10 @@ void PlayPanel::refreshPlayer(){
 }
 
 void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
+    // empecher le joueur de jouer si c'est un bot
+    if(m_modele->isBotPlaying()){
+        return;
+    }
     m_modele->endPhase();
     int tourAction = m_modele->getTourAction();
     if(tourAction){
@@ -254,10 +273,18 @@ void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
 }
 
 void PlayPanel::OnEndButtonClicked(wxCommandEvent& event) {
+    // empecher le joueur de jouer si c'est un bot
+    if(m_modele->isBotPlaying()){
+        return;
+    }
     m_modele->endGame();
 }
 
 void PlayPanel::onLeftClicked(wxCommandEvent& event) {
+    // empecher le joueur de jouer si c'est un bot
+    if(m_modele->isBotPlaying()){
+        return;
+    }
 
     std::pair <Carte*, wxWindow*>* data = static_cast< std::pair <Carte*, wxWindow*>* >(event.GetClientData());
     if (data) {
@@ -463,7 +490,7 @@ void PlayPanel::updateStats(){
     this->Layout();
 }
 
-void PlayPanel::updateAndPause() {
+void PlayPanel::updateAndPause(int ms) {
 
     refreshPlayer();
     
@@ -472,8 +499,8 @@ void PlayPanel::updateAndPause() {
     // Force le rafraîchissement de l'interface
     wxYield();
 
-    // Attends pendant 1 seconde
-    wxMilliSleep(1000);
+    // Attends pendant ms milisecondes
+    wxMilliSleep(ms);
 }
 
 void PlayPanel::showVoleur(std::vector<std::vector<Carte*>>& cartes, std::vector<int>& players){

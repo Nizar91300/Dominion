@@ -57,6 +57,7 @@ class Modele{
         bool getIsTrashAction();    // retourne vrai si le joueur est en train d'utiliser une carte qui permet d'ecarter des cartes
         int getCoutMax();   // retourne le cout maximal de la carte a recevoir suite a une carte action
         int getNbMaxEcarter();  // retourne le nombre maximal de cartes a ecarter
+        int getNbHumans();  // retourne le nombre de joueurs humains
         std::vector< std::pair< Carte*, int > >  getReserve();  // retourne la reserve
         std::vector< std::pair< Carte*, int > > getMain();  // retourne la main du joueur actif
         std::vector<std::pair<Carte*, int >> getPlayedCards();    // retourne les cartes jouees par le joueur actif
@@ -64,7 +65,7 @@ class Modele{
         std::vector< Carte* > getDefausse();    // retourne la defausse
 
         void setView(MyFrame* mf);
-        void refreshAndPauseView(); // rafraichir l'affichage et mettre en pause le thread
+        void refreshAndPauseView(int ms); // rafraichir l'affichage et mettre en pause le thread
 
         void endPhase();    // passer a la phase suivante
 

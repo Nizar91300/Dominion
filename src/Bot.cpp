@@ -5,12 +5,14 @@
 
 // joue toutes les actions possibles
 void Bot::playActionPhase() {
-    m_modele->refreshAndPauseView();        // refresh et pauser pour voir les actions du bot
+    m_modele->refreshAndPauseView(700);        // refresh et pauser pour voir les actions du bot
 
     while (m_modele->getNbActions() > 0) {
         Carte* bestActionCard = findBestActionCard();
         if (bestActionCard) {
             m_modele->jouerCarte(bestActionCard);
+
+            m_modele->refreshAndPauseView(500);     // refresh et pauser pour voir les actions du bot
 
             // gestion des cartes speciales
             if(bestActionCard->getNom() == "workshop" || bestActionCard->getNom() == "feast"){
@@ -21,7 +23,7 @@ void Bot::playActionPhase() {
                 
                 if(bestBuyCard){
                     m_modele->acheterCarteAvecVerif(bestBuyCard);
-                    m_modele->refreshAndPauseView();             // refresh et pauser pour voir les actions du bot
+                    m_modele->refreshAndPauseView(1000);             // refresh et pauser pour voir les actions du bot
                 }
 
             }
@@ -39,7 +41,7 @@ void Bot::playBuyPhase() {
         Carte* bestBuyCard = findBestBuyCard(m_modele->getNbPieces());
         if (bestBuyCard) {
             m_modele->acheterCarteAvecVerif(bestBuyCard);
-            m_modele->refreshAndPauseView();         // refresh et pauser pour voir les actions du bot
+            m_modele->refreshAndPauseView(1200);         // refresh et pauser pour voir les actions du bot
         } else {
             break; // Plus d'achats possibles
         }
@@ -67,7 +69,8 @@ Carte* Bot::findBestBuyCard(int coutMax) {
     Carte* bestCard = nullptr;
 
     for (auto& cartePair : reserve) {
-        if(cartePair.second == 0) {
+        // si la carte est epuisee ou si c'est une carte curse on ne la prend pas
+        if(cartePair.second == 0 || cartePair.first->getNom() == "curse"){
             continue;
         }
 
@@ -88,7 +91,7 @@ void Bot::playAllTreasures() {
     for (auto& carte : main) {
         if (carte->getType() == TypeCarte::TRESOR) {
             m_modele->jouerCarte(carte);
-            m_modele->refreshAndPauseView();        // refresh et pauser pour voir les actions du bot
+            m_modele->refreshAndPauseView(200);        // refresh et pauser pour voir les actions du bot
         }
     }
 }
