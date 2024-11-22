@@ -61,14 +61,20 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
         m_modele->initNewGame();
         this->currentpanelName = "Play";
         this->currentpanel->Destroy();
-        // Initialiser une nouvelle partie avec le meme nombre de joueurs
         this->currentpanel = new PlayPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
 
     }else if(event.GetString()=="Resume"){
+        // s'il n'y a pas de partie en cours on ne peut pas reprendre
+        if(!m_modele->isInitialized())
+          return;
 
-        //this->currentpanelName = "Play";  //todo
+        this->currentpanelName = "Play";
+        this->currentpanel->Destroy();
+        this->currentpanel = new PlayPanel(this, m_modele);
+        this->currentpanel->Show();
+        Layout();
 
     }else if(event.GetString()=="Settings"){
 

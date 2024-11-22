@@ -263,13 +263,6 @@ void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
         return;
     }
     m_modele->endPhase();
-    int tourAction = m_modele->getTourAction();
-    if(tourAction){
-        tourBtn->SetLabel("END ACTION PHASE");
-        refreshPlayer();
-    }else{
-        tourBtn->SetLabel("END BUY PHASE");
-    }
 }
 
 void PlayPanel::OnEndButtonClicked(wxCommandEvent& event) {
@@ -457,6 +450,13 @@ void PlayPanel::updateDefausse(){
 // affiche le texte en haut de la fenetre
 void PlayPanel::updateShownText() {
     // Met a jour le texte
+    int tourAction = m_modele->getTourAction();
+    if(tourAction){
+        tourBtn->SetLabel("END ACTION PHASE");
+        refreshPlayer();
+    }else{
+        tourBtn->SetLabel("END BUY PHASE");
+    }
 
     if(m_modele->getAchatSuiteAction()){
         topText->SetLabel("You can buy a card of a cost up to " + std::to_string(m_modele->getCoutMax()) );
@@ -474,6 +474,7 @@ void PlayPanel::updateShownText() {
             }
         }
     }
+    
 }
 
 void PlayPanel::updateStats(){

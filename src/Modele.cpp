@@ -177,6 +177,11 @@ void Modele::initNewTour(){
 
 }
 
+// fonction pour savoir si le modele a deja ete initialise
+bool Modele::isInitialized(){
+    return m_joueurs.size() > 0;
+}
+
 
 bool Modele::getTourAction(){
     return m_tourAction;
