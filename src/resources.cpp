@@ -168,3 +168,18 @@ void Resources::resetSettings() {
   this->m_sound  = 50;
   this->m_chosenCards = {"cellar", "market", "militia", "mine", "moat", "remodel", "smithy", "village", "woodcutter",  "workshop"};
 }
+
+
+bool Resources::isSaveEmpty() {
+    std::ifstream file("./resources/save", std::ios::ate);
+    if (!file) {return true;}
+    return file.tellg() == 0;
+}
+
+
+void Resources::clearSave() {
+    std::ofstream file("./resources/save", std::ios::trunc);
+    if (!file) {
+        std::cerr << "Error: Could not open file " << "./resources/save" << "\n";
+    }
+}

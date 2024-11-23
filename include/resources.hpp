@@ -33,7 +33,8 @@ class Resources {
     void resetSettings();
 
 
-
+    bool isSaveEmpty();
+    void clearSave();
 
 
 private:

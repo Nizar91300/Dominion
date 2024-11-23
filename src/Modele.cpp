@@ -29,7 +29,7 @@
 
 // constructeur
 Modele::Modele(){
-    // initialiser les attributs
+  std::cout << "[Resources] constructor ..." << '\n';
     m_joueurs = std::vector<Joueur*>();
     m_reserve = std::vector< std::pair< Carte*, int > >();
 
@@ -39,6 +39,7 @@ Modele::Modele(){
 
 // destructeur
 Modele::~Modele(){
+
     // liberer la memoire des joueurs
     for(size_t i = 0; i < m_joueurs.size(); i++){
         delete m_joueurs[i];
@@ -48,6 +49,7 @@ Modele::~Modele(){
     for(size_t i = 0; i < m_reserve.size(); i++){
         delete m_reserve[i].first;
     }
+    std::cout << "[Resources] destructor ..." << '\n';
 }
 
 //initialiser une nouvelle partie
@@ -274,7 +276,6 @@ std::vector<std::pair<Carte*, int >> Modele::convertVecCarteToVecPair(std::vecto
             res.push_back( std::make_pair(carte, 1) );
         }
     }
-
     // trier les cartes par type puis par nom
     std::sort(res.begin(), res.end(),
         [](const std::pair<Carte*, int>& a, const std::pair<Carte*, int>& b) {
@@ -671,20 +672,26 @@ int Modele::getJoueurActif(){
 
 
 Modele::Modele(bool& save) {
+  std::cout << "[Resources] opening save ..." << '\n';
+
+  m_joueurs = std::vector<Joueur*>();
+  m_reserve = std::vector< std::pair< Carte*, int > >();
+  m_nbJoueurs = 2;
+  save = true;
+
 
     std::ifstream file("./resources/save");
     if (!file.is_open()) {std::cerr << "Error: Could not open the ./resources/settings file.\n";save =  false;}
 
     // Read first 3 numbers
     if (!(file >> m_nbJoueurs >> m_nbHumans >> m_nbActions >> m_nbAchats >> m_nbPieces >> m_indexJoueurActif >> m_tourAction >> m_achatSuiteAction >> m_coutMax >> m_isTrashAction >> m_nbMaxEcarter >> m_nbCartesEcarter >>m_sound )) {
-        file.close();
         save=false;
     }
 
     std::string word;
     std::set<std::string> words;
       for (int i = 0; i < 10; ++i) {
-          if (!(file >> word)) {file.close();save= false;}
+          if (!(file >> word)) {save= false;}
           words.insert(word);
       }
     this->m_chosenCards=words;
@@ -693,7 +700,7 @@ Modele::Modele(bool& save) {
     int nb;
     std::vector<int> nbCards;
     for (int i = 0; i < 17; ++i) {
-        if (!(file >> nb)) {file.close();save= false;}
+        if (!(file >> nb)) {save= false;}
         nbCards.push_back(nb);
     }
 
@@ -724,7 +731,7 @@ Modele::Modele(bool& save) {
 
     for (int i = 0; i < m_nbJoueurs; i++) {
       int robot;
-      if (!(file >> robot)) {file.close();save= false;}
+      if (!(file >> robot)) {save= false;}
 
 
       std::vector<Carte*> m_pioche = readDeck(file);
@@ -737,14 +744,16 @@ Modele::Modele(bool& save) {
       if(robot) m_joueurs.push_back(new Bot(this,deckManager));
       else m_joueurs.push_back(new Joueur(this,deckManager));
 
+      for(Carte* c : deckManager->getPioche()){
+        std::cout << c->getNom() << '\n';
+      }
+
     }
     m_joueurActif = m_joueurs[m_indexJoueurActif];
 
 
-
-
     file.close();
-    save= true;
+    this->save();
 }
 
 
@@ -754,8 +763,9 @@ std::vector<Carte*> Modele::readDeck(std::ifstream& file){
   std::vector<std::string> words;
   while ((file >> word) && (word!="*****")) {words.push_back(word);}
   std::vector<Carte*> res (words.size());
-  for (const std::string& s : words) {
-    res.push_back(   this->getCarte(s)   );
+  for (std::string s : words) {
+    Carte* cc = this->getCarte(s) ;
+    res.push_back(cc);
   }
   return res;
 }
@@ -801,6 +811,8 @@ Carte* Modele::getCarte(std::string name){
   } else if (name == "feast") {
     return new Festin(this);
   } else {
+    std::cout << name << '\n';
+    std::cout << "name not recognised !!!!!" << '\n';
     return NULL;
   }
 }
@@ -809,7 +821,7 @@ Carte* Modele::getCarte(std::string name){
 
 
 void Modele::save() {
-  std::cout << "/* saving game ... */" << '\n';
+  std::cout << "[Resources] saving ..." << '\n';
   std::ofstream file("./resources/save", std::ios::trunc);
   if (!file.is_open()) {
       std::cout << "Error: Could not open the ./resources/save file.\n";
@@ -824,8 +836,9 @@ void Modele::save() {
 
   for(size_t i = 0; i < m_joueurs.size(); i++){
       file <<  m_joueurs[i]->isBot() << '\n';
+      std::cout << "Saving player "<< (i+1) << '\n';
       file << m_joueurs[i]->getDeckManager()->toString();
   }
-
+  std::cout << "done saving..." << '\n';
   file.close();
 }

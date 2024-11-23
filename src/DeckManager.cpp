@@ -10,6 +10,7 @@
 std::string DeckManager::toString(){
 
   std::stringstream ss;
+
   for (Carte* carte : m_pioche) ss << carte->getNom() << '\n';
   ss << "*****" <<'\n';
   for (Carte* carte : m_defausse) ss << carte->getNom() << '\n';

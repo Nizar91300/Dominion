@@ -1,6 +1,7 @@
 #include "mainPanel.hpp"
 #include "resources.hpp"
 
+#include "resources.hpp"
 #include "Modele.h"
 
 
@@ -21,9 +22,10 @@ MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent){
     wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
     wxButton* button1 = new wxButton(this, wxID_ANY, "New Game", wxDefaultPosition, wxSize(200, 30));
     wxButton* button2 = new wxButton(this, wxID_ANY, "Resume", wxDefaultPosition, wxSize(200, 30));
-    wxButton* button3 = new wxButton(this, wxID_ANY, "Settings", wxDefaultPosition, wxSize(200, 30));
-    wxButton* button4 = new wxButton(this, wxID_ANY, "About", wxDefaultPosition, wxSize(200, 30));
-    wxButton* button5 = new wxButton(this, wxID_ANY, "Quit", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button3 = new wxButton(this, wxID_ANY, "Save", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button4 = new wxButton(this, wxID_ANY, "Settings", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button5 = new wxButton(this, wxID_ANY, "About", wxDefaultPosition, wxSize(200, 30));
+    wxButton* button6 = new wxButton(this, wxID_ANY, "Quit", wxDefaultPosition, wxSize(200, 30));
 
     button1->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);
     button2->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);
@@ -31,6 +33,7 @@ MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent){
     button4->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);
     button1->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);
     button5->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);
+    button6->Bind(wxEVT_BUTTON, &MainPanel::OnButtonClicked, this);
 
     //fonts
     wxFont customFont(12, wxFONTFAMILY_SWISS, wxFONTSTYLE_ITALIC, wxFONTWEIGHT_BOLD, false, "Comic Sans MS");
@@ -39,6 +42,7 @@ MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent){
     button3->SetFont(customFont);
     button4->SetFont(customFont);
     button5->SetFont(customFont);
+    button6->SetFont(customFont);
 
     //space between buttons
     vbox->AddStretchSpacer(1);
@@ -47,8 +51,14 @@ MainPanel::MainPanel(wxFrame* parent, Modele* model) : wxPanel(parent){
     vbox->Add(button3, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 15);
     vbox->Add(button4, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 15);
     vbox->Add(button5, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 15);
+    vbox->Add(button6, 0, wxALIGN_CENTER_HORIZONTAL | wxALL, 15);
     vbox->AddStretchSpacer(1);
     this->SetSizer(vbox);
+
+    if(Resources::getInstance()->isSaveEmpty()){
+      button3->Disable();
+    }
+
 }
 
 

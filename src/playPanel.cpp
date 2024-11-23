@@ -17,7 +17,7 @@ std::vector<wxColour> PlayPanel::PLAYER_COLOURS={wxColour(250, 112, 124),wxColou
 
 
 PlayPanel::PlayPanel(MyFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
-
+    std::cout << "[PlayPanel] constructor" << '\n';
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     this->mainPanel = new wxPanel(this,wxID_ANY);
     wxBoxSizer* mainSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -120,7 +120,11 @@ PlayPanel::PlayPanel(MyFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     wxBoxSizer* rightPanelSizer = new wxBoxSizer(wxVERTICAL);
     wxFont comicFont(14, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, "Comic Sans MS");
 
+
+
+
     int nbHumans = m_modele->getNbHumans();
+
     for (int i = 0; i < this->m_modele->getNbJoueurs(); i++) {
 
       wxPanel* rectanglePanel = new wxPanel(rightPanel, wxID_ANY);
@@ -189,14 +193,15 @@ PlayPanel::PlayPanel(MyFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     Bind(wxEVT_COMMAND_BUTTON_CLICKED, &PlayPanel::onCardInfoReturn, this);
     Bind(wxEVT_COMMAND_LEFT_CLICK, &PlayPanel::onLeftClicked, this);
 
-
     update();
     refreshPlayer();
 }
 
 
 
-PlayPanel::~PlayPanel(){}
+PlayPanel::~PlayPanel(){
+  std::cout << "[PlayPanel] destructor" << '\n';
+}
 
 void PlayPanel::initReservePanel(){
     reserveCards = std::vector<wxCard*>();
