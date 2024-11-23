@@ -4,9 +4,32 @@
 #include "Tresor.h"
 #include "Victoire.h"
 
+#include <sstream>
+#include <string>
+
+std::string DeckManager::toString(){
+
+  std::stringstream ss;
+  for (Carte* carte : m_pioche) ss << carte->getNom() << '\n';
+  ss << "*****" <<'\n';
+  for (Carte* carte : m_defausse) ss << carte->getNom() << '\n';
+  ss << "*****" <<'\n';
+  for (Carte* carte : m_main) ss << carte->getNom() << '\n';
+  ss << "*****" <<'\n';
+  for (Carte* carte : m_cartesEnAttente) ss << carte->getNom() << '\n';
+  ss << "*****" <<'\n';
+  for (Carte* carte : m_cartesjouees) ss << carte->getNom() << '\n';
+  ss << "*****" <<'\n';
+  return ss.str();
+}
+
+
+
+
+
 DeckManager::DeckManager(){
-    m_pioche = std::vector<Carte*>(); 
-    m_defausse = std::vector<Carte*>(); 
+    m_pioche = std::vector<Carte*>();
+    m_defausse = std::vector<Carte*>();
     m_main = std::vector<Carte*>();
     m_cartesEnAttente = std::vector<Carte*>();
     m_cartesjouees = std::vector<Carte*>();

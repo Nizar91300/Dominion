@@ -1,5 +1,6 @@
 #ifndef PLAY_PANEL_HPP
 #define PLAY_PANEL_HPP
+#include"myframe.hpp"
 #include"infoPanel.hpp"
 #include"voleurPanel.hpp"
 #include"endGame.hpp"
@@ -32,7 +33,7 @@ class PlayPanel : public wxPanel {
   public:
     static std::vector<wxColour> PLAYER_COLOURS;
 
-    PlayPanel(wxFrame* parent, Modele* model);
+    PlayPanel(MyFrame* parent, Modele* model);
     ~PlayPanel();
 
     void initReservePanel(); // initialiser le panel de la reserve
@@ -40,7 +41,6 @@ class PlayPanel : public wxPanel {
     //quit, save, resign
     void OnQuit(wxCommandEvent& event);
     void OnSave(wxCommandEvent& event);
-    void OnResign(wxCommandEvent& event);
 
     //card info functions
     void onCardInfo(wxCommandEvent& event);

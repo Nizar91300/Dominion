@@ -1,5 +1,5 @@
 #include "Modele.h"
-
+#include <fstream>
 #include <iostream>
 #include "Joueur.h"
 #include "DeckManager.h"
@@ -541,8 +541,8 @@ void Modele::recevoirCarte(Carte* carte, int coutMax){
     m_coutMax = coutMax;
     m_achatSuiteAction = true;
 
-    m_view->updateCurrentPanel();  
-    
+    m_view->updateCurrentPanel();
+
     if( carte->getNom() == "feast"){
         if(isBotPlaying()){
             refreshAndPauseView(600);
@@ -649,4 +649,183 @@ void Modele::endGame(){
 
 int Modele::getJoueurActif(){
   return m_indexJoueurActif;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+///___________________________________
+
+
+
+
+
+
+Modele::Modele(bool& save) {
+
+    std::ifstream file("./resources/save");
+    if (!file.is_open()) {std::cerr << "Error: Could not open the ./resources/settings file.\n";save =  false;}
+
+    // Read first 3 numbers
+    if (!(file >> m_nbJoueurs >> m_nbHumans >> m_nbActions >> m_nbAchats >> m_nbPieces >> m_indexJoueurActif >> m_tourAction >> m_achatSuiteAction >> m_coutMax >> m_isTrashAction >> m_nbMaxEcarter >> m_nbCartesEcarter >>m_sound )) {
+        file.close();
+        save=false;
+    }
+
+    std::string word;
+    std::set<std::string> words;
+      for (int i = 0; i < 10; ++i) {
+          if (!(file >> word)) {file.close();save= false;}
+          words.insert(word);
+      }
+    this->m_chosenCards=words;
+
+
+    int nb;
+    std::vector<int> nbCards;
+    for (int i = 0; i < 17; ++i) {
+        if (!(file >> nb)) {file.close();save= false;}
+        nbCards.push_back(nb);
+    }
+
+
+    ajouterCarte(new Cuivre(this), nbCards[0]);
+    ajouterCarte(new Argent(this), nbCards[1]);
+    ajouterCarte(new Or(this), nbCards[2]);
+    ajouterCarte(new Malediction(this), nbCards[3]);
+    ajouterCarte(new Domaine(this), nbCards[4]);
+    ajouterCarte(new Duche(this), nbCards[5]);
+    ajouterCarte(new Province(this), nbCards[6]);
+
+    ajouterCarte(new Jardin(this), nbCards[7]);
+    ajouterCarte(new Atelier(this), nbCards[8]);
+    ajouterCarte(new Bucheron(this), nbCards[9]);
+    ajouterCarte(new Douve(this), nbCards[10]);
+    ajouterCarte(new Chapelle(this), nbCards[11]);
+    ajouterCarte(new Laboratoire(this), nbCards[12]);
+    ajouterCarte(new Sorciere(this), nbCards[13]);
+    ajouterCarte(new Village(this), nbCards[14]);
+    ajouterCarte(new Voleur(this), nbCards[15]);
+    ajouterCarte(new Festin(this), nbCards[16]);
+
+
+
+
+
+
+    for (int i = 0; i < m_nbJoueurs; i++) {
+      int robot;
+      if (!(file >> robot)) {file.close();save= false;}
+
+
+      std::vector<Carte*> m_pioche = readDeck(file);
+      std::vector<Carte*> m_defausse = readDeck(file);
+      std::vector<Carte*> m_main = readDeck(file);
+      std::vector<Carte*> m_cartesEnAttente  = readDeck(file);
+      std::vector<Carte*> m_cartesjouees = readDeck(file);
+
+      DeckManager* deckManager = new DeckManager(m_pioche,m_defausse,m_main,m_cartesEnAttente,m_cartesjouees);
+      if(robot) m_joueurs.push_back(new Bot(this,deckManager));
+      else m_joueurs.push_back(new Joueur(this,deckManager));
+
+    }
+    m_joueurActif = m_joueurs[m_indexJoueurActif];
+
+
+
+
+    file.close();
+    save= true;
+}
+
+
+std::vector<Carte*> Modele::readDeck(std::ifstream& file){
+
+  std::string word;
+  std::vector<std::string> words;
+  while ((file >> word) && (word!="*****")) {words.push_back(word);}
+  std::vector<Carte*> res (words.size());
+  for (const std::string& s : words) {
+    res.push_back(   this->getCarte(s)   );
+  }
+  return res;
+}
+
+
+
+
+
+
+Carte* Modele::getCarte(std::string name){
+  if (name == "copper") {
+    return new Cuivre(this);
+  } else if (name == "silver") {
+    return new Argent(this);
+  } else if (name == "gold") {
+    return new Or(this);
+  } else if (name == "curse") {
+    return new Malediction(this);
+  } else if (name == "estate") {
+    return new Domaine(this);
+  } else if (name == "duchy") {
+    return new Duche(this);
+  } else if (name == "province") {
+    return new Province(this);
+  } else if (name == "gardens") {
+    return new Jardin(this);
+  } else if (name == "workshop") {
+    return new Atelier(this);
+  } else if (name == "woodcutter") {
+    return new Bucheron(this);
+  } else if (name == "moat") {
+    return new Douve(this);
+  } else if (name == "chapel") {
+    return new Chapelle(this);
+  } else if (name == "laboratory") {
+    return new Laboratoire(this);
+  } else if (name == "witch") {
+    return new Sorciere(this);
+  } else if (name == "village") {
+    return new Village(this);
+  } else if (name == "bandit") {
+    return new Voleur(this);
+  } else if (name == "feast") {
+    return new Festin(this);
+  } else {
+    return NULL;
+  }
+}
+
+
+
+
+void Modele::save() {
+  std::cout << "/* saving game ... */" << '\n';
+  std::ofstream file("./resources/save", std::ios::trunc);
+  if (!file.is_open()) {
+      std::cout << "Error: Could not open the ./resources/save file.\n";
+      return;
+  }
+  file << m_nbJoueurs << '\n' << m_nbHumans << '\n' << m_nbActions << '\n' << m_nbAchats << '\n' << m_nbPieces << '\n' << m_indexJoueurActif << '\n' << m_tourAction << '\n' << m_achatSuiteAction << '\n' << m_coutMax << '\n' << m_isTrashAction << '\n' << m_nbMaxEcarter << '\n' << m_nbCartesEcarter << '\n' <<m_sound;
+  for (const auto& word : this->m_chosenCards) {file << word << "\n";}
+
+  for(size_t i = 0; i < m_reserve.size(); i++){
+      file << m_reserve[i].second << '\n';
+  }
+
+  for(size_t i = 0; i < m_joueurs.size(); i++){
+      file <<  m_joueurs[i]->isBot() << '\n';
+      file << m_joueurs[i]->getDeckManager()->toString();
+  }
+
+  file.close();
 }

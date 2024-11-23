@@ -2,8 +2,9 @@
 #define DECKMANAGER_H
 
 #include <vector>
-#include <algorithm> 
-#include <random> 
+#include <string>
+#include <algorithm>
+#include <random>
 #include <iostream>
 
 class Carte;
@@ -20,6 +21,8 @@ class DeckManager {
 
     public:
         DeckManager();
+        DeckManager(std::vector<Carte*> m_pioche,std::vector<Carte*> m_defausse,std::vector<Carte*> m_main,std::vector<Carte*> m_cartesEnAttente, std::vector<Carte*> m_cartesjouees)
+          :m_pioche(m_pioche),m_defausse(m_defausse),m_main(m_main),m_cartesEnAttente(m_cartesEnAttente),m_cartesjouees(m_cartesjouees) {}
 
         ~DeckManager();
 
@@ -28,7 +31,7 @@ class DeckManager {
         const std::vector<Carte*> getDefausse();
         const std::vector<Carte*> getMain();
         const std::vector<Carte*> getCartesJouees();
-        
+
         bool mainContientDouve(); // verifie si la main contient une douve
 
         void addCardToPioche(Carte* carte);
@@ -38,7 +41,7 @@ class DeckManager {
         void addCardMainToJouees(Carte* carte);   // met la carte de la main en parametre dans les cartes jouees
         std::vector<Carte*> getAllCards();   // retourne toutes les cartes du deck
 
-        
+
         void melangerPioche();          // melanger la pioche
         void piocher(int n);            // piocher n cartes, les met dans la main
         Carte* prendreCartePioche();    // retourne la carte du haut de la pioche en la retirant de la pioche
@@ -48,6 +51,8 @@ class DeckManager {
 
         void ajusterDeck(); // ajuster le deck du joueur apres son tour
         int pointsVictoire(); // calculer les points de victoire du joueur
+
+        std::string toString();
 };
 
 #endif

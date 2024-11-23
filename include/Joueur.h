@@ -13,6 +13,7 @@ class Joueur{
 
     public:
         Joueur(Modele*);
+        Joueur(Modele*,DeckManager*);
         virtual ~Joueur();
 
         void initDeck();    // initialiser le deck du joueur

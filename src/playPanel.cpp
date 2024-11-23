@@ -16,7 +16,7 @@ std::vector<wxColour> PlayPanel::PLAYER_COLOURS={wxColour(250, 112, 124),wxColou
 
 
 
-PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
+PlayPanel::PlayPanel(MyFrame* parent, Modele* model) : wxPanel(parent),m_modele(model) {
 
     wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
     this->mainPanel = new wxPanel(this,wxID_ANY);
@@ -31,14 +31,11 @@ PlayPanel::PlayPanel(wxFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     //---------Left top panel-------//
     wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    wxButton* resignButton = new wxButton(leftTopPanel, wxID_ANY,"Resign" , wxDefaultPosition, wxSize(80, 30));
     wxButton* quitButton = new wxButton(leftTopPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
     wxButton* saveButton = new wxButton(leftTopPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
-    resignButton->Bind(wxEVT_BUTTON, &PlayPanel::OnResign, this);
     quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
     saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
     buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
-    buttonTopSizer->Add(resignButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
     buttonTopSizer->Add(saveButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
     leftTopPanel->SetSizer(buttonTopSizer);
 
@@ -262,19 +259,11 @@ void PlayPanel::OnQuit(wxCommandEvent& event) {
 
 void PlayPanel::OnSave(wxCommandEvent& event) {
     // empecher le joueur de toucher a l'interface si c'est un bot
-    if(m_modele->isBotPlaying()){
-        return;
-    }
+    if(m_modele->isBotPlaying()){return;}
+    this->m_modele->save();
     //todo
 }
 
-void PlayPanel::OnResign(wxCommandEvent& event) {
-    // empecher le joueur de toucher a l'interface si c'est un bot
-    if(m_modele->isBotPlaying()){
-        return;
-    }
-  //todo
-}
 
 void PlayPanel::onCardInfo(wxCommandEvent& event) {
     std::string stlstring = std::string(event.GetString().mb_str());
@@ -495,7 +484,7 @@ void PlayPanel::updateShownText() {
             }
         }
     }
-    
+
 }
 
 void PlayPanel::updateStats(){
@@ -515,7 +504,7 @@ void PlayPanel::updateStats(){
 void PlayPanel::updateAndPause(int ms) {
 
     refreshPlayer();
-    
+
     update();
 
     // Force le rafraîchissement de l'interface

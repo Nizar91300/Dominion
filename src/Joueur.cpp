@@ -12,6 +12,12 @@ Joueur::Joueur(Modele* modele){
     initDeck();
 }
 
+
+Joueur::Joueur(Modele* modele,DeckManager* deckManager){
+    m_modele = modele;
+    m_deckManager = deckManager;
+}
+
 Joueur::~Joueur(){
     delete m_deckManager;
 }

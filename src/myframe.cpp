@@ -67,8 +67,7 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
     }else if(event.GetString()=="Resume"){
         // s'il n'y a pas de partie en cours on ne peut pas reprendre
-        if(!m_modele->isInitialized())
-          return;
+        if(!m_modele->isInitialized()) return;
 
         this->currentpanelName = "Play";
         this->currentpanel->Destroy();

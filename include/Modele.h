@@ -1,6 +1,6 @@
 #ifndef MODELE_H
 #define MODELE_H
-
+#include <fstream>
 #include <vector>
 #include <set>
 #include <string>
@@ -40,6 +40,10 @@ class Modele{
 
     public:
         Modele();
+        Modele(bool& save);
+        std::vector<Carte*> readDeck(std::ifstream& file);
+        Carte* getCarte(std::string name);
+        void save();
         ~Modele();
 
         void initNewGame(); // initialiser une nouvelle partie
