@@ -1,6 +1,8 @@
 #include "Modele.h"
 #include <fstream>
 #include <iostream>
+#include <stdexcept>
+
 #include "Joueur.h"
 #include "DeckManager.h"
 
@@ -744,16 +746,11 @@ Modele::Modele(bool& save) {
       if(robot) m_joueurs.push_back(new Bot(this,deckManager));
       else m_joueurs.push_back(new Joueur(this,deckManager));
 
-      for(Carte* c : deckManager->getPioche()){
-        std::cout << c->getNom() << '\n';
-      }
-
     }
     m_joueurActif = m_joueurs[m_indexJoueurActif];
 
 
     file.close();
-    this->save();
 }
 
 
@@ -762,7 +759,7 @@ std::vector<Carte*> Modele::readDeck(std::ifstream& file){
   std::string word;
   std::vector<std::string> words;
   while ((file >> word) && (word!="*****")) {words.push_back(word);}
-  std::vector<Carte*> res (words.size());
+  std::vector<Carte*> res;
   for (std::string s : words) {
     Carte* cc = this->getCarte(s) ;
     res.push_back(cc);
@@ -811,9 +808,8 @@ Carte* Modele::getCarte(std::string name){
   } else if (name == "feast") {
     return new Festin(this);
   } else {
-    std::cout << name << '\n';
-    std::cout << "name not recognised !!!!!" << '\n';
-    return NULL;
+    std::cout <<"name not recognised !!!!!" <<name << '\n';
+    throw std::invalid_argument("name not recognised !!!!!");
   }
 }
 

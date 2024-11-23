@@ -81,13 +81,13 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
       bool save;
       m_modele = new Modele(save);
       m_modele->setView(this);
-      /*if(save){
+      if(save){
         this->currentpanelName = "Play";
         this->currentpanel->Destroy();
         this->currentpanel = new PlayPanel(this, m_modele);
         this->currentpanel->Show();
         Layout();
-      }*/
+      }
 
     }else if(event.GetString()=="Settings"){
 
