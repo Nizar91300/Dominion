@@ -832,7 +832,6 @@ void Modele::save() {
 
   for(size_t i = 0; i < m_joueurs.size(); i++){
       file <<  m_joueurs[i]->isBot() << '\n';
-      std::cout << "Saving player "<< (i+1) << '\n';
       file << m_joueurs[i]->getDeckManager()->toString();
   }
   std::cout << "done saving..." << '\n';

@@ -31,8 +31,8 @@ PlayPanel::PlayPanel(MyFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     //---------Left top panel-------//
     wxPanel* leftTopPanel = new wxPanel(mainPanel, wxID_ANY,wxDefaultPosition, wxSize(100, -1));
     wxBoxSizer* buttonTopSizer = new wxBoxSizer(wxHORIZONTAL);
-    wxButton* quitButton = new wxButton(leftTopPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
-    wxButton* saveButton = new wxButton(leftTopPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
+    quitButton = new wxButton(leftTopPanel, wxID_ANY,"Quit" , wxDefaultPosition, wxSize(80, 30));
+    saveButton = new wxButton(leftTopPanel, wxID_ANY, "Save" , wxDefaultPosition, wxSize(80, 30));
     quitButton->Bind(wxEVT_BUTTON, &PlayPanel::OnQuit, this);
     saveButton->Bind(wxEVT_BUTTON, &PlayPanel::OnSave, this);
     buttonTopSizer->Add(quitButton, 0, wxLEFT | wxTOP | wxBOTTOM, 5);
@@ -151,7 +151,7 @@ PlayPanel::PlayPanel(MyFrame* parent, Modele* model) : wxPanel(parent),m_modele(
     tourBtn = new wxButton(rightBottomPanel, wxID_ANY, "END ACTION PHASE", wxDefaultPosition, wxSize(100, 30));
     tourBtn->Bind(wxEVT_BUTTON, &PlayPanel::OnTourButtonClicked, this);
 
-    wxButton* endBtn = new wxButton(rightBottomPanel, wxID_ANY, "END GAME NOW", wxDefaultPosition, wxSize(100, 30));
+    endBtn = new wxButton(rightBottomPanel, wxID_ANY, "END GAME NOW", wxDefaultPosition, wxSize(100, 30));
     endBtn->Bind(wxEVT_BUTTON, &PlayPanel::OnEndButtonClicked, this);
 
     rightBottomSizer->Add(tourBtn, 0, wxEXPAND | wxALL , 5);
@@ -222,7 +222,7 @@ void PlayPanel::initReservePanel(){
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 130, 208, 130, 208, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
         reserveCards.push_back(card); // Ajoute la carte au vecteur de cartes de la reserve
         reserveSizer1->Add(card, 0, wxALL, 5);
     }
@@ -233,7 +233,7 @@ void PlayPanel::initReservePanel(){
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 130, 208, 130, 208, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
         reserveCards.push_back(card); // Ajoute la carte au vecteur de cartes de la reserve
         reserveSizer2->Add(card, 0, wxALL, 5);
     }
@@ -254,9 +254,7 @@ void PlayPanel::initReservePanel(){
 
 void PlayPanel::OnQuit(wxCommandEvent& event) {
     // empecher le joueur de toucher a l'interface si c'est un bot
-    if(m_modele->isBotPlaying()){
-        return;
-    }
+    if(m_modele->isBotPlaying()){return;}
     wxCommandEvent notifyEvent(wxEVT_COMMAND_BUTTON_CLICKED, event.GetId());
     notifyEvent.SetString("Quit");  // Include button name in the event
     wxPostEvent(this->GetParent(), notifyEvent); // Send event to parent frame
@@ -296,9 +294,36 @@ void PlayPanel::refreshPlayer(){
   this->handPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
   this->rightPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
   this->voleurPanel->SetBackgroundColour(PLAYER_COLOURS[i]);
+
+  if(m_modele->isBotPlaying()){
+    quitButton->Disable();
+    saveButton->Disable();
+    tourBtn->Disable();
+    endBtn->Disable();
+  }else{
+    quitButton->Enable();
+    saveButton->Enable();
+    tourBtn->Enable();
+    endBtn->Enable();
+  }
+
+
   Layout();
   Refresh();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 void PlayPanel::OnTourButtonClicked(wxCommandEvent& event) {
     // empecher le joueur de jouer si c'est un bot

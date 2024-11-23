@@ -17,6 +17,9 @@ class PlayPanel : public wxPanel {
     VoleurPanel* voleurPanel;
     EndGame* endGamePanel;
 
+    wxButton* quitButton;
+    wxButton* saveButton;
+
 
     wxPanel* centerPanel;
     std::vector<wxCard*> reserveCards; // cartes de la reserve
@@ -24,6 +27,7 @@ class PlayPanel : public wxPanel {
     wxPanel* playedPanel; // panel des cartes jouees
     wxPanel* handPanel; // panel des cartes en main
     wxButton* tourBtn; // bouton pour passer au tour suivant
+    wxButton* endBtn;
     wxPanel* defaussePanel; // panel de la defausse
     wxStaticText* topText; // text en haut de la fenetre
     wxStaticText* actionsText; // text pour le nombre d'actions
