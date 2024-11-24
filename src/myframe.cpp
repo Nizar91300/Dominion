@@ -2,6 +2,7 @@
 #include <wx/sound.h>
 #include<string>
 #include "myframe.hpp"
+#include "resources.hpp"
 #include "mainPanel.hpp"
 #include "settingsPanel.hpp"
 #include "aboutPanel.hpp"
@@ -85,15 +86,21 @@ void MyFrame::OnButtonClicked(wxCommandEvent& event) {
 
       delete m_modele;
       bool save;
+
       m_modele = new Modele(save);
-      m_modele->setView(this);
-      if(save){
-        this->currentpanelName = "Play";
-        this->currentpanel->Destroy();
-        this->currentpanel = new PlayPanel(this, m_modele);
-        this->currentpanel->Show();
-        Layout();
+      if(!save){
+        wxLogMessage("save file is corrupted, a new game will be initiated instead");
+        Resources::getInstance()->clearSave();
+        m_modele->initNewGame();
       }
+      m_modele->setView(this);
+
+      this->currentpanelName = "Play";
+      this->currentpanel->Destroy();
+      this->currentpanel = new PlayPanel(this, m_modele);
+      this->currentpanel->Show();
+      Layout();
+
 
     }else if(event.GetString()=="Settings"){
 
