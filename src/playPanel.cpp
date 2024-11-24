@@ -222,7 +222,7 @@ void PlayPanel::initReservePanel(){
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 130, 208, 130, 208, wxColour(0, 0, 0));
         reserveCards.push_back(card); // Ajoute la carte au vecteur de cartes de la reserve
         reserveSizer1->Add(card, 0, wxALL, 5);
     }
@@ -233,7 +233,7 @@ void PlayPanel::initReservePanel(){
         int quantite = it->second;
 
         // cree une carte graphique pour chaque carte
-        wxCard* card = new wxCard(centerPanel, carte, quantite, 100, 160, 100, 160, wxColour(0, 0, 0));
+        wxCard* card = new wxCard(centerPanel, carte, quantite, 130, 208, 130, 208, wxColour(0, 0, 0));
         reserveCards.push_back(card); // Ajoute la carte au vecteur de cartes de la reserve
         reserveSizer2->Add(card, 0, wxALL, 5);
     }

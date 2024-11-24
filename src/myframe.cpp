@@ -1,3 +1,5 @@
+#include <wx/wx.h>
+#include <wx/sound.h>
 #include<string>
 #include "myframe.hpp"
 #include "mainPanel.hpp"
@@ -35,6 +37,10 @@ MyFrame::MyFrame(): wxFrame(NULL, wxID_ANY, "Dominion", wxDefaultPosition, wxDef
 
     this->currentpanel = new MainPanel(this, m_modele);
 
+    /*wxSound sound("./resources/sinnesloschen.wav");
+    if (sound.IsOk()) {
+        sound.Play(wxSOUND_ASYNC | wxSOUND_LOOP);
+    }*/
 }
 
 
